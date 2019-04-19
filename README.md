@@ -1,1 +1,2 @@
-ECompiler
+# EogenCompiler
+this is Eogen programming language compiler. this project is in development process...
