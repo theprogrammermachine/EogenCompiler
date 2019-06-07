@@ -1,0 +1,100 @@
+EOGEN
+
+class Session {
+    sessionTypeDescription  of class     = "This is a session class used in server"
+    sessionId               of instance  = 0
+    name                    of instance  = "X Session"
+}
+
+behaviour Middleware {
+    encodeSessionData of instance
+}
+
+class UserSession based on Session {
+    userEntity of instance = [empty]
+    init(sessionId) {
+        this.sessionId = sessionId
+        this.name = "User Session"
+    }
+}
+
+class BotSession based on Session {
+    botEntity of instance = [empty]
+    init(sessionId) {
+        this.sessionId = sessionId
+        this.name = "Bot Session"
+    }
+}
+
+class ModuleSession based on Session behaves like Middleware {
+    moduleEntity of instance = [empty]
+    init(sessionId) {
+        this.sessionId = sessionId
+        this.name = "Module Session"
+    }
+    encodeSessionData() of instance {
+        if (this.sessionId == 1) return sessionId + " " + name
+        else return "+" + sessionId + name
+    }
+}
+
+a = 10
+b = 15.2
+
+c = a + b
+d = a - b
+e = a * b
+f = a / b
+g = a mod b
+h = a ^ b
+
+sessionArray = []
+
+for (z = 0; z < 100; z++)
+    switch(int(z / 10)) {
+        case 1,3,5,7,9 :
+            sessionArray <- UserSession(c + "_" + d + "_" + e)
+            break
+        case 0,2,4,6,8 :
+            sessionArray <- ModuleSession(f + "_" + g + "_" + h)
+            break
+    }
+
+del sessionArray[rand(0 <-> 99)]
+
+del sessionArray[10 <-> 20, 25, 35, 45]
+
+function evaluate (number) {
+    /*
+        if (number < 1000) return true
+        else return false
+    */
+    return number < 1000
+}
+
+
+if (sessionArray[rand(0 <-> 50)] is ModuleSession moduleSession)
+    for (z = 0; evaluate(number : z) && z > 0; z = z + 10)
+        print(text : NewLineString(moduleSession.encodeSessionData()))
+
+z = 20
+
+while (z < 100 || evaluate(number : z)) {
+    print(text : "hello " + sessionArray[rand(0 <-> 50)].sessionId)
+    z = z + 10
+}
+
+fetchSession(10, (session) -> {
+    if (session is ModuleSession) print(text : NewLineString("session with session id : " + session.sessionId + ", data : " + session.encodeSessionData))
+    else print(text : NewLineString("No data for session with session id : " + session.sessionId))
+})
+
+resizer = (number) -> {
+    print(text : number * 10.25)
+}
+
+function fetchSession(id, callback) {
+    foreach (session : sessionArray)
+        if (session.sessionId == id)
+            callback.found(session : session)
+}

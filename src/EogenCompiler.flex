@@ -1,15 +1,19 @@
 import java.util.*;
+import java_cup.runtime.*;
 
 %%
 
-%class EogenCompiler
+%class EogenLexer
 %standalone
 %column
 %line
+%cup
+%public
+%unicode
+%char
 
 %{
     public class Tuple {
-
         public final int line;
         public final int col;
         public final String token;
@@ -24,20 +28,34 @@ import java.util.*;
     }
 
     HashSet<String> keywords = new HashSet<>(Arrays.asList(
-            "if", "while", "switch", "for", "foreach", "class", "behaviour",
+            "if", "else", "while", "switch", "case", "for", "foreach", "class", "behaviour",
             "based", "on", "behaves", "like", "try", "catch", "function",
             "mod", "of", "instance", "empty", "is"
-    ));
-    List<Tuple> foundKeywords = new ArrayList<>();
-%}
+            ));
 
-%eof{
-    for (Tuple kwt : foundKeywords) {
-       if (!keywords.contains(kwt.token.trim())) {
-           System.out.println("detected a " + kwt.type + " : " + kwt.token.trim() + " , line = " + kwt.line + " , col = " + kwt.col);
-       }
+    boolean foundString = false;
+    StringBuilder string = new StringBuilder();
+
+    public Symbol exportToken(int symNum, Object value, int line, int column) {
+
+        if (value instanceof String && !(symNum == sym.LPAREN || symNum == sym.RPAREN)) {
+            String text = (String) value;
+            text = text.replace("(", "");
+            text = text.replace("[", "");
+            text = text.replace("{", "");
+            text = text.replace(")", "");
+            text = text.replace("]", "");
+            text = text.replace("}", "");
+            value = text;
+        }
+
+        if (symNum == sym.IDENTIFIER)
+            if (!keywords.contains(value))
+                return new Symbol(symNum, line, column, value);
+
+        return new Symbol(symNum, line, column, value);
     }
-%eof}
+%}
 
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
@@ -58,86 +76,124 @@ OctDigit          = [0-7]
 
 DoubleLiteral = ({FLit1}|{FLit2}|{FLit3}) {Exponent}?
 
+SingleCharacter = [^\r\n\'\\]
+
 FLit1    = [0-9]+ \. [0-9]*
 FLit2    = \. [0-9]+
 FLit3    = [0-9]+
 Exponent = [eE] [+-]? [0-9]+
 
-StringCharacter = [^\r\n\"\\]
-SingleCharacter = [^\r\n\'\\]
+TRY = try
+CATCH = catch
+FOR = for
+FOREACH = foreach
+WHILE = while
+IF = if
+ELSE = else
+SWITCH = switch
+CASE = case
 
-TRY = {StrongSplitter}try{WeakSplitter}\{
-CATCH = {StrongSplitter}catch{WeakSplitter}\({WeakSplitter}{Identifier}{WeakSplitter}\){WeakSplitter}\{
-FOR = {StrongSplitter}for{WeakSplitter}\({WeakSplitter}
-FOREACH = {StrongSplitter}foreach{WeakSplitter}\({WeakSplitter}
-WHILE = {StrongSplitter}while{WeakSplitter}\({WeakSplitter}
-IF = {StrongSplitter}if{WeakSplitter}\({WeakSplitter}
-SWITCH = {StrongSplitter}switch{WeakSplitter}\(
+CLASS = class
+BEHAVIOUR = behaviour
+BASED = based
+ON = on
+BEHAVES = behaves
+LIKE = like
+FUNCTION = function
+OF = of
+INSTANCE = instance
+IS = is
+EXEC=exec
+ENCAPSULATE = encap
+RETURN = return
 
-CLASS = {StrongSplitter}class{WeakSplitter}\{
-BEHAVIOUR = {StrongSplitter}behaviour{WeakSplitter}\{
-BASEDON = {StrongSplitter}based{StrongSplitter}on{WeakSplitter}\{
-BEHAVELIKE = {StrongSplitter}behave{StrongSplitter}like{WeakSplitter}\{
-FUNCTIONKEY = {StrongSplitter}function{StrongSplitter}
-
-SUM = {OperatorBorder}\+{OperatorBorder}
-MINUS = {OperatorBorder}-{OperatorBorder}
-MULTIPLY = {OperatorBorder}\*{OperatorBorder}
-DIVISION = {OperatorBorder}\/{OperatorBorder}
-MOD = {OperatorBorder}mod{OperatorBorder}
-POWER = {OperatorBorder}\^{OperatorBorder}
-
-NUMBER = (({LineTerminator}|{WhiteSpace})+|\+|-|\*|\/|mod|\^|\=){NumberString}(({LineTerminator}|{WhiteSpace})+|\+|-|\*|\/|mod|\^|\=)
-
-OFCLASS = ({LineTerminator}|{WhiteSpace})+of({LineTerminator}|{WhiteSpace})+class(({LineTerminator}|{WhiteSpace})+|\=)
-OFINSTANCE = ({LineTerminator}|{WhiteSpace})+of({LineTerminator}|{WhiteSpace})+instance(({LineTerminator}|{WhiteSpace})+|\=)
-EMPTY = (({LineTerminator}|{WhiteSpace})+|\=|\()\[({LineTerminator}|{WhiteSpace})+empty({LineTerminator}|{WhiteSpace})+\](({LineTerminator}|{WhiteSpace})+|\))
-FUNCTION = {StrongSplitter}{Identifier}{WeakSplitter}\({WeakSplitter}({Identifier}{WeakSplitter},{WeakSplitter})*{Identifier}{WeakSplitter}\){WeakSplitter}\{
-CALLBACK = \({WeakSplitter}({Identifier}{WeakSplitter},{WeakSplitter})*{Identifier}{WeakSplitter}\){WeakSplitter}\{
-FUNCTIONCALL = \({WeakSplitter}({Identifier}{WeakSplitter}:{WeakSplitter}{Identifier}{WeakSplitter},{WeakSplitter})*{Identifier}{WeakSplitter}:{WeakSplitter}{Identifier}{WeakSplitter}\){WeakSplitter}\{
-
-ARRAY = \[{WeakSplitter}(({SingleCharacter}|{StringCharacter}|{NumberString}){WeakSplitter},{WeakSplitter})*\]
-
-IS = {StrongSplitter}is{StrongSplitter}
+SUM = \+
+MINUS = \-
+MULTIPLY = \*
+DIVISION = \/
+MOD = mod
+POWER = \^
+EMPTY = \[{WeakSplitter}empty{WeakSplitter}\]
+LPAREN = \(
+RPAREN = \)
+NUMBER = {NumberString}
 
 NumberString = {DecIntegerLiteral}|{HexIntegerLiteral}|{OctIntegerLiteral}|{DoubleLiteral}
-OperatorBorder = ({StrongSplitter}|{Identifier}|{NumberString})
 
-StrongSplitter = ({LineTerminator}|{WhiteSpace})+
 WeakSplitter = ({LineTerminator}|{WhiteSpace})*
 
-Identifier = ({StrongSplitter}|\{|\[|\(|\=)[:jletter:][:jletterdigit:]*({StrongSplitter}|\}|\]|\))
+Identifier = [:jletter:][:jletterdigit:]*
 
 %%
 
-{OFCLASS}                      {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "static sign"));}
-{OFINSTANCE}                   {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "non static sign"));}
-{EMPTY}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "empty (null)"));}
-{CALLBACK}                     {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "callback"));}
-{FUNCTIONCALL}                 {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "function call"));}
-"."                            {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "chain sign"));}
-IS                             {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "is"));}
-{ARRAY}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "array"));}
-{POWER}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "power"));}
-{MOD}                          {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "division"));}
-{DIVISION}                     {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "division"));}
-{MULTIPLY}                     {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "multiply"));}
-{MINUS}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "minus"));}
-{SUM}                          {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "sum"));}
-{NUMBER}                       {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "number"));}
-{FUNCTIONKEY}                  {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "function key"));}
-{FUNCTION}                     {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "function"));}
-{CLASS}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "class"));}
-{BEHAVIOUR}                    {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "behaviour"));}
-{BASEDON}                      {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "based on"));}
-{BEHAVELIKE}                   {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "behave like"));}
-{TRY}                          {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "try"));}
-{CATCH}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "catch"));}
-{FOR}                          {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "for"));}
-{FOREACH}                      {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "foreach"));}
-{WHILE}                        {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "while"));}
-{IF}                           {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "if"));}
-{SWITCH}                       {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "switch"));}
-{Identifier}                   {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "identifier"));}
+<YYINITIAL> {
+{OF}                           {return exportToken(sym.OF, yytext(), yyline, yycolumn);}
+{INSTANCE}                     {return exportToken(sym.INSTANCE, yytext(), yyline, yycolumn);}
+{EMPTY}                        {return exportToken(sym.EMPTY, yytext(), yyline, yycolumn);}
+"."                            {return exportToken(sym.CHAINSIGN, yytext(), yyline, yycolumn);}
+{IS}                           {return exportToken(sym.IS, yytext(), yyline, yycolumn);}
+"="                            {return exportToken(sym.ASSIGN, yytext(), yyline, yycolumn);}
+"=="                           {return exportToken(sym.EQUAL, yytext(), yyline, yycolumn);}
+{POWER}                        {return exportToken(sym.POWER, yytext(), yyline, yycolumn);}
+{MOD}                          {return exportToken(sym.MOD, yytext(), yyline, yycolumn);}
+{DIVISION}                     {return exportToken(sym.DIVISION, yytext(), yyline, yycolumn);}
+{MULTIPLY}                     {return exportToken(sym.MULTIPLY, yytext(), yyline, yycolumn);}
+{MINUS}                        {return exportToken(sym.SUBTRACT, yytext(), yyline, yycolumn);}
+{SUM}                          {return exportToken(sym.SUM, yytext(), yyline, yycolumn);}
+{FUNCTION}                     {return exportToken(sym.FUNCTION, yytext(), yyline, yycolumn);}
+{EXEC}                         {return exportToken(sym.EXEC, yytext(), yyline, yycolumn);}
+{ENCAPSULATE}                  {return exportToken(sym.ENCAPSULATE, yytext(), yyline, yycolumn);}
+{CLASS}                        {return exportToken(sym.CLASS, yytext(), yyline, yycolumn);}
+{BEHAVIOUR}                    {return exportToken(sym.BEHAVIOUR, yytext(), yyline, yycolumn);}
+{BASED}                        {return exportToken(sym.BASED, yytext(), yyline, yycolumn);}
+{ON}                           {return exportToken(sym.ON, yytext(), yyline, yycolumn);}
+{BEHAVES}                      {return exportToken(sym.BEHAVES, yytext(), yyline, yycolumn);}
+{LIKE}                         {return exportToken(sym.LIKE, yytext(), yyline, yycolumn);}
+{TRY}                          {return exportToken(sym.TRY, yytext(), yyline, yycolumn);}
+{CATCH}                        {return exportToken(sym.CATCH, yytext(), yyline, yycolumn);}
+{FOR}                          {return exportToken(sym.FOR, yytext(), yyline, yycolumn);}
+{FOREACH}                      {return exportToken(sym.FOREACH, yytext(), yyline, yycolumn);}
+{WHILE}                        {return exportToken(sym.WHILE, yytext(), yyline, yycolumn);}
+{IF}                           {return exportToken(sym.IF, yytext(), yyline, yycolumn);}
+{ELSE}                         {return exportToken(sym.ELSE, yytext(), yyline, yycolumn);}
+{SWITCH}                       {return exportToken(sym.SWITCH, yytext(), yyline, yycolumn);}
+{CASE}                         {return exportToken(sym.CASE, yytext(), yyline, yycolumn);}
+{RETURN}                       {return exportToken(sym.RETURN, yytext(), yyline, yycolumn);}
+{LPAREN}                       {return exportToken(sym.LPAREN, yytext(), yyline, yycolumn);}
+{RPAREN}                       {return exportToken(sym.RPAREN, yytext(), yyline, yycolumn);}
+{NUMBER}                       {
+    if (!foundString) return exportToken(sym.NUMBER, Double.parseDouble(yytext()), yyline, yycolumn);
+    else string.append(yytext());
+}
+{Identifier}                   {
+    if (!foundString) return exportToken(sym.IDENTIFIER, yytext(), yyline, yycolumn);
+    else string.append(yytext());
+}
+"{"                            {return exportToken(sym.LBRACE, yytext(), yyline, yycolumn);}
+"}"                            {return exportToken(sym.RBRACE, yytext(), yyline, yycolumn);}
+";"                            {return exportToken(sym.SEMI, yytext(), yyline, yycolumn);}
+":"                            {return exportToken(sym.COLON, yytext(), yyline, yycolumn);}
+","                            {return exportToken(sym.COMMA, yytext(), yyline, yycolumn);}
+"<"                            {return exportToken(sym.LT, yytext(), yyline, yycolumn);}
+">"                            {return exportToken(sym.GT, yytext(), yyline, yycolumn);}
+"<="                           {return exportToken(sym.LE, yytext(), yyline, yycolumn);}
+">="                           {return exportToken(sym.GE, yytext(), yyline, yycolumn);}
+"!="                           {return exportToken(sym.NE, yytext(), yyline, yycolumn);}
+"->"                           {return exportToken(sym.ARROW, yytext(), yyline, yycolumn);}
 {WhiteSpace}                   { /* ignore */ }
-{Comment}                      {foundKeywords.add(new Tuple(yyline, yycolumn, yytext(), "comment"));}
+{Comment}                      { /* ignore */ }
+\"                             {
+    if (!foundString) {
+        foundString = true;
+        string.append(yytext());
+    } else {
+        foundString = false;
+        string.append(yytext());
+        String result = string.toString();
+        string.setLength(0);
+        string = new StringBuilder();
+        return exportToken(sym.STRING, result, yyline, yycolumn);
+    }
+}
+{SingleCharacter}             { if (foundString) string.append(yytext()); }
+}
