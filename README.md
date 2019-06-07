@@ -1,2 +1,6 @@
 # EogenCompiler
 this is Eogen programming language compiler. this project is in development process...
+
+## Log :
+### added Lexical Analyzer (EogenCompiler.flex)
+### added Parser (EogenCompiler.cup)
