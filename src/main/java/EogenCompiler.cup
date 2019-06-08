@@ -3,6 +3,8 @@ import java_cup.runtime.*;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
+import models.*;
+import helpers.*;
 
 parser code {:
     EogenLexer lexer;
@@ -17,7 +19,8 @@ scan with {: Symbol token = this.lexer.next_token(); System.out.println("sym : "
 
 terminal SUM, SUBTRACT, MULTIPLY, DIVISION, POWER, MOD, UMINUS, EQUAL, LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COLON, COMMA,
          FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR, FUNCTION,
-         IDENTIFIER, OF, INSTANCE, EMPTY, CHAINSIGN, ASSIGN, GT, LT, GE, LE, NE, EXEC, ARROW, ENCAPSULATE, RETURN;
+         OF, INSTANCE, EMPTY, CHAINSIGN, ASSIGN, GT, LT, GE, LE, NE, EXEC, ARROW, ENCAPSULATE, RETURN;
+terminal String IDENTIFIER;
 terminal Double NUMBER;
 terminal String STRING;
 
@@ -115,24 +118,115 @@ exp ::= exp:e1 IS exp:e2                         {: :} |
         EXEC IDENTIFIER LPAREN param_list:pl1 RPAREN  {: :} |
         EXEC exp:e1 CHAINSIGN IDENTIFIER LPAREN param_list:pl1 RPAREN  {: :} |
         EXEC exp:e1 CHAINSIGN IDENTIFIER LPAREN RPAREN  {: :} |
-        exp:e1 SUM exp:e2                        {: :} |
-        exp:e1 SUBTRACT exp:e2                   {: :} |
-        exp:e1 MULTIPLY exp:e2                   {: :} |
-        exp:e1 DIVISION exp:e2                   {: :} |
-        exp:e1 MOD exp:e2                        {: :} |
-        exp:e1 POWER exp:e2                      {: :} |
-        SUBTRACT exp:e                           {: :} %prec UMINUS |
-        exp:e1 CHAINSIGN exp:e2                  {: :} |
-        LPAREN exp:e1 RPAREN                     {: :} |
-        callback_exp                             {: :} |
-        IDENTIFIER                               {: :} |
-        NUMBER:n                                 {: :} |
-        STRING:s                                 {: :} |
-        EMPTY:e                                  {: :}
+        exp:e1 SUM exp:e2
+                 {:
+                     Codes.MathExpSum r = new Codes.MathExpSum();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 SUBTRACT exp:e2
+                 {:
+                     Codes.MathExpSubstract r = new Codes.MathExpSubstract();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 MULTIPLY exp:e2
+                 {:
+                     Codes.MathExpMultiply r = new Codes.MathExpMultiply();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 DIVISION exp:e2
+                 {:
+                     Codes.MathExpDivision r = new Codes.MathExpDivision();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 MOD exp:e2
+                 {:
+                     Codes.MathExpMod r = new Codes.MathExpMod();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 POWER exp:e2
+                 {:
+                     Codes.MathExpPower r = new Codes.MathExpPower();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        SUBTRACT exp:e
+                 {:
+                     Codes.MathExpUminus r = new Codes.MathExpUminus();
+                     r.setValue((Codes.Code)e);
+                     RESULT = r;
+                 :} %prec UMINUS |
+        exp:e1 CHAINSIGN exp:e2
+                 {:
+                     Codes.Chains r = new Codes.Chains();
+                     r.setCode1((Codes.Code)e1);
+                     r.setCode2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        LPAREN exp:e RPAREN
+                 {:
+                     Codes.Parenthesis p = new Codes.Parenthesis();
+                     p.setCode((Codes.Code)e);
+                     RESULT = p;
+                 :} |
+        callback_exp:ce
+                 {:
+                     RESULT = (Codes.Code)ce;
+                 :} |
+        IDENTIFIER:i
+                 {:
+                     RESULT = (Codes.Code)i;
+                 :} |
+        NUMBER:n
+                 {:
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(n);
+                     RESULT = v;
+                 :} |
+        STRING:s
+                 {:
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(s);
+                     RESULT = v;
+                 :} |
+        EMPTY
+                 {:
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(null);
+                     RESULT = v;
+                 :}
 ;
-param_list ::= param:p1 COMMA param_list:pl1      {: :} |
-               param:p1                           {: :} |
-               epsilon                          {: :}
+param_list ::= param:p1 COMMA param_list:pl1
+                 {:
+                     Hashtable<String, Codes.Code> ht = pl1;
+                     castedP1 = (Pair<String, Codes.Code>)p1;
+                     ht.put(castedP1.first, castedP1.second);
+                     RESULT = ht;
+                 :} |
+               param:p1
+                 {:
+                     Hashtable<String, Code> ht = new Hashtable<String, Codes.Code>();
+                     castedP1 = (Pair<String, Codes.Code>)p1;
+                     ht.put(castedP1.first, castedP1.second);
+                     RESULT = ht;
+                 :} |
+               epsilon
+                 {:
+                     RESULT = new Hashtable<String, Code>();
+                 :}
 ;
-param ::= IDENTIFIER COLON exp:e1               {: :}
+param ::= IDENTIFIER:i COLON exp:e1
+                 {:
+                     RESULT = new Pair<String, Codes.Code>(i, (Codes.Code)e1);
+                 :}
 ;

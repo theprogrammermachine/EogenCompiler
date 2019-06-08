@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            File file = new File("D:\\My Documents\\Projects\\Java\\ECompiler\\src\\phase2_sample_code.eogen");
+            File file = new File("D:\\My Documents\\Projects\\Java\\ECompiler\\src\\main\\java\\test.eogen");
             FileReader fis = new FileReader(file);
 
             EogenLexer lexer = new EogenLexer(fis);

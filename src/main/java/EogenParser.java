@@ -7,6 +7,8 @@ import java_cup.runtime.*;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
+import models.*;
+import helpers.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20141204 (SVN rev 60) generated parser.
@@ -1824,7 +1826,13 @@ class CUP$EogenParser$actions {
 		int e2left = ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()).left;
 		int e2right = ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()).right;
 		Object e2 = (Object)((java_cup.runtime.Symbol) CUP$EogenParser$stack.peek()).value;
-		 
+		
+             Codes.MathExpSum r = new Codes.MathExpSum();
+             r.setValue1((Codes.Code)e1);
+             r.setValue2((Codes.Code)e2);
+             RESULT = r;
+             System.out.println(JsonHelper.toJson(RESULT));
+         
               CUP$EogenParser$result = parser.getSymbolFactory().newSymbol("exp",0, ((java_cup.runtime.Symbol)CUP$EogenParser$stack.elementAt(CUP$EogenParser$top-2)), ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()), RESULT);
             }
           return CUP$EogenParser$result;
@@ -1968,7 +1976,11 @@ class CUP$EogenParser$actions {
 		int nleft = ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()).right;
 		Double n = (Double)((java_cup.runtime.Symbol) CUP$EogenParser$stack.peek()).value;
-		 
+		
+            Codes.Value v = new Codes.Value();
+            v.setValue(n);
+            RESULT = v;
+        
               CUP$EogenParser$result = parser.getSymbolFactory().newSymbol("exp",0, ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$EogenParser$stack.peek()), RESULT);
             }
           return CUP$EogenParser$result;
