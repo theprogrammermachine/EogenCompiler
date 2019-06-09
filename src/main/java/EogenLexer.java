@@ -605,9 +605,9 @@ public class EogenLexer implements java_cup.runtime.Scanner {
 
         if (symNum == sym.IDENTIFIER)
             if (!keywords.contains(value))
-                return new Symbol(symNum, line, column, value);
+                return new Symbol(symNum, line + 1, column + 1, value);
 
-        return new Symbol(symNum, line, column, value);
+        return new Symbol(symNum, line + 1, column + 1, value);
     }
 
 

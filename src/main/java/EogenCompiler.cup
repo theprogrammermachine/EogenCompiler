@@ -4,17 +4,30 @@ import java.util.*;
 import java.io.*;
 import models.*;
 import helpers.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 parser code {:
     EogenLexer lexer;
     EogenParser(EogenLexer lexer) { super(lexer); this.lexer = lexer; }
+
+    public void syntax_error(Symbol s) {
+        System.out.println("Syntax Error near " + sym.terminalNames[s.sym] + " at [line : " + s.left + ", column : " + s.right + "]");
+    }
 :}
 
 init with {:
 
 :};
 
-scan with {: Symbol token = this.lexer.next_token(); System.out.println("sym : " + token.sym + ", value : " + token.value); return token; :};
+scan with {:
+    Symbol token = this.lexer.next_token();
+    //System.out.println("sym : " + token.sym + ", [line : " + token.left + ", column : " + token.right + "], value : " + token.value);
+    return token;
+:};
 
 terminal SUM, SUBTRACT, MULTIPLY, DIVISION, POWER, MOD, AND, OR, UMINUS, EQUAL, LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COLON, COMMA,
          FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR, FUNCTION,
@@ -39,12 +52,22 @@ precedence left FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BAS
 start with root;
 
 // driver --------------------------------------------------------------------------------------------------------------
-root ::= exp_list:el
+root ::=
+  exp_list:el
               {:
-                  System.out.println("Middle code : \n" + JsonHelper.toJson(el));
+                  Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                  JsonParser jp = new JsonParser();
+                  JsonElement je = jp.parse(JsonHelper.toJson(el, new TypeReference<List<Codes.Code>>(){}));
+                  String prettyJsonString = gson.toJson(je);
+                  System.out.println("Middle code :");
+                  System.out.println(prettyJsonString);
                   RESULT = el;
-              :};
+              :} |
+  error:e
+              {:
 
+              :}
+;
 // main ----------------------------------------------------------------------------------------------------------------
 exp_list ::=
   exp_list:el exp:e1

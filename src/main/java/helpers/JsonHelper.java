@@ -1,6 +1,7 @@
 package helpers;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,6 +14,15 @@ public class JsonHelper {
     public static String toJson(Object obj) {
         try {
             return mapper.writeValueAsString(obj);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "error";
+    }
+
+    public static String toJson(Object obj, TypeReference tr) {
+        try {
+            return mapper.writerFor(tr).writeValueAsString(obj);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
