@@ -2,20 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67f99c2e-e025-477c-900e-e09a3386bb49" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_5.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ECompiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ECompiler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/EogenParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/test.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/test.eogen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/EogenParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/helpers/JsonHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/helpers/JsonHelper.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,7 +19,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -55,12 +58,17 @@
       <find>FunctionLevel</find>
       <find>assignment</find>
       <find>14</find>
+      <find>erroe</find>
+      <find>FunctionLEvel</find>
+      <find>epsilon</find>
     </findStrings>
     <replaceStrings>
       <replace>ENDOFFILE</replace>
       <replace>return exportToken</replace>
       <replace>ARROW</replace>
       <replace>Codes.FunctionLevel</replace>
+      <replace>error</replace>
+      <replace>FunctionLevel</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -95,8 +103,9 @@
         <option value="$PROJECT_DIR$/src/main/java/test.eogen" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/EogenParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" />
         <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" />
+        <option value="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" />
       </list>
     </option>
   </component>
@@ -118,6 +127,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -143,20 +153,11 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ECompiler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ECompiler" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="helpers" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -218,7 +219,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19597316" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19865772" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -351,13 +352,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/ProgramFilesWithNoSpace/jflex-1.7.0/lib/jflex-full-1.7.0.jar!/java_cup/runtime/Symbol.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -396,16 +390,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="8" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/test.eogen">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -423,13 +407,305 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="6671" column="12" selection-start-line="6671" selection-start-column="12" selection-end-line="6671" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.cup">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
+        <state relative-caret-position="1458">
+          <caret line="1048" column="8" selection-start-line="1048" selection-start-column="8" selection-end-line="1048" selection-end-column="8" />
           <folding>
             <element signature="e#46#47#0" expanded="true" />
             <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#142#143#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#127#128#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#127#128#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#135#136#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
             <element signature="e#111#112#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
@@ -438,7 +714,16 @@
             <element signature="e#132#133#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
             <element signature="e#144#145#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
         </state>
       </provider>
     </entry>

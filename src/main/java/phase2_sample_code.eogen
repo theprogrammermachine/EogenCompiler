@@ -3,7 +3,7 @@ EOGEN
 class Program {
 
   function run (a, b) of instance {
-    if (a > b) {
+    if (a and b) {
       for (counter = 0; counter < a; counter = counter + 1) {
         exec print(text : exec NewLineString(value: "Hello world"))
       }
