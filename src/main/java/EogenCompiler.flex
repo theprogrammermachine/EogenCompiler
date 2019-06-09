@@ -113,6 +113,8 @@ MULTIPLY = \*
 DIVISION = \/
 MOD = mod
 POWER = \^
+AND = and
+OR = or
 EMPTY = \[{WeakSplitter}empty{WeakSplitter}\]
 LPAREN = \(
 RPAREN = \)
@@ -134,6 +136,8 @@ Identifier = [:jletter:][:jletterdigit:]*
 {IS}                           {return exportToken(sym.IS, yytext(), yyline, yycolumn);}
 "="                            {return exportToken(sym.ASSIGN, yytext(), yyline, yycolumn);}
 "=="                           {return exportToken(sym.EQUAL, yytext(), yyline, yycolumn);}
+{AND}                          {return exportToken(sym.AND, yytext(), yyline, yycolumn);}
+{OR}                           {return exportToken(sym.OR, yytext(), yyline, yycolumn);}
 {POWER}                        {return exportToken(sym.POWER, yytext(), yyline, yycolumn);}
 {MOD}                          {return exportToken(sym.MOD, yytext(), yyline, yycolumn);}
 {DIVISION}                     {return exportToken(sym.DIVISION, yytext(), yyline, yycolumn);}

@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -16,6 +17,9 @@ public class Codes {
             property = "type")
     @JsonSubTypes({
             @JsonSubTypes.Type(value = If.class, name = "If"),
+            @JsonSubTypes.Type(value = ElseIf.class, name = "ElseIf"),
+            @JsonSubTypes.Type(value = Else.class, name = "Else"),
+            @JsonSubTypes.Type(value = While.class, name = "While"),
             @JsonSubTypes.Type(value = For.class, name = "For"),
             @JsonSubTypes.Type(value = Foreach.class, name = "Foreach"),
             @JsonSubTypes.Type(value = Function.class, name = "Function"),
@@ -45,15 +49,167 @@ public class Codes {
             @JsonSubTypes.Type(value = Reference.class, name = "Reference"),
             @JsonSubTypes.Type(value = Parenthesis.class, name = "Parenthesis"),
             @JsonSubTypes.Type(value = MathExpEqual.class, name = "MathExpEqual"),
+            @JsonSubTypes.Type(value = MathExpNE.class, name = "MathExpNE"),
+            @JsonSubTypes.Type(value = MathExpGT.class, name = "MathExpGT"),
+            @JsonSubTypes.Type(value = MathExpGE.class, name = "MathExpGE"),
+            @JsonSubTypes.Type(value = MathExpLT.class, name = "MathExpLT"),
+            @JsonSubTypes.Type(value = MathExpLE.class, name = "MathExpLE"),
             @JsonSubTypes.Type(value = MathExpAnd.class, name = "MathExpAnd"),
             @JsonSubTypes.Type(value = MathExpOr.class, name = "MathExpOr"),
-            @JsonSubTypes.Type(value = Class.class, name = "Class")
+            @JsonSubTypes.Type(value = Class.class, name = "Class"),
+            @JsonSubTypes.Type(value = Behaviour.class, name = "Behaviour"),
+            @JsonSubTypes.Type(value = Identifier.class, name = "Identifier"),
+            @JsonSubTypes.Type(value = Switch.class, name = "Switch"),
+            @JsonSubTypes.Type(value = Case.class, name = "Case"),
+            @JsonSubTypes.Type(value = Is.class, name = "Is"),
+            @JsonSubTypes.Type(value = Try.class, name = "Try")
     })
     public static class Code implements Serializable {
 
     }
 
+    public static class Try extends Code {
+
+        private List<Code> tryCode;
+        private Identifier exVar;
+        private List<Code> catchCode;
+
+        public List<Code> getTryCode() {
+            return tryCode;
+        }
+
+        public void setTryCode(List<Code> tryCode) {
+            this.tryCode = tryCode;
+        }
+
+        public Identifier getExVar() {
+            return exVar;
+        }
+
+        public void setExVar(Identifier exVar) {
+            this.exVar = exVar;
+        }
+
+        public List<Code> getCatchCode() {
+            return catchCode;
+        }
+
+        public void setCatchCode(List<Code> catchCode) {
+            this.catchCode = catchCode;
+        }
+    }
+
     public static class If extends Code {
+
+        private Code condition;
+        private List<Code> codes;
+        private List<Code> extras;
+
+        public Code getCondition() {
+            return condition;
+        }
+
+        public void setCondition(Code condition) {
+            this.condition = condition;
+        }
+
+        public List<Code> getCodes() {
+            return codes;
+        }
+
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+
+        public List<Code> getExtras() {
+            return extras;
+        }
+
+        public void setExtras(List<Code> extras) {
+            this.extras = extras;
+        }
+    }
+
+    public static class ElseIf extends Code {
+
+        private Code condition;
+        private List<Code> codes;
+
+        public Code getCondition() {
+            return condition;
+        }
+
+        public void setCondition(Code condition) {
+            this.condition = condition;
+        }
+
+        public List<Code> getCodes() {
+            return codes;
+        }
+
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+    }
+
+    public static class Else extends Code {
+
+        private List<Code> codes;
+
+        public List<Code> getCodes() {
+            return codes;
+        }
+
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+    }
+
+    public static class Switch extends Code {
+
+        private Code value;
+        private List<Case> cases;
+
+        public Code getValue() {
+            return value;
+        }
+
+        public void setValue(Code value) {
+            this.value = value;
+        }
+
+        public List<Case> getCases() {
+            return cases;
+        }
+
+        public void setCases(List<Case> cases) {
+            this.cases = cases;
+        }
+    }
+
+    public static class Case extends Code {
+
+        private Code value;
+        private List<Code> codes;
+
+        public Code getValue() {
+            return value;
+        }
+
+        public void setValue(Code value) {
+            this.value = value;
+        }
+
+        public List<Code> getCodes() {
+            return codes;
+        }
+
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+    }
+
+    public static class While extends Code {
 
         private Code condition;
         private List<Code> codes;
@@ -77,24 +233,33 @@ public class Codes {
 
     public static class For extends Code {
 
-        private Variable counter;
-        private Code count;
+        private Code counter;
+        private Code condition;
+        private Code action;
         private List<Code> codes;
 
-        public Variable getCounter() {
+        public Code getCounter() {
             return counter;
         }
 
-        public void setCounter(Variable counter) {
+        public void setCounter(Code counter) {
             this.counter = counter;
         }
 
-        public Code getCount() {
-            return count;
+        public Code getCondition() {
+            return condition;
         }
 
-        public void setCount(Code count) {
-            this.count = count;
+        public void setCondition(Code condition) {
+            this.condition = condition;
+        }
+
+        public Code getAction() {
+            return action;
+        }
+
+        public void setAction(Code action) {
+            this.action = action;
         }
 
         public List<Code> getCodes() {
@@ -108,15 +273,15 @@ public class Codes {
 
     public static class Foreach extends Code {
 
-        private Variable temp;
+        private Identifier temp;
         private Code collection;
         private List<Code> codes;
 
-        public Variable getTemp() {
+        public Identifier getTemp() {
             return temp;
         }
 
-        public void setTemp(Variable temp) {
+        public void setTemp(Identifier temp) {
             this.temp = temp;
         }
 
@@ -137,10 +302,16 @@ public class Codes {
         }
     }
 
+    public enum FunctionLevel {
+        @JsonProperty("ClassLevel") ClassLevel,
+        @JsonProperty("InstanceLevel") InstanceLevel
+    }
+
     public static class Function extends Code {
 
         private String name;
-        private List<String> params;
+        private FunctionLevel level;
+        private List<Identifier> params;
         private List<Code> codes;
 
         public String getName() {
@@ -151,11 +322,19 @@ public class Codes {
             this.name = name;
         }
 
-        public List<String> getParams() {
+        public FunctionLevel getLevel() {
+            return level;
+        }
+
+        public void setLevel(FunctionLevel level) {
+            this.level = level;
+        }
+
+        public List<Identifier> getParams() {
             return params;
         }
 
-        public void setParams(List<String> params) {
+        public void setParams(List<Identifier> params) {
             this.params = params;
         }
 
@@ -427,6 +606,116 @@ public class Codes {
         }
     }
 
+    public static class MathExpNE extends Code {
+
+        private Code value1;
+        private Code value2;
+
+        public Code getValue1() {
+            return value1;
+        }
+
+        public void setValue1(Code value1) {
+            this.value1 = value1;
+        }
+
+        public Code getValue2() {
+            return value2;
+        }
+
+        public void setValue2(Code value2) {
+            this.value2 = value2;
+        }
+    }
+
+    public static class MathExpGT extends Code {
+
+        private Code value1;
+        private Code value2;
+
+        public Code getValue1() {
+            return value1;
+        }
+
+        public void setValue1(Code value1) {
+            this.value1 = value1;
+        }
+
+        public Code getValue2() {
+            return value2;
+        }
+
+        public void setValue2(Code value2) {
+            this.value2 = value2;
+        }
+    }
+
+    public static class MathExpGE extends Code {
+
+        private Code value1;
+        private Code value2;
+
+        public Code getValue1() {
+            return value1;
+        }
+
+        public void setValue1(Code value1) {
+            this.value1 = value1;
+        }
+
+        public Code getValue2() {
+            return value2;
+        }
+
+        public void setValue2(Code value2) {
+            this.value2 = value2;
+        }
+    }
+
+    public static class MathExpLT extends Code {
+
+        private Code value1;
+        private Code value2;
+
+        public Code getValue1() {
+            return value1;
+        }
+
+        public void setValue1(Code value1) {
+            this.value1 = value1;
+        }
+
+        public Code getValue2() {
+            return value2;
+        }
+
+        public void setValue2(Code value2) {
+            this.value2 = value2;
+        }
+    }
+
+    public static class MathExpLE extends Code {
+
+        private Code value1;
+        private Code value2;
+
+        public Code getValue1() {
+            return value1;
+        }
+
+        public void setValue1(Code value1) {
+            this.value1 = value1;
+        }
+
+        public Code getValue2() {
+            return value2;
+        }
+
+        public void setValue2(Code value2) {
+            this.value2 = value2;
+        }
+    }
+
     public static class MathExpAnd extends Code {
 
         private Code value1;
@@ -576,16 +865,45 @@ public class Codes {
         }
     }
 
-    public static class Class extends Code {
+    public static class Identifier extends Code {
 
         private String name;
-        private Code parentClassRef;
-        private Function constructor;
-        private Hashtable<String, Field> instanceFields;
-        private Hashtable<String, Field> classFields;
-        private Hashtable<String, Function> instanceFunctions;
-        private Hashtable<String, Function> classFunctions;
-        private Hashtable<String, Class> subclasses;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class Is extends Code {
+
+        private Code code1;
+        private Code code2;
+
+        public Code getCode1() {
+            return code1;
+        }
+
+        public void setCode1(Code code1) {
+            this.code1 = code1;
+        }
+
+        public Code getCode2() {
+            return code2;
+        }
+
+        public void setCode2(Code code2) {
+            this.code2 = code2;
+        }
+    }
+
+    public static class Behaviour extends Code {
+
+        private String name;
+        private List<Code> codes;
 
         public String getName() {
             return name;
@@ -595,60 +913,52 @@ public class Codes {
             this.name = name;
         }
 
-        public Code getParentClassRef() {
-            return parentClassRef;
+        public List<Code> getCodes() {
+            return codes;
         }
 
-        public void setParentClassRef(Code parentClassRef) {
-            this.parentClassRef = parentClassRef;
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+    }
+
+    public static class Class extends Code {
+
+        private String name;
+        private String basedOn;
+        private String behaveLike;
+        private List<Code> codes;
+
+        public String getName() {
+            return name;
         }
 
-        public Function getConstructor() {
-            return constructor;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        public void setConstructor(Function constructor) {
-            this.constructor = constructor;
+        public String getBasedOn() {
+            return basedOn;
         }
 
-        public Hashtable<String, Field> getInstanceFields() {
-            return instanceFields;
+        public void setBasedOn(String basedOn) {
+            this.basedOn = basedOn;
         }
 
-        public void setInstanceFields(Hashtable<String, Field> instanceFields) {
-            this.instanceFields = instanceFields;
+        public String getBehaveLike() {
+            return behaveLike;
         }
 
-        public Hashtable<String, Field> getClassFields() {
-            return classFields;
+        public void setBehaveLike(String behaveLike) {
+            this.behaveLike = behaveLike;
         }
 
-        public void setClassFields(Hashtable<String, Field> classFields) {
-            this.classFields = classFields;
+        public List<Code> getCodes() {
+            return codes;
         }
 
-        public Hashtable<String, Function> getInstanceFunctions() {
-            return instanceFunctions;
-        }
-
-        public void setInstanceFunctions(Hashtable<String, Function> instanceFunctions) {
-            this.instanceFunctions = instanceFunctions;
-        }
-
-        public Hashtable<String, Function> getClassFunctions() {
-            return classFunctions;
-        }
-
-        public void setClassFunctions(Hashtable<String, Function> classFunctions) {
-            this.classFunctions = classFunctions;
-        }
-
-        public Hashtable<String, Class> getSubclasses() {
-            return subclasses;
-        }
-
-        public void setSubclasses(Hashtable<String, Class> subclasses) {
-            this.subclasses = subclasses;
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
         }
     }
 

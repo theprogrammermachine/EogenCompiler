@@ -1,8 +1,7 @@
 
 import java_cup.runtime.*;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileReader;
+import java.util.*;
+import java.io.*;
 import models.*;
 import helpers.*;
 
@@ -17,16 +16,17 @@ init with {:
 
 scan with {: Symbol token = this.lexer.next_token(); System.out.println("sym : " + token.sym + ", value : " + token.value); return token; :};
 
-terminal SUM, SUBTRACT, MULTIPLY, DIVISION, POWER, MOD, UMINUS, EQUAL, LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COLON, COMMA,
+terminal SUM, SUBTRACT, MULTIPLY, DIVISION, POWER, MOD, AND, OR, UMINUS, EQUAL, LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COLON, COMMA,
          FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR, FUNCTION,
          OF, INSTANCE, EMPTY, CHAINSIGN, ASSIGN, GT, LT, GE, LE, NE, EXEC, ARROW, ENCAPSULATE, RETURN;
 terminal String IDENTIFIER;
 terminal Double NUMBER;
 terminal String STRING;
 
-nonterminal exp, exp_list, for_exp, foreach_exp, while_exp, if_exp, switch_exp, try_exp, function_exp,
-            behaviour_exp, class_exp, elseif_exp, case_exp, arg_list, param_list, param, epsilon, callback_exp;
+nonterminal root, exp, exp_list, for_exp, foreach_exp, while_exp, if_exp, switch_exp, try_exp, function_exp,
+            behaviour_exp, class_exp, elseif_exp, case_exp, arg_list, param_list, param, epsilon, callback_exp, identifier;
 
+precedence left AND, OR;
 precedence left EQUAL, GT, LT, GE, LE, NE, ASSIGN, SEMI, COLON, COMMA, ARROW;
 precedence left SUM, SUBTRACT;
 precedence left MULTIPLY, DIVISION, MOD;
@@ -36,88 +36,549 @@ precedence left LPAREN, RPAREN, LBRACE, RBRACE;
 precedence left FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR,
                 FUNCTION, IDENTIFIER, EXEC, ENCAPSULATE, OF, INSTANCE, NUMBER, STRING, EMPTY, CHAINSIGN, RETURN;
 
+start with root;
+
+// driver --------------------------------------------------------------------------------------------------------------
+root ::= exp_list:el
+              {:
+                  System.out.println("Middle code : \n" + JsonHelper.toJson(el));
+                  RESULT = el;
+              :};
+
 // main ----------------------------------------------------------------------------------------------------------------
 exp_list ::=
-  exp_list:el exp:e1                                                                                          {: :} |
-  exp_list:el if_exp:ie                                                                                       {: :} |
-  exp_list:el switch_exp:se                                                                                   {: :} |
-  exp_list:el for_exp:fe                                                                                      {: :} |
-  exp_list:el foreach_exp:fee                                                                                 {: :} |
-  exp_list:el while_exp:we                                                                                    {: :} |
-  exp_list:el try_exp:te                                                                                      {: :} |
-  exp_list:el function_exp:fe                                                                                 {: :} |
-  exp_list:el class_exp:ce                                                                                    {: :} |
-  exp_list:el behaviour_exp:be                                                                                {: :} |
-  exp_list:el RETURN exp:e1                                                                                   {: :} |
-  exp:e1                                                                                                      {: :} |
-  epsilon:e1                                                                                                  {: :}
+  exp_list:el exp:e1
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)e1);
+                  RESULT = r;
+              :} |
+  exp_list:el if_exp:ie
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)ie);
+                  RESULT = r;
+              :} |
+  exp_list:el switch_exp:se
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)se);
+                  RESULT = r;
+              :} |
+  exp_list:el for_exp:fe
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  exp_list:el foreach_exp:fee
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)fee);
+                  RESULT = r;
+              :} |
+  exp_list:el while_exp:we
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)we);
+                  RESULT = r;
+              :} |
+  exp_list:el try_exp:te
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)te);
+                  RESULT = r;
+              :} |
+  exp_list:el function_exp:fe
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  exp_list:el class_exp:ce
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)ce);
+                  RESULT = r;
+              :} |
+  exp_list:el behaviour_exp:be
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)be);
+                  RESULT = r;
+              :} |
+  exp_list:el RETURN exp:e1
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  Codes.Return ret = new Codes.Return();
+                  ret.setValue((Codes.Code)e1);
+                  r.add(ret);
+                  RESULT = r;
+              :} |
+  exp:e1
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)e1);
+                  RESULT = r;
+              :} |
+  epsilon:e1
+              {:
+                  RESULT = new ArrayList<Codes.Code>();
+              :}
 ;
 // class ---------------------------------------------------------------------------------------------------------------
-class_exp ::= CLASS IDENTIFIER LBRACE exp_list:el1 RBRACE                                                     {: :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER LBRACE exp_list:el1 RBRACE                                  {: :} |
-              CLASS IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list:el1 RBRACE                               {: :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list:el1 RBRACE            {: :}
+class_exp ::= CLASS IDENTIFIER:i LBRACE exp_list:el1 RBRACE
+              {:
+                  Codes.Class c = new Codes.Class();
+                  c.setName((String)i);
+                  c.setBasedOn(null);
+                  c.setBehaveLike(null);
+                  c.setCodes((List<Codes.Code>)el1);
+                  RESULT = c;
+              :} |
+              CLASS IDENTIFIER:i BASED ON IDENTIFIER:i2 LBRACE exp_list:el1 RBRACE
+              {:
+                  Codes.Class c = new Codes.Class();
+                  c.setName((String)i);
+                  c.setBasedOn((String)i2);
+                  c.setBehaveLike(null);
+                  c.setCodes((List<Codes.Code>)el1);
+                  RESULT = c;
+              :} |
+              CLASS IDENTIFIER:i BEHAVES LIKE IDENTIFIER:i2 LBRACE exp_list:el1 RBRACE
+              {:
+                  Codes.Class c = new Codes.Class();
+                  c.setName((String)i);
+                  c.setBasedOn(null);
+                  c.setBehaveLike((String)i2);
+                  c.setCodes((List<Codes.Code>)el1);
+                  RESULT = c;
+              :} |
+              CLASS IDENTIFIER:i BASED ON IDENTIFIER:i2 BEHAVES LIKE IDENTIFIER:i3 LBRACE exp_list:el1 RBRACE
+              {:
+                  Codes.Class c = new Codes.Class();
+                  c.setName((String)i);
+                  c.setBasedOn((String)i2);
+                  c.setBehaveLike((String)i3);
+                  c.setCodes((List<Codes.Code>)el1);
+                  RESULT = c;
+              :}
 ;
 // behaviour -----------------------------------------------------------------------------------------------------------
-behaviour_exp ::= BEHAVIOUR IDENTIFIER LBRACE exp_list:el1 RBRACE                                             {: :}
+behaviour_exp ::= BEHAVIOUR IDENTIFIER:i LBRACE exp_list:el1 RBRACE
+                 {:
+                     Codes.Behaviour b = new Codes.Behaviour();
+                     b.setName((String)i);
+                     b.setCodes((List<Codes.Code>)el1);
+                     RESULT = b;
+                 :}
 ;
 // function ------------------------------------------------------------------------------------------------------------
-function_exp ::= FUNCTION IDENTIFIER LPAREN RPAREN LBRACE exp_list:el RBRACE                                     {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER RPAREN LBRACE exp_list:el RBRACE                          {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER arg_list:al1 RPAREN LBRACE exp_list:el RBRACE             {: :} |
-                 FUNCTION IDENTIFIER LPAREN RPAREN OF CLASS LBRACE exp_list:el RBRACE                            {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER RPAREN OF CLASS LBRACE exp_list:el RBRACE                 {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER arg_list:al1 RPAREN OF CLASS LBRACE exp_list:el RBRACE    {: :} |
-                 FUNCTION IDENTIFIER LPAREN RPAREN OF INSTANCE LBRACE exp_list:el RBRACE                         {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER RPAREN OF INSTANCE LBRACE exp_list:el RBRACE              {: :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER arg_list:al1 RPAREN OF INSTANCE LBRACE exp_list:el RBRACE {: :}
+function_exp ::= FUNCTION IDENTIFIER:i LPAREN RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 arg_list:al1 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     ids.addAll((List<Codes.Identifier>)al1);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i LPAREN RPAREN OF CLASS LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i);
+                     func.setLevel(Codes.FunctionLevel.ClassLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 RPAREN OF CLASS LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.ClassLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 arg_list:al1 RPAREN OF CLASS LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.ClassLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     ids.addAll((List<Codes.Identifier>)al1);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN RPAREN OF INSTANCE LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 RPAREN OF INSTANCE LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 FUNCTION IDENTIFIER:i1 LPAREN IDENTIFIER:i2 arg_list:al1 RPAREN OF INSTANCE LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName((String)i1);
+                     func.setLevel(Codes.FunctionLevel.InstanceLevel);
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i2);
+                     ids.add(id);
+                     ids.addAll((List<Codes.Identifier>)al1);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :}
 ;
-callback_exp ::= ENCAPSULATE LPAREN RPAREN ARROW LBRACE exp_list:el RBRACE                                       {: :} |
-                 ENCAPSULATE LPAREN IDENTIFIER arg_list:al1 RPAREN ARROW LBRACE exp_list:el RBRACE               {: :} |
-                 ENCAPSULATE LPAREN IDENTIFIER RPAREN ARROW LBRACE exp_list:el RBRACE               {: :}
+callback_exp ::= ENCAPSULATE LPAREN RPAREN ARROW LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 ENCAPSULATE LPAREN IDENTIFIER:i arg_list:al1 RPAREN ARROW LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     ids.add(id);
+                     ids.addAll((List<Codes.Identifier>)al1);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :} |
+                 ENCAPSULATE LPAREN IDENTIFIER:i RPAREN ARROW LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     ids.add(id);
+                     func.setParams(ids);
+                     func.setCodes((List<Codes.Code>)el);
+                     RESULT = func;
+                 :}
 ;
-arg_list ::= COMMA IDENTIFIER arg_list                                                                           {: :} |
-             COMMA IDENTIFIER                                                                                    {: :}
+arg_list ::= COMMA IDENTIFIER:i arg_list:al
+                 {:
+                     List<Codes.Identifier> ids = (List<Codes.Identifier>)al;
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     ids.add(id);
+                     RESULT = ids;
+                 :} |
+             COMMA IDENTIFIER:i
+                 {:
+                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     ids.add(id);
+                     RESULT = ids;
+                 :}
 ;
 // empty expression ----------------------------------------------------------------------------------------------------
 epsilon ::= ;
 // try-catch -----------------------------------------------------------------------------------------------------------
-try_exp ::= TRY LBRACE exp_list:el1 RBRACE CATCH LPAREN exp:e1 RPAREN LBRACE exp_list:el2 RBRACE              {: :}
+try_exp ::= TRY LBRACE exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
+                 {:
+                     Codes.Try t = new Codes.Try();
+                     t.setTryCode((List<Codes.Code>)el1);
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     t.setExVar(id);
+                     t.setCatchCode((List<Codes.Code>)el2);
+                     RESULT = t;
+                 :}
 ;
 // loop ----------------------------------------------------------------------------------------------------------------
-for_exp ::= FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 RBRACE                       {: :}
+for_exp ::= FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 RBRACE
+                 {:
+                     Codes.For f = new Codes.For();
+                     f.setCounter((Codes.Code)e1);
+                     f.setCondition((Codes.Code)e2);
+                     f.setAction((Codes.Code)e3);
+                     f.setCodes((List<Codes.Code>)el1);
+                     RESULT = f;
+                 :}
 ;
-foreach_exp ::= FOREACH LPAREN exp:e1 COLON exp:e2 RPAREN LBRACE exp_list:el RBRACE                           {: :}
+foreach_exp ::= FOREACH LPAREN exp:e1 COLON exp:e2 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.Foreach f = new Codes.Foreach();
+                     f.setTemp((Codes.Identifier)e1);
+                     f.setCollection((Codes.Code)e2);
+                     f.setCodes((List<Codes.Code>)el);
+                     RESULT = f;
+                 :}
 ;
-while_exp ::= WHILE LPAREN exp:e1 RPAREN LBRACE exp_list:el RBRACE                                            {: :}
+while_exp ::= WHILE LPAREN exp:e1 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     Codes.While w = new Codes.While();
+                     w.setCondition((Codes.Code)e1);
+                     w.setCodes((List<Codes.Code>)el);
+                     RESULT = w;
+                 :}
 ;
 // conditionals --------------------------------------------------------------------------------------------------------
-elseif_exp ::= elseif_exp:ei ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE                           {: :} |
-               ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE                                         {: :}
+elseif_exp ::= elseif_exp:ei ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     List<Codes.ElseIf> r = (List<Codes.ElseIf>)ei;
+                     Codes.ElseIf elif = new Codes.ElseIf();
+                     elif.setCondition((Codes.Code)e2);
+                     elif.setCodes((List<Codes.Code>)el);
+                     r.add(elif);
+                     RESULT = r;
+                 :} |
+               ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
+                 {:
+                     List<Codes.ElseIf> r = new ArrayList<Codes.ElseIf>();
+                     Codes.ElseIf elif = new Codes.ElseIf();
+                     elif.setCondition((Codes.Code)e2);
+                     elif.setCodes((List<Codes.Code>)el);
+                     r.add(elif);
+                     RESULT = r;
+                 :}
 ;
-if_exp ::= IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE                                                 {: :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE                 {: :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1                                 {: :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1 ELSE LBRACE exp_list:el2 RBRACE {: :}
+if_exp ::= IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE
+                 {:
+                     Codes.If r = new Codes.If();
+                     r.setCondition((Codes.Code)e1);
+                     r.setCodes((List<Codes.Code>)el1);
+                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
+                     r.setExtras(extras);
+                     RESULT = r;
+                 :} |
+           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE
+                 {:
+                     Codes.If r = new Codes.If();
+                     r.setCondition((Codes.Code)e1);
+                     r.setCodes((List<Codes.Code>)el1);
+                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
+                     Codes.Else elseC = new Codes.Else();
+                     elseC.setCodes((List<Codes.Code>)el2);
+                     extras.add(elseC);
+                     r.setExtras(extras);
+                     RESULT = r;
+                 :} |
+           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1
+                 {:
+                     Codes.If r = new Codes.If();
+                     r.setCondition((Codes.Code)e1);
+                     r.setCodes((List<Codes.Code>)el1);
+                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
+                     extras.addAll((List<Codes.Code>)eie1);
+                     r.setExtras(extras);
+                     RESULT = r;
+                 :} |
+           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1 ELSE LBRACE exp_list:el2 RBRACE
+                 {:
+                     Codes.If r = new Codes.If();
+                     r.setCondition((Codes.Code)e1);
+                     r.setCodes((List<Codes.Code>)el1);
+                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
+                     extras.addAll((List<Codes.Code>)eie1);
+                     extras.add((Codes.Code)el2);
+                     r.setExtras(extras);
+                     RESULT = r;
+                 :}
 ;
-case_exp ::= case_exp:ce CASE exp:e1 COLON LBRACE exp_list:el RBRACE                                          {: :} |
-             CASE exp:e1 COLON LBRACE exp_list:el RBRACE                                                      {: :}
+case_exp ::= case_exp:ce CASE exp:e1 COLON LBRACE exp_list:el RBRACE
+                 {:
+                     List<Codes.Case> cases = (List<Codes.Case>)ce;
+                     Codes.Case c = new Codes.Case();
+                     c.setValue((Codes.Code)e1);
+                     c.setCodes((List<Codes.Code>)el);
+                     cases.add(c);
+                     RESULT = cases;
+                 :} |
+             CASE exp:e1 COLON LBRACE exp_list:el RBRACE
+                 {:
+                     List<Codes.Case> cases = new ArrayList<Codes.Case>();
+                     Codes.Case c = new Codes.Case();
+                     c.setValue((Codes.Code)e1);
+                     c.setCodes((List<Codes.Code>)el);
+                     cases.add(c);
+                     RESULT = cases;
+                 :}
 ;
-switch_exp ::= SWITCH LPAREN exp:e1 RPAREN LBRACE case_exp:ce RBRACE                                          {: :}
+switch_exp ::= SWITCH LPAREN exp:e1 RPAREN LBRACE case_exp:ce RBRACE
+                 {:
+                     Codes.Switch r = new Codes.Switch();
+                     r.setValue((Codes.Code)e1);
+                     r.setCases((List<Codes.Case>)ce);
+                     RESULT = r;
+                 :}
 ;
 // math ----------------------------------------------------------------------------------------------------------------
-exp ::= exp:e1 IS exp:e2                         {: :} |
-        exp:e1 EQUAL exp:e2                      {: :} |
-        exp:e1 GE exp:e2                         {: :} |
-        exp:e1 GT exp:e2                         {: :} |
-        exp:e1 LT exp:e2                         {: :} |
-        exp:e1 LE exp:e2                         {: :} |
-        exp:e1 NE exp:e2                         {: :} |
-        IDENTIFIER ASSIGN exp:e1                 {: :} |
-        IDENTIFIER ASSIGN function_exp           {: :} |
-        EXEC IDENTIFIER LPAREN param_list:pl1 RPAREN  {: :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER LPAREN param_list:pl1 RPAREN  {: :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER LPAREN RPAREN  {: :} |
+exp ::= exp:e1 AND exp:e2
+                 {:
+                     Codes.MathExpAnd r = new Codes.MathExpAnd();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 OR exp:e2
+                 {:
+                     Codes.MathExpOr r = new Codes.MathExpOr();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 IS exp:e2
+                 {:
+                     Codes.Is r = new Codes.Is();
+                     r.setCode1((Codes.Code)e1);
+                     r.setCode2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 EQUAL exp:e2
+                 {:
+                     Codes.MathExpEqual r = new Codes.MathExpEqual();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 GE exp:e2
+                 {:
+                     Codes.MathExpGE r = new Codes.MathExpGE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 GT exp:e2
+                 {:
+                     Codes.MathExpGT r = new Codes.MathExpGT();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 LT exp:e2
+                 {:
+                     Codes.MathExpLT r = new Codes.MathExpLT();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 LE exp:e2
+                 {:
+                     Codes.MathExpLE r = new Codes.MathExpLE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp:e1 NE exp:e2
+                 {:
+                     Codes.MathExpNE r = new Codes.MathExpNE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        IDENTIFIER:i ASSIGN exp:e1
+                 {:
+                     Codes.Assignment asg = new Codes.Assignment();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     asg.setVar(id);
+                     asg.setValue((Codes.Code)e1);
+                     RESULT = asg;
+                 :} |
+        IDENTIFIER:i ASSIGN function_exp:fe
+                 {:
+                     Codes.Assignment asg = new Codes.Assignment();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     asg.setVar(id);
+                     asg.setValue((Codes.Code)fe);
+                     RESULT = asg;
+                 :} |
+        EXEC IDENTIFIER:i LPAREN param_list:pl1 RPAREN
+                 {:
+                     Codes.Call call = new Codes.Call();
+                     call.setFunctionName((String)i);
+                     call.setEntries((Hashtable<String, Codes.Code>)pl1);
+                     RESULT = call;
+                 :} |
+        EXEC exp:e1 CHAINSIGN IDENTIFIER:i LPAREN param_list:pl1 RPAREN
+                 {:
+                     Codes.Chains r = new Codes.Chains();
+                     r.setCode1((Codes.Code)e1);
+                     Codes.Call call = new Codes.Call();
+                     call.setFunctionName((String)i);
+                     call.setEntries((Hashtable<String, Codes.Code>)pl1);
+                     r.setCode2(call);
+                     RESULT = r;
+                 :} |
+        EXEC exp:e1 CHAINSIGN IDENTIFIER:i LPAREN RPAREN
+                 {:
+                     Codes.Chains r = new Codes.Chains();
+                     r.setCode1((Codes.Code)e1);
+                     Codes.Call call = new Codes.Call();
+                     call.setFunctionName((String)i);
+                     call.setEntries(new Hashtable<String, Codes.Code>());
+                     r.setCode2(call);
+                     RESULT = r;
+                 :} |
         exp:e1 SUM exp:e2
                  {:
                      Codes.MathExpSum r = new Codes.MathExpSum();
@@ -141,7 +602,7 @@ exp ::= exp:e1 IS exp:e2                         {: :} |
                  :} |
         exp:e1 DIVISION exp:e2
                  {:
-                     Codes.MathExpDivision r = new Codes.MathExpDivision();
+                     Codes.MathExpDivide r = new Codes.MathExpDivide();
                      r.setValue1((Codes.Code)e1);
                      r.setValue2((Codes.Code)e2);
                      RESULT = r;
@@ -183,20 +644,20 @@ exp ::= exp:e1 IS exp:e2                         {: :} |
                  {:
                      RESULT = (Codes.Code)ce;
                  :} |
-        IDENTIFIER:i
+        identifier:i
                  {:
-                     RESULT = (Codes.Code)i;
+                     RESULT = i;
                  :} |
         NUMBER:n
                  {:
                      Codes.Value v = new Codes.Value();
-                     v.setValue(n);
+                     v.setValue((Double)n);
                      RESULT = v;
                  :} |
         STRING:s
                  {:
                      Codes.Value v = new Codes.Value();
-                     v.setValue(s);
+                     v.setValue((String)s);
                      RESULT = v;
                  :} |
         EMPTY
@@ -206,23 +667,30 @@ exp ::= exp:e1 IS exp:e2                         {: :} |
                      RESULT = v;
                  :}
 ;
+identifier ::= IDENTIFIER:i
+                 {:
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName((String)i);
+                     RESULT = id;
+                 :}
+;
 param_list ::= param:p1 COMMA param_list:pl1
                  {:
-                     Hashtable<String, Codes.Code> ht = pl1;
-                     castedP1 = (Pair<String, Codes.Code>)p1;
+                     Hashtable<String, Codes.Code> ht = (Hashtable<String, Codes.Code>)pl1;
+                     Pair<String, Codes.Code> castedP1 = (Pair<String, Codes.Code>)p1;
                      ht.put(castedP1.first, castedP1.second);
                      RESULT = ht;
                  :} |
                param:p1
                  {:
-                     Hashtable<String, Code> ht = new Hashtable<String, Codes.Code>();
-                     castedP1 = (Pair<String, Codes.Code>)p1;
+                     Hashtable<String, Codes.Code> ht = new Hashtable<String, Codes.Code>();
+                     Pair<String, Codes.Code> castedP1 = (Pair<String, Codes.Code>)p1;
                      ht.put(castedP1.first, castedP1.second);
                      RESULT = ht;
                  :} |
                epsilon
                  {:
-                     RESULT = new Hashtable<String, Code>();
+                     RESULT = new Hashtable<String, Codes.Code>();
                  :}
 ;
 param ::= IDENTIFIER:i COLON exp:e1

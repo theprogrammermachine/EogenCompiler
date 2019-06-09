@@ -2,39 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67f99c2e-e025-477c-900e-e09a3386bb49" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/models/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ECompiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ECompiler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/EogenCompiler.cup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/EogenLexer$Tuple.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/EogenLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/EogenParser$CUP$EogenParser$actions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/EogenParser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/future_prospect.eogen" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/java-cup-11b.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/jflex-full-1.7.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/phase2_sample_code.eogen" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/sym.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EogenCompiler.cup" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EogenCompiler.flex" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EogenLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EogenParser.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Students_Info.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/future_prospect.eogen" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java-cup-11b.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jflex-full-1.7.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/phase2_sample_code.eogen" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sym.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sym.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Codes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Codes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sym.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -45,51 +19,24 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.cup">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="118" column="78" lean-forward="true" selection-start-line="118" selection-start-column="78" selection-end-line="118" selection-end-column="78" />
+            <state relative-caret-position="306">
+              <caret line="48" column="12" lean-forward="true" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
               <folding>
+                <element signature="e#46#47#0" expanded="true" />
+                <element signature="e#118#119#0" expanded="true" />
                 <element signature="e#46#47#0" expanded="true" />
                 <element signature="e#111#112#0" expanded="true" />
                 <element signature="e#46#47#0" expanded="true" />
-                <element signature="e#110#111#0" expanded="true" />
+                <element signature="e#98#99#0" expanded="true" />
                 <element signature="e#46#47#0" expanded="true" />
-                <element signature="e#126#127#0" expanded="true" />
+                <element signature="e#132#133#0" expanded="true" />
                 <element signature="e#46#47#0" expanded="true" />
                 <element signature="e#144#145#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/models/Codes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="141">
-              <caret line="183" column="24" selection-start-line="183" selection-start-column="24" selection-end-line="183" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#17704#17705#0" expanded="true" />
-                <element signature="e#17740#17741#0" expanded="true" />
-                <element signature="e#17784#17785#0" expanded="true" />
-                <element signature="e#17826#17827#0" expanded="true" />
-                <element signature="e#17860#17861#0" expanded="true" />
-                <element signature="e#17896#17897#0" expanded="true" />
-                <element signature="e#17940#17941#0" expanded="true" />
-                <element signature="e#17982#17983#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/test.eogen">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="11" selection-start-column="11" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -119,11 +66,15 @@
       <find>exportToken</find>
       <find>System.out.println(</find>
       <find>ARRPW</find>
+      <find>return</find>
+      <find>FunctionLevel</find>
+      <find>assignment</find>
     </findStrings>
     <replaceStrings>
       <replace>ENDOFFILE</replace>
       <replace>return exportToken</replace>
       <replace>ARROW</replace>
+      <replace>Codes.FunctionLevel</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -152,11 +103,12 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/models/Codes.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/EogenParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/Codes.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/Pair.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" />
+        <option value="$PROJECT_DIR$/src/main/java/EogenParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Codes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" />
       </list>
     </option>
@@ -169,7 +121,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-69" />
+    <option name="x" value="-70" />
     <option name="y" value="-10" />
     <option name="width" value="1750" />
     <option name="height" value="980" />
@@ -207,14 +159,6 @@
             </path>
             <path>
               <item name="ECompiler" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ECompiler" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ECompiler" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -225,7 +169,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560026785458" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560084607908" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JFlex" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/java-cup-11b.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -283,7 +227,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19060403" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1932886" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -369,20 +313,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.flex">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="122" column="47" selection-start-line="122" selection-start-column="47" selection-end-line="122" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample3.eogen" />
     <entry file="file://$PROJECT_DIR$/src/main/java/future_prospect.eogen">
       <provider selected="true" editor-type-id="text-editor">
@@ -398,34 +328,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="953" column="4" selection-start-line="953" selection-start-column="4" selection-end-line="953" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/test.eogen">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser.java" />
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="1829" column="25" selection-start-line="1829" selection-start-column="25" selection-end-line="1829" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -439,10 +346,48 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Pair.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.flex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="139" column="61" selection-start-line="139" selection-start-column="61" selection-end-line="139" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/test.eogen">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="1992" column="32" lean-forward="true" selection-start-line="1992" selection-start-column="32" selection-end-line="1992" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="18" lean-forward="true" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
-          <caret line="9" column="106" selection-start-line="9" selection-start-column="106" selection-end-line="9" selection-end-column="106" />
+          <caret line="9" column="104" lean-forward="true" selection-start-line="9" selection-start-column="104" selection-end-line="9" selection-end-column="104" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -452,39 +397,54 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/models/Codes.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="141">
-          <caret line="183" column="24" selection-start-line="183" selection-start-column="24" selection-end-line="183" selection-end-column="24" />
+          <caret line="924" column="24" selection-start-line="924" selection-start-column="24" selection-end-line="924" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#17704#17705#0" expanded="true" />
-            <element signature="e#17740#17741#0" expanded="true" />
-            <element signature="e#17784#17785#0" expanded="true" />
-            <element signature="e#17826#17827#0" expanded="true" />
-            <element signature="e#17860#17861#0" expanded="true" />
-            <element signature="e#17896#17897#0" expanded="true" />
-            <element signature="e#17940#17941#0" expanded="true" />
-            <element signature="e#17982#17983#0" expanded="true" />
+            <element signature="e#4206#4207#0" expanded="true" />
+            <element signature="e#4244#4245#0" expanded="true" />
+            <element signature="e#4466#4467#0" expanded="true" />
+            <element signature="e#4508#4509#0" expanded="true" />
+            <element signature="e#7398#7399#0" expanded="true" />
+            <element signature="e#7440#7441#0" expanded="true" />
+            <element signature="e#8565#8566#0" expanded="true" />
+            <element signature="e#8605#8606#0" expanded="true" />
+            <element signature="e#21466#21467#0" expanded="true" />
+            <element signature="e#21501#21502#0" expanded="true" />
+            <element signature="e#21545#21546#0" expanded="true" />
+            <element signature="e#21585#21586#0" expanded="true" />
+            <element signature="e#21604#21605#0" expanded="true" />
+            <element signature="e#21640#21641#0" expanded="true" />
+            <element signature="e#21690#21691#0" expanded="true" />
+            <element signature="e#21732#21733#0" expanded="true" />
+            <element signature="e#22101#22102#0" expanded="true" />
+            <element signature="e#22139#22140#0" expanded="true" />
+            <element signature="e#22187#22188#0" expanded="true" />
+            <element signature="e#22233#22234#0" expanded="true" />
+            <element signature="e#22272#22273#0" expanded="true" />
+            <element signature="e#22313#22314#0" expanded="true" />
+            <element signature="e#22367#22368#0" expanded="true" />
+            <element signature="e#22419#22420#0" expanded="true" />
+            <element signature="e#22459#22460#0" expanded="true" />
+            <element signature="e#22495#22496#0" expanded="true" />
+            <element signature="e#22545#22546#0" expanded="true" />
+            <element signature="e#22587#22588#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/Pair.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.cup">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="118" column="78" lean-forward="true" selection-start-line="118" selection-start-column="78" selection-end-line="118" selection-end-column="78" />
+        <state relative-caret-position="306">
+          <caret line="48" column="12" lean-forward="true" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
           <folding>
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
             <element signature="e#111#112#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
-            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#98#99#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
-            <element signature="e#126#127#0" expanded="true" />
+            <element signature="e#132#133#0" expanded="true" />
             <element signature="e#46#47#0" expanded="true" />
             <element signature="e#144#145#0" expanded="true" />
           </folding>
