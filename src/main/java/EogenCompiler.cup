@@ -11,20 +11,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 parser code {:
+
     EogenLexer lexer;
-    EogenParser(EogenLexer lexer) { super(lexer); this.lexer = lexer; }
+    public Stack<Hashtable<String, Codes.DataType>> symbols = new Stack<Hashtable<String, Codes.DataType>>();
+    public Stack<Hashtable<String, HashSet<String>>> funcs = new Stack<Hashtable<String, HashSet<String>>>();
+    public int currentLine = 0, currentColumn = 0;
+    public boolean endDetected = false;
+
+    EogenParser(EogenLexer lexer) {
+        super(lexer);
+        this.lexer = lexer;
+        this.symbols.push(new Hashtable<String, Codes.DataType>());
+        this.funcs.push(new Hashtable<String, HashSet<String>>());
+    }
 
     public void syntax_error(Symbol s) {
         System.out.println("Syntax Error near " + sym.terminalNames[s.sym] + " at [line : " + s.left + ", column : " + s.right + "]");
-    }
-
-    public void printError(Object e) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JsonParser jp = new JsonParser();
-        JsonElement je = jp.parse(JsonHelper.toJson(e));
-        String prettyJsonString = gson.toJson(je);
-        System.out.println("Error :");
-        System.out.println(prettyJsonString);
     }
 :}
 
@@ -34,29 +36,54 @@ init with {:
 
 scan with {:
     Symbol token = this.lexer.next_token();
-    //System.out.println("sym : " + token.sym + ", [line : " + token.left + ", column : " + token.right + "], value : " + token.value);
+    currentLine = token.left;
+    currentColumn = token.right;
+    if (endDetected) {
+       symbols.pop();
+       funcs.pop();
+       endDetected = false;
+    }
+    if (token.sym == sym.START) {
+        symbols.push(new Hashtable<String, Codes.DataType>());
+        funcs.push(new Hashtable<String, HashSet<String>>());
+    } else if (token.sym == sym.END) {
+        endDetected = true;
+    }
     return token;
 :};
 
 terminal SUM, SUBTRACT, MULTIPLY, DIVISION, POWER, MOD, AND, OR, UMINUS, EQUAL, LPAREN, RPAREN, LBRACE, RBRACE, SEMI, COLON, COMMA,
          FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR, FUNCTION,
-         OF, INSTANCE, EMPTY, CHAINSIGN, ASSIGN, GT, LT, GE, LE, NE, EXEC, ARROW, ENCAPSULATE, RETURN;
+         OF, INSTANCE, EMPTY, CHAINSIGN, ASSIGN, GT, LT, GE, LE, NE, EXEC, ARROW, ENCAPSULATE, RETURN, DEFINE, NAMED, WITH, PARAMS,
+         CONDITIONS, TRUE, FALSE, ARE, SATISFIED, THEN, LOOP, TIMES, BY, STEP, AS, NOT, EACH, IN, REMEMBER, PROPS, OBJECT, ACTION,
+         CAREFULLY, DO, ERROR, CAUGHT, UNTIL, TAB, START, END, ITEM, ARGS, LBRACKET, RBRACKET, NEW, PROP, VALUE, DOING;
 terminal String IDENTIFIER;
 terminal Double NUMBER;
 terminal String STRING;
 
 nonterminal root, exp, exp_list, for_exp, foreach_exp, while_exp, if_exp, switch_exp, try_exp, function_exp, func_level_exp,
-            behaviour_exp, class_exp, elseif_exp, case_exp, arg_list, param_list, param, epsilon, callback_exp, identifier;
+            behaviour_exp, class_exp, elseif_exp, case_exp, arg_list, param_list, param, epsilon, callback_exp,
+            case_list, exp_comma_list, chain_exp, loop_exp, var_def_exp, array, subarray, comparing_exp, compare_concat_exp,
+            value_exp, operation_exp, of_exp, instantiation_exp, class_extensions, id_comma_list, identifier, id_comma_sublist,
+            else_exp, func_params, instance_props;
 
 precedence left AND, OR;
-precedence left EQUAL, GT, LT, GE, LE, NE, ASSIGN, SEMI, COLON, COMMA, ARROW;
+precedence left EQUAL, GT, LT, GE, LE, NE, ARROW;
+precedence left ASSIGN, SEMI, COLON, COMMA;
+precedence left DO;
+precedence left IN, IS, ON;
+precedence left OF, BY;
+precedence left AS;
 precedence left SUM, SUBTRACT;
 precedence left MULTIPLY, DIVISION, MOD;
 precedence left POWER;
 precedence left UMINUS;
 precedence left LPAREN, RPAREN, LBRACE, RBRACE;
-precedence left FOR, IF, ELSE, SWITCH, CASE, WHILE, IS, FOREACH, TRY, CATCH, BASED, ON, BEHAVES, LIKE, CLASS, BEHAVIOUR,
-                FUNCTION, IDENTIFIER, EXEC, ENCAPSULATE, OF, INSTANCE, NUMBER, STRING, EMPTY, CHAINSIGN, RETURN;
+precedence left FOR, IF, ELSE, UNTIL, EACH, TRY, CATCH, BASED, BEHAVES, LIKE, CLASS, BEHAVIOUR,
+                FUNCTION, IDENTIFIER, EXEC, ENCAPSULATE, INSTANCE, NUMBER, STRING, EMPTY, CHAINSIGN,
+                RETURN, DEFINE, NAMED, WITH, PARAMS, CONDITIONS, TRUE, FALSE, ARE, SATISFIED, THEN, LOOP,
+                TIMES, STEP, NOT, EACH, REMEMBER, PROPS, OBJECT, ACTION, CAREFULLY, ERROR, CAUGHT, TAB,
+                START, END, ITEM, ARGS, LBRACKET, RBRACKET, NEW, PROP, VALUE, DOING;
 
 start with root;
 
@@ -72,18 +99,31 @@ root ::=
                   System.out.println(prettyJsonString);
                   RESULT = el;
               :}
-//              |
-//  error:e
-//              {:
-
-//              :}
 ;
 // main ----------------------------------------------------------------------------------------------------------------
 exp_list ::=
+  exp:e1
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)e1);
+                  RESULT = r;
+              :} |
   exp_list:el exp:e1
               {:
                   List<Codes.Code> r = (List<Codes.Code>)el;
                   r.add((Codes.Code)e1);
+                  RESULT = r;
+              :} |
+  if_exp:ie
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)ie);
+                  RESULT = r;
+              :} |
+  if_exp:ie exp_list:el
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add(0, (Codes.Code)ie);
                   RESULT = r;
               :} |
   exp_list:el if_exp:ie
@@ -92,28 +132,52 @@ exp_list ::=
                   r.add((Codes.Code)ie);
                   RESULT = r;
               :} |
-  exp_list:el switch_exp:se
+  loop_exp:le
               {:
-                  List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)se);
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)le);
                   RESULT = r;
               :} |
-  exp_list:el for_exp:fe
+  loop_exp:le exp_list:el
               {:
                   List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)fe);
+                  r.add(0, (Codes.Code)le);
                   RESULT = r;
               :} |
-  exp_list:el foreach_exp:fee
+  exp_list:el loop_exp:le
               {:
                   List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)fee);
+                  r.add((Codes.Code)le);
                   RESULT = r;
               :} |
-  exp_list:el while_exp:we
+  var_def_exp:vde
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)vde);
+                  RESULT = r;
+              :} |
+  var_def_exp:vde exp_list:el
               {:
                   List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)we);
+                  r.add(0, (Codes.Code)vde);
+                  RESULT = r;
+              :} |
+  exp_list:el var_def_exp:vde
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)vde);
+                  RESULT = r;
+              :} |
+  try_exp:te
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)te);
+                  RESULT = r;
+              :} |
+  try_exp:te exp_list:el
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add(0, (Codes.Code)te);
                   RESULT = r;
               :} |
   exp_list:el try_exp:te
@@ -122,769 +186,1213 @@ exp_list ::=
                   r.add((Codes.Code)te);
                   RESULT = r;
               :} |
+  function_exp:fe
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  function_exp:fe exp_list:el
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add(0, (Codes.Code)fe);
+                  RESULT = r;
+              :} |
   exp_list:el function_exp:fe
               {:
                   List<Codes.Code> r = (List<Codes.Code>)el;
                   r.add((Codes.Code)fe);
                   RESULT = r;
               :} |
-  exp_list:el class_exp:ce
-              {:
-                  List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)ce);
-                  RESULT = r;
-              :} |
-  exp_list:el behaviour_exp:be
-              {:
-                  List<Codes.Code> r = (List<Codes.Code>)el;
-                  r.add((Codes.Code)be);
-                  RESULT = r;
-              :} |
-  exp_list:el RETURN exp:e1
-              {:
-                  List<Codes.Code> r = (List<Codes.Code>)el;
-                  Codes.Return ret = new Codes.Return();
-                  ret.setValue((Codes.Code)e1);
-                  r.add(ret);
-                  RESULT = r;
-              :} |
-  exp:e1
+  class_exp:fe
               {:
                   List<Codes.Code> r = new ArrayList<Codes.Code>();
-                  r.add((Codes.Code)e1);
+                  r.add((Codes.Code)fe);
                   RESULT = r;
               :} |
-  //epsilon:e1
+  class_exp:fe exp_list:el
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add(0, (Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  exp_list:el class_exp:fe
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  behaviour_exp:fe
+              {:
+                  List<Codes.Code> r = new ArrayList<Codes.Code>();
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  behaviour_exp:fe exp_list:el
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add(0, (Codes.Code)fe);
+                  RESULT = r;
+              :} |
+  exp_list:el behaviour_exp:fe
+              {:
+                  List<Codes.Code> r = (List<Codes.Code>)el;
+                  r.add((Codes.Code)fe);
+                  RESULT = r;
+              :}
+;
+// class - behaviour ---------------------------------------------------------------------------------------------------
+class_exp ::=
+              DEFINE CLASS IDENTIFIER:i class_extensions:ce COLON START exp_list:el END
+              {:
+                  Codes.Class classExp = new Codes.Class();
+                  classExp.setName((String)i);
+                  classExp.setExtensions((List<Codes.Code>)ce);
+                  classExp.setCodes((List<Codes.Code>)el);
+                  RESULT = classExp;
+              :} |
+              DEFINE error IDENTIFIER:i class_extensions:ce COLON START exp_list:el END
+              {:
+                  System.out.println("Missing CLASS");
+              :} |
+              DEFINE CLASS error class_extensions:ce COLON START exp_list:el END
+              {:
+                  System.out.println("Missing Identifier");
+              :} |
+              DEFINE CLASS IDENTIFIER:i class_extensions:ce error START exp_list:el END
+              {:
+                  System.out.println("Missing COLON");
+              :} |
+              DEFINE CLASS IDENTIFIER:i class_extensions:ce COLON error exp_list:el END
+              {:
+                  System.out.println("Missing START");
+              :} |
+              DEFINE CLASS IDENTIFIER:i class_extensions:ce COLON START exp_list:el error
+              {:
+                  System.out.println("Missing END");
+              :}
+;
+class_extensions ::=
+              BASED ON IDENTIFIER:i class_extensions:ce
+              {:
+                  Codes.BasedOnExtension boe = new Codes.BasedOnExtension();
+                  boe.setName((String)i);
+                  List<Codes.Code> extensions = (List<Codes.Code>)ce;
+                  extensions.add(boe);
+                  RESULT = extensions;
+              :} |
+              BASED error IDENTIFIER:i class_extensions:ce
+              {:
+                  System.out.println("Missing ON");
+              :} |
+              BASED ON error class_extensions:ce
+              {:
+                  System.out.println("Missing Identifier");
+              :} |
+              BEHAVES LIKE IDENTIFIER:i class_extensions:ce
+              {:
+                  Codes.BehavesLikeExtension ble = new Codes.BehavesLikeExtension();
+                  ble.setName((String)i);
+                  List<Codes.Code> extensions = (List<Codes.Code>)ce;
+                  extensions.add(ble);
+                  RESULT = extensions;
+              :} |
+              BEHAVES error IDENTIFIER:i class_extensions:ce
+              {:
+                  System.out.println("Missing LIKE");
+              :} |
+              BEHAVES LIKE error class_extensions:ce
+              {:
+                  System.out.println("Missing Identifier");
+              :} |
               {:
                   RESULT = new ArrayList<Codes.Code>();
               :}
 ;
-// class ---------------------------------------------------------------------------------------------------------------
-class_exp ::= CLASS IDENTIFIER:i LBRACE exp_list:el1 RBRACE
+behaviour_exp ::=
+              DEFINE BEHAVIOUR IDENTIFIER:i COLON START exp_list:el END
               {:
-                  Codes.Class c = new Codes.Class();
-                  c.setName((String)i);
-                  c.setBasedOn(null);
-                  c.setBehaveLike(null);
-                  c.setCodes((List<Codes.Code>)el1);
-                  RESULT = c;
+                  Codes.Behaviour behaviour = new Codes.Behaviour();
+                  behaviour.setName((String)i);
+                  behaviour.setCodes((List<Codes.Code>)el);
+                  RESULT = behaviour;
               :} |
-              CLASS IDENTIFIER:i BASED ON IDENTIFIER:i2 LBRACE exp_list:el1 RBRACE
+              DEFINE error IDENTIFIER:i COLON START exp_list:el END
               {:
-                  Codes.Class c = new Codes.Class();
-                  c.setName((String)i);
-                  c.setBasedOn((String)i2);
-                  c.setBehaveLike(null);
-                  c.setCodes((List<Codes.Code>)el1);
-                  RESULT = c;
+                  System.out.println("Missing BEHAVIOUR");
               :} |
-              CLASS IDENTIFIER:i BEHAVES LIKE IDENTIFIER:i2 LBRACE exp_list:el1 RBRACE
+              DEFINE BEHAVIOUR error COLON START exp_list:el END
               {:
-                  Codes.Class c = new Codes.Class();
-                  c.setName((String)i);
-                  c.setBasedOn(null);
-                  c.setBehaveLike((String)i2);
-                  c.setCodes((List<Codes.Code>)el1);
-                  RESULT = c;
+                  System.out.println("Missing Identifier");
               :} |
-              CLASS IDENTIFIER:i BASED ON IDENTIFIER:i2 BEHAVES LIKE IDENTIFIER:i3 LBRACE exp_list:el1 RBRACE
+              DEFINE BEHAVIOUR IDENTIFIER:i error START exp_list:el END
               {:
-                  Codes.Class c = new Codes.Class();
-                  c.setName((String)i);
-                  c.setBasedOn((String)i2);
-                  c.setBehaveLike((String)i3);
-                  c.setCodes((List<Codes.Code>)el1);
-                  RESULT = c;
+                  System.out.println("Missing COLON");
               :} |
-              CLASS error:e BASED ON IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list RBRACE
+              DEFINE BEHAVIOUR IDENTIFIER:i COLON error exp_list:el END
               {:
-                  System.out.println("Missing IDENTIFIER");
+                  System.out.println("Missing START");
               :} |
-              CLASS IDENTIFIER error:e ON IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list RBRACE
+              DEFINE BEHAVIOUR IDENTIFIER:i COLON START error END
               {:
-                  System.out.println("Missing BASED");
+                  System.out.println("Missing action");
               :} |
-              CLASS IDENTIFIER BASED error:e IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list RBRACE
+              DEFINE BEHAVIOUR IDENTIFIER:i COLON START exp_list:el error
               {:
-                  System.out.println("Missing ON");
-              :} |
-              CLASS IDENTIFIER BASED ON error:e BEHAVES LIKE IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER error:e LIKE IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing BEHAVES");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER BEHAVES error:e IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing LIKE");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER BEHAVES LIKE error:e LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER BEHAVES LIKE IDENTIFIER error:e exp_list RBRACE
-              {:
-                  System.out.println("Missing LBRACE");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list error:e
-              {:
-                  System.out.println("Missing RBRACE");
-              :} |
-
-              CLASS error:e BASED ON IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER error:e ON IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing BASED");
-              :} |
-              CLASS IDENTIFIER BASED error:e IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing ON");
-              :} |
-              CLASS IDENTIFIER BASED ON error:e LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER error:e exp_list RBRACE
-              {:
-                  System.out.println("Missing LBRACE");
-              :} |
-              CLASS IDENTIFIER BASED ON IDENTIFIER LBRACE exp_list error:e
-              {:
-                  System.out.println("Missing RBRACE");
-              :} |
-
-              CLASS error:e BEHAVES LIKE IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER error:e LIKE IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing BEHAVES");
-              :} |
-              CLASS IDENTIFIER BEHAVES error:e IDENTIFIER LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing LIKE");
-              :} |
-              CLASS IDENTIFIER BEHAVES LIKE error:e LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER BEHAVES LIKE IDENTIFIER error:e exp_list RBRACE
-              {:
-                  System.out.println("Missing LBRACE");
-              :} |
-              CLASS IDENTIFIER BEHAVES LIKE IDENTIFIER LBRACE exp_list error:e
-              {:
-                  System.out.println("Missing RBRACE");
-              :} |
-
-              CLASS error:e LBRACE exp_list RBRACE
-              {:
-                  System.out.println("Missing IDENTIFIER");
-              :} |
-              CLASS IDENTIFIER error:e exp_list RBRACE
-              {:
-                  System.out.println("Missing LBRACE");
-              :} |
-              CLASS IDENTIFIER LBRACE exp_list error:e
-              {:
-                  System.out.println("Missing RBRACE");
+                  System.out.println("Missing END");
               :}
 ;
-// behaviour -----------------------------------------------------------------------------------------------------------
-behaviour_exp ::= BEHAVIOUR IDENTIFIER:i LBRACE exp_list:el1 RBRACE
-                 {:
-                     Codes.Behaviour b = new Codes.Behaviour();
-                     b.setName((String)i);
-                     b.setCodes((List<Codes.Code>)el1);
-                     RESULT = b;
-                 :} |
-                 BEHAVIOUR error:e LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-                 BEHAVIOUR IDENTIFIER error:e exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 BEHAVIOUR IDENTIFIER LBRACE exp_list:el1 error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
-;
 // function ------------------------------------------------------------------------------------------------------------
-func_level_exp ::= OF CLASS    {: RESULT = Codes.FunctionLevel.ClassLevel; :} |
-                   OF INSTANCE {: RESULT = Codes.FunctionLevel.InstanceLevel; :} |
-                   //epsilon
-                        {: RESULT = Codes.FunctionLevel.InstanceLevel; :}
+function_exp ::=
+           DEFINE FUNCTION func_level_exp:fle NAMED IDENTIFIER:i func_params:fp COLON
+           START exp_list:el END
+           {:
+               Codes.Function func = new Codes.Function();
+               func.setName((String)i);
+               func.setParams((List<Codes.Identifier>)fp);
+               func.setLevel((Codes.DataLevel)fle);
+               func.setCodes((List<Codes.Code>)el);
+               RESULT = func;
+               HashSet<String> inputs = new HashSet<String>();
+               for (Codes.Identifier id : (List<Codes.Identifier>)fp)
+                   inputs.add(id.getName());
+               funcs.peek().put((String)i, inputs);
+           :} |
+           DEFINE error func_level_exp:fle NAMED IDENTIFIER:i func_params:fp COLON
+           START exp_list:el END
+           {:
+               System.out.println("Missing FUNCTION");
+           :} |
+           DEFINE FUNCTION func_level_exp:fle error IDENTIFIER:i func_params:fp COLON
+           START exp_list:el END
+           {:
+               System.out.println("Missing NAMED");
+           :} |
+           DEFINE FUNCTION func_level_exp:fle NAMED error func_params:fp COLON
+           START exp_list:el END
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           DEFINE FUNCTION func_level_exp:fle NAMED IDENTIFIER:i func_params:fp error
+           START exp_list:el END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           DEFINE FUNCTION func_level_exp:fle NAMED IDENTIFIER:i func_params:fp COLON
+           error exp_list:el END
+           {:
+               System.out.println("Missing START");
+           :} |
+           DEFINE FUNCTION func_level_exp:fle NAMED IDENTIFIER:i func_params:fp COLON
+           START exp_list:el error
+           {:
+               System.out.println("Missing END");
+           :}
 ;
-
-function_exp ::= FUNCTION IDENTIFIER:i LPAREN RPAREN func_level_exp:fl  LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Function func = new Codes.Function();
-                     func.setName((String)i);
-                     func.setLevel((Codes.FunctionLevel)fl);
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     func.setParams(ids);
-                     func.setCodes((List<Codes.Code>)el);
-                     RESULT = func;
-                 :} |
-                 FUNCTION IDENTIFIER:i1 LPAREN arg_list:al1 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Function func = new Codes.Function();
-                     func.setName((String)i1);
-                     func.setLevel((Codes.FunctionLevel)fl);
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     ids.addAll((List<Codes.Identifier>)al1);
-                     func.setParams(ids);
-                     func.setCodes((List<Codes.Code>)el);
-                     RESULT = func;
-                 :} |
-
-                 FUNCTION error:e LPAREN RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-                 FUNCTION IDENTIFIER error:e RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-                 FUNCTION error:e LPAREN IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-                 FUNCTION IDENTIFIER error:e IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER error:e func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER:i2 RPAREN func_level_exp:fl error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-                 FUNCTION error:e LPAREN arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-                 FUNCTION IDENTIFIER error:e arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN arg_list IDENTIFIER error:e func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 FUNCTION IDENTIFIER LPAREN arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+func_params ::=
+           WITH PARAMS IDENTIFIER:i id_comma_list:ecl
+           {:
+               List<Codes.Identifier> ids = (List<Codes.Identifier>)ecl;
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName(i);
+               ids.add(id);
+               RESULT = ids;
+           :} |
+           WITH PARAMS IDENTIFIER:i
+           {:
+               List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName(i);
+               ids.add(id);
+               RESULT = ids;
+           :} |
+           WITH error id_comma_list
+           {:
+               System.out.println("Missing PARAMS");
+           :} |
+           {:
+               RESULT = new ArrayList<Codes.Identifier>();
+           :}
 ;
-callback_exp ::= ENCAPSULATE LPAREN RPAREN ARROW LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Function func = new Codes.Function();
-                     func.setName("");
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     func.setParams(ids);
-                     func.setCodes((List<Codes.Code>)el);
-                     RESULT = func;
-                 :} |
-                 ENCAPSULATE LPAREN arg_list:al1 IDENTIFIER:i RPAREN ARROW LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Function func = new Codes.Function();
-                     func.setName("");
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     ids.add(id);
-                     ids.addAll((List<Codes.Identifier>)al1);
-                     func.setParams(ids);
-                     func.setCodes((List<Codes.Code>)el);
-                     RESULT = func;
-                 :} |
-                 ENCAPSULATE LPAREN IDENTIFIER:i RPAREN ARROW LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Function func = new Codes.Function();
-                     func.setName("");
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     ids.add(id);
-                     func.setParams(ids);
-                     func.setCodes((List<Codes.Code>)el);
-                     RESULT = func;
-                 :} |
-
-                 ENCAPSULATE error:e RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 ENCAPSULATE LPAREN RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-                 ENCAPSULATE error:e IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN IDENTIFIER error:e func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN IDENTIFIER:i2 RPAREN func_level_exp:fl error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 ENCAPSULATE LPAREN IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-                 ENCAPSULATE error:e arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN arg_list IDENTIFIER error:e func_level_exp:fl LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                 ENCAPSULATE LPAREN arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                 ENCAPSULATE LPAREN arg_list IDENTIFIER:i2 RPAREN func_level_exp:fl LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+func_level_exp ::=
+           OF INSTANCE
+           {:
+               RESULT = Codes.DataLevel.InstanceLevel;
+           :} |
+           OF CLASS
+           {:
+               RESULT = Codes.DataLevel.ClassLevel;
+           :} |
+           OF error
+           {:
+               System.out.println("Missing data level");
+           :} |
+           {:
+               RESULT = Codes.DataLevel.InstanceLevel;
+           :}
 ;
-arg_list ::= IDENTIFIER:i COMMA arg_list:al
-                 {:
-                     List<Codes.Identifier> ids = (List<Codes.Identifier>)al;
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     ids.add(id);
-                     RESULT = ids;
-                 :} |
-             IDENTIFIER:i
-                 {:
-                     List<Codes.Identifier> ids = new ArrayList<Codes.Identifier>();
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     ids.add(id);
-                     RESULT = ids;
-                 :} |
-             IDENTIFIER error:e  arg_list
-                 {:
-                     System.out.println("Missing COMMA");
-                 :} |
-             COMMA error:e arg_list
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-             error:e
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                     RESULT = new ArrayList<Codes.Identifier>();
-                 :}
+// try - catch ---------------------------------------------------------------------------------------------------------
+try_exp ::=
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               Codes.Try tryExp = new Codes.Try();
+               tryExp.setTryCode((List<Codes.Code>)el);
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName(i);
+               tryExp.setExVar(id);
+               tryExp.setCatchCode((List<Codes.Code>)el2);
+               RESULT = tryExp;
+           :} |
+           TRY error CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing ACTION");
+           :} |
+           TRY ACTION error COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing CAREFULLY");
+           :} |
+           TRY ACTION CAREFULLY error START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           TRY ACTION CAREFULLY COLON error exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing START");
+           :} |
+           TRY ACTION CAREFULLY COLON START error END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing action");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el error
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing END");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           error ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing DO");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO error ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing ACTION");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION error ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing ON");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON error CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing ERROR");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR error AS IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing CAUGHT");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT error IDENTIFIER:i COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing AS");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS error COLON START exp_list:el2 END
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i error START exp_list:el2 END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON error exp_list:el2 END
+           {:
+               System.out.println("Missing START");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START error END
+           {:
+               System.out.println("Missing action");
+           :} |
+           TRY ACTION CAREFULLY COLON START exp_list:el END
+           DO ACTION ON ERROR CAUGHT AS IDENTIFIER:i COLON START exp_list:el2 error
+           {:
+               System.out.println("Missing END");
+           :}
 ;
-// empty expression ----------------------------------------------------------------------------------------------------
-//epsilon ::= ;
-// try-catch -----------------------------------------------------------------------------------------------------------
-try_exp ::= TRY LBRACE exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     Codes.Try t = new Codes.Try();
-                     t.setTryCode((List<Codes.Code>)el1);
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     t.setExVar(id);
-                     t.setCatchCode((List<Codes.Code>)el2);
-                     RESULT = t;
-                 :} |
-            TRY error:e exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-            TRY LBRACE exp_list:el1 error:e CATCH LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-            TRY LBRACE exp_list:el1 RBRACE error:e LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing CATCH");
-                 :} |
-            TRY LBRACE exp_list:el1 RBRACE CATCH error:e IDENTIFIER:i RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-            TRY LBRACE exp_list:el1 RBRACE CATCH LPAREN error:e RPAREN LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-            TRY LBRACE exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER error:e LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-            TRY IDENTIFIER exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER RPAREN error:e exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-            TRY IDENTIFIER exp_list:el1 RBRACE CATCH LPAREN IDENTIFIER:i RPAREN LBRACE exp_list:el2 error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+// variable definition -------------------------------------------------------------------------------------------------
+var_def_exp ::=
+           REMEMBER:r exp:e AS IDENTIFIER:i
+           {:
+               Codes.Assignment assign = new Codes.Assignment();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName((String)i);
+               assign.setVar(id);
+               assign.setValue((Codes.Code)e);
+               RESULT = assign;
+               if (e instanceof Codes.Value) {
+                   Codes.DataType dataType = Codes.DataType.Number;
+                   if (((Codes.Value)e).getValue() instanceof Double) {
+                       dataType = Codes.DataType.Number;
+                   } else if (((Codes.Value)e).getValue() instanceof String) {
+                       dataType = Codes.DataType.String;
+                   } else if (((Codes.Value)e).getValue() instanceof Boolean) {
+                       dataType = Codes.DataType.Bool;
+                   }
+                   if (symbols.peek().containsKey((String)i)) {
+                       if (symbols.peek().get((String)i) != dataType) {
+                           System.out.println("Type Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : Types not matched together");
+                           System.out.println("identifier " + i + " is of type [" + symbols.peek().get((String)i) + "] but is assigned by a value of type [" + dataType + "].");
+                       }
+                   } else {
+                       symbols.peek().put((String)i, dataType);
+                   }
+               }
+           :} |
+           REMEMBER error AS IDENTIFIER:i
+           {:
+               System.out.println("Missing value");
+           :} |
+           REMEMBER exp:e error IDENTIFIER:i
+           {:
+               System.out.println("Missing AS");
+           :} |
+           REMEMBER exp:e AS error
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:icl DOING COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               Codes.Assignment assign = new Codes.Assignment();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName((String)i);
+               assign.setVar(id);
+               Codes.Function func = new Codes.Function();
+               func.setName("");
+               func.setParams((List<Codes.Identifier>)icl);
+               func.setCodes((List<Codes.Code>)el);
+               assign.setValue(func);
+               RESULT = assign;
+           :} |
+           ENCAPSULATE error WITH PARAMS id_comma_list:ecl DOING COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing FUNCTION");
+           :} |
+           ENCAPSULATE FUNCTION error PARAMS id_comma_list:ecl DOING COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing WITH");
+           :} |
+           ENCAPSULATE FUNCTION WITH error id_comma_list:ecl DOING COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing PARAMS");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS error DOING COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing params list");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl error COLON START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing DOING");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING error START exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING COLON error exp_list:el END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing START");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING COLON START error END AS IDENTIFIER:i
+           {:
+               System.out.println("Missing action");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING COLON START exp_list:el error AS IDENTIFIER:i
+           {:
+               System.out.println("Missing END");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING COLON START exp_list:el END error IDENTIFIER:i
+           {:
+               System.out.println("Missing AS");
+           :} |
+           ENCAPSULATE FUNCTION WITH PARAMS id_comma_list:ecl DOING COLON START exp_list:el END AS error
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           ENCAPSULATE of_exp:oe AS IDENTIFIER:i
+           {:
+               Codes.Assignment assign = new Codes.Assignment();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName((String)i);
+               assign.setVar(id);
+               assign.setValue((Codes.Code)oe);
+               RESULT = assign;
+           :} |
+           ENCAPSULATE error AS IDENTIFIER:i
+           {:
+               System.out.println("Missing callback");
+           :} |
+           ENCAPSULATE of_exp:oe error IDENTIFIER:i
+           {:
+               System.out.println("Missing AS");
+           :} |
+           ENCAPSULATE of_exp:oe AS error
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           DEFINE PROP func_level_exp:fle NAMED IDENTIFIER:i WITH VALUE exp:e
+           {:
+               Codes.Prop prop = new Codes.Prop();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName((String)i);
+               prop.setId(id);
+               prop.setLevel((Codes.DataLevel)fle);
+               prop.setValue((Codes.Code)e);
+               RESULT = prop;
+               if (e instanceof Codes.Value) {
+                   Codes.DataType dataType = Codes.DataType.Number;
+                   if (((Codes.Value)e).getValue() instanceof Double) {
+                       dataType = Codes.DataType.Number;
+                   } else if (((Codes.Value)e).getValue() instanceof String) {
+                       dataType = Codes.DataType.String;
+                   } else if (((Codes.Value)e).getValue() instanceof Boolean) {
+                       dataType = Codes.DataType.Bool;
+                   }
+                   if (symbols.peek().containsKey((String)i)) {
+                       System.out.println("Prop Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : class property is already defined");
+                   } else {
+                       symbols.peek().put((String)i, dataType);
+                   }
+               }
+           :} |
+           DEFINE error func_level_exp:fle NAMED IDENTIFIER:i WITH VALUE exp:e
+           {:
+               System.out.println("Missing PROP");
+           :} |
+           DEFINE PROP func_level_exp:fle error IDENTIFIER:i WITH VALUE exp:e
+           {:
+               System.out.println("Missing NAMED");
+           :} |
+           DEFINE PROP func_level_exp:fle NAMED error WITH VALUE exp:e
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           DEFINE PROP func_level_exp:fle NAMED IDENTIFIER:i error VALUE exp:e
+           {:
+               System.out.println("Missing WITH");
+           :} |
+           DEFINE PROP func_level_exp:fle NAMED IDENTIFIER:i WITH error exp:e
+           {:
+               System.out.println("Missing VALUE");
+           :} |
+           DEFINE PROP func_level_exp:fle NAMED IDENTIFIER:i WITH VALUE error
+           {:
+               System.out.println("Missing END");
+           :}
 ;
 // loop ----------------------------------------------------------------------------------------------------------------
-for_exp ::= FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     Codes.For f = new Codes.For();
-                     f.setCounter((Codes.Code)e1);
-                     f.setCondition((Codes.Code)e2);
-                     f.setAction((Codes.Code)e3);
-                     f.setCodes((List<Codes.Code>)el1);
-                     RESULT = f;
-                 :} |
-            FOR error:e exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-            FOR LPAREN exp:e1 error:e exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing SEMI");
-                 :} |
-            FOR LPAREN exp:e1 SEMI exp:e2 error:e exp:e3 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing SEMI");
-                 :} |
-            FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 error:e LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-            FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN error:e exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-            FOR LPAREN exp:e1 SEMI exp:e2 SEMI exp:e3 RPAREN LBRACE exp_list:el1 error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+loop_exp ::=
+           LOOP FOR LPAREN exp:e RPAREN TIMES COLON START exp_list:el END
+           {:
+               Codes.CounterFor forExp = new Codes.CounterFor();
+               forExp.setLimit((Codes.Code)e);
+               forExp.setStep(null);
+               forExp.setCodes((List<Codes.Code>)el);
+               RESULT = forExp;
+           :} |
+           LOOP error LPAREN exp RPAREN TIMES COLON START exp_list:el END
+           {:
+               System.out.println("Missing FOR");
+           :} |
+           LOOP FOR error exp RPAREN TIMES COLON START exp_list:el END
+           {:
+               System.out.println("Missing LPAREN");
+           :} |
+           LOOP FOR LPAREN error RPAREN TIMES COLON START exp_list:el END
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           LOOP FOR LPAREN exp error TIMES COLON START exp_list:el END
+           {:
+               System.out.println("Missing RPAREN");
+           :} |
+           LOOP FOR LPAREN exp RPAREN error COLON START exp_list:el END
+           {:
+               System.out.println("Missing TIMES");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES error START exp_list:el END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES COLON error exp_list:el END
+           {:
+               System.out.println("Missing START");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES COLON START error END
+           {:
+               System.out.println("Missing action");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES COLON START exp_list:el error
+           {:
+               System.out.println("Missing END");
+           :} |
+           LOOP FOR LPAREN exp:e RPAREN TIMES BY STEP exp:e2 COLON START exp_list:el END
+           {:
+               Codes.CounterFor forExp = new Codes.CounterFor();
+               forExp.setLimit((Codes.Code)e);
+               forExp.setStep((Codes.Code)e2);
+               forExp.setCodes((List<Codes.Code>)el);
+               RESULT = forExp;
+           :} |
+           LOOP error LPAREN exp RPAREN TIMES BY STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing FOR");
+           :} |
+           LOOP FOR error exp RPAREN TIMES BY STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing LPAREN");
+           :} |
+           LOOP FOR LPAREN error RPAREN TIMES BY STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing IDENTIFIER");
+           :} |
+           LOOP FOR LPAREN exp error TIMES BY STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing RPAREN");
+           :} |
+           LOOP FOR LPAREN exp RPAREN error BY STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing TIMES");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES error STEP exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing BY");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY error exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing STEP");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY STEP error COLON START exp_list:el END
+           {:
+               System.out.println("Missing step value");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY STEP exp:e error START exp_list:el END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY STEP exp:e COLON error exp_list:el END
+           {:
+               System.out.println("Missing START");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY STEP exp:e COLON START error END
+           {:
+               System.out.println("Missing action");
+           :} |
+           LOOP FOR LPAREN exp RPAREN TIMES BY STEP exp:e COLON START exp_list:el error
+           {:
+               System.out.println("Missing END");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               Codes.Foreach foreachExp = new Codes.Foreach();
+               Codes.Identifier id = new Codes.Identifier();
+               id.setName(i);
+               foreachExp.setTemp(id);
+               foreachExp.setCollection((Codes.Code)e);
+               foreachExp.setCodes((List<Codes.Code>)el);
+               RESULT = foreachExp;
+           :} |
+           LOOP error EACH ITEM IN exp:e AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing FOR");
+           :} |
+           LOOP FOR error ITEM IN exp:e AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing EACH");
+           :} |
+           LOOP FOR EACH error IN exp:e AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing ITEM");
+           :} |
+           LOOP FOR EACH ITEM error exp:e AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing IN");
+           :} |
+           LOOP FOR EACH ITEM IN error AS IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing collection");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e error IDENTIFIER:i COLON START exp_list:el END
+           {:
+               System.out.println("Missing AS");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS error COLON START exp_list:el END
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS IDENTIFIER:i error START exp_list:el END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS IDENTIFIER:i COLON error exp_list:el END
+           {:
+               System.out.println("Missing START");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS IDENTIFIER:i COLON START error END
+           {:
+               System.out.println("Missing action");
+           :} |
+           LOOP FOR EACH ITEM IN exp:e AS IDENTIFIER:i COLON START exp_list:el error
+           {:
+               System.out.println("Missing END");
+           :} |
+           LOOP UNTIL exp:e COLON START exp_list:el END
+           {:
+               Codes.While whileExp = new Codes.While();
+               whileExp.setCondition((Codes.Code)e);
+               whileExp.setCodes((List<Codes.Code>)el);
+               RESULT = whileExp;
+           :} |
+           LOOP error exp:e COLON START exp_list:el END
+           {:
+               System.out.println("Missing UNTIL");
+           :} |
+           LOOP UNTIL error COLON START exp_list:el END
+           {:
+               System.out.println("Missing condition");
+           :} |
+           LOOP UNTIL exp:e error START exp_list:el END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           LOOP UNTIL exp:e COLON error exp_list:el END
+           {:
+               System.out.println("Missing START");
+           :} |
+           LOOP UNTIL exp:e COLON START error END
+           {:
+               System.out.println("Missing action");
+           :} |
+           LOOP UNTIL exp:e COLON START exp_list:el error
+           {:
+               System.out.println("Missing END");
+           :}
 ;
-foreach_exp ::= FOREACH LPAREN exp:e1 COLON exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.Foreach f = new Codes.Foreach();
-                     f.setTemp((Codes.Identifier)e1);
-                     f.setCollection((Codes.Code)e2);
-                     f.setCodes((List<Codes.Code>)el);
-                     RESULT = f;
-                 :} |
-                FOREACH error:e exp:e1 COLON exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-                FOREACH LPAREN exp:e1 error:e exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing COLON");
-                 :} |
-                FOREACH LPAREN exp:e1 COLON exp:e2 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-                FOREACH LPAREN exp:e1 COLON exp:e2 RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-                FOREACH LPAREN exp:e1 COLON exp:e2 RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+// if ------------------------------------------------------------------------------------------------------------------
+if_exp ::= IF exp:e THEN COLON START exp_list:el END
+           elseif_exp:eie
+           {:
+               Codes.If ifExp = new Codes.If();
+               ifExp.setCondition((Codes.Code)e);
+               ifExp.setCodes((List<Codes.Code>)el);
+               List<Codes.Code> extras = new ArrayList<Codes.Code>();
+               extras.addAll((List<Codes.ElseIf>)eie);
+               ifExp.setExtras(extras);
+               RESULT = ifExp;
+           :} |
+           IF error THEN COLON START exp_list:el END
+           elseif_exp
+           {:
+               System.out.println("Missing condition");
+           :} |
+           IF exp:e error COLON START exp_list:el END
+           elseif_exp
+           {:
+               System.out.println("Missing THEN");
+           :} |
+           IF exp:e THEN error START exp_list:el END
+           elseif_exp
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           IF exp:e THEN COLON error exp_list:el END
+           elseif_exp
+           {:
+               System.out.println("Missing START");
+           :} |
+           IF exp:e THEN COLON START exp_list:el error
+           elseif_exp
+           {:
+               System.out.println("Missing END");
+           :} |
+           IF exp:e COLON START case_list:cl END
+           {:
+               Codes.Switch switchExp = new Codes.Switch();
+               switchExp.setValue((Codes.Code)e);
+               switchExp.setCases((List<Codes.Case>)cl);
+               RESULT = switchExp;
+           :} |
+           IF error COLON START case_list:cl END
+           {:
+               System.out.println("Missing Identifier");
+           :} |
+           IF exp:e error START case_list:cl END
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           IF exp:e COLON error case_list:cl END
+           {:
+               System.out.println("Missing START");
+           :} |
+           IF exp:e COLON START case_list:cl error
+           {:
+               System.out.println("Missing END");
+           :}
 ;
-while_exp ::= WHILE LPAREN exp:e1 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     Codes.While w = new Codes.While();
-                     w.setCondition((Codes.Code)e1);
-                     w.setCodes((List<Codes.Code>)el);
-                     RESULT = w;
-                 :} |
-              WHILE error:e exp:e1 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-              WHILE LPAREN exp:e1 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-              WHILE LPAREN exp:e1 RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-              WHILE LPAREN exp:e1 RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+elseif_exp ::=
+           ELSE IF exp:e2 THEN COLON START exp_list:el2 END elseif_exp:eie
+           {:
+               List<Codes.ElseIf> elseIfs = (List<Codes.ElseIf>)eie;
+               Codes.ElseIf elseIfExp = new Codes.ElseIf();
+               elseIfExp.setCondition((Codes.Code)e2);
+               elseIfExp.setCodes((List<Codes.Code>)el2);
+               elseIfs.add(elseIfExp);
+               RESULT = elseIfs;
+           :} |
+           {:
+               RESULT = new ArrayList<Codes.ElseIf>();
+           :} |
+           ELSE error exp:e2 THEN COLON START exp_list:el2 END elseif_exp
+           {:
+               System.out.println("Missing IF");
+           :} |
+           ELSE IF exp:e2 error COLON START exp_list:el2 END elseif_exp
+           {:
+               System.out.println("Missing THEN");
+           :} |
+           ELSE IF exp:e2 THEN error START exp_list:el2 END elseif_exp
+           {:
+               System.out.println("Missing COLON");
+           :} |
+           ELSE IF exp:e2 THEN COLON error exp_list:el2 END elseif_exp
+           {:
+               System.out.println("Missing START");
+           :} |
+           ELSE IF exp:e2 THEN COLON START exp_list:el2 error elseif_exp
+           {:
+               System.out.println("Missing END");
+           :}
 ;
-// conditionals --------------------------------------------------------------------------------------------------------
-elseif_exp ::= elseif_exp:ei ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     List<Codes.ElseIf> r = (List<Codes.ElseIf>)ei;
-                     Codes.ElseIf elif = new Codes.ElseIf();
-                     elif.setCondition((Codes.Code)e2);
-                     elif.setCodes((List<Codes.Code>)el);
-                     r.add(elif);
-                     RESULT = r;
-                 :} |
-               ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     List<Codes.ElseIf> r = new ArrayList<Codes.ElseIf>();
-                     Codes.ElseIf elif = new Codes.ElseIf();
-                     elif.setCondition((Codes.Code)e2);
-                     elif.setCodes((List<Codes.Code>)el);
-                     r.add(elif);
-                     RESULT = r;
-                 :} |
-               elseif_exp ELSE error:e LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing If");
-                 :} |
-               elseif_exp ELSE IF error:e exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-               elseif_exp ELSE IF LPAREN exp:e2 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-               elseif_exp ELSE IF LPAREN exp:e2 RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-               elseif_exp ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-               ELSE error:e LPAREN exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing If");
-                 :} |
-               ELSE IF error:e exp:e2 RPAREN LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-               ELSE IF LPAREN exp:e2 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-               ELSE IF LPAREN exp:e2 RPAREN error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-               ELSE IF LPAREN exp:e2 RPAREN LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
-;
-if_exp ::= IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     Codes.If r = new Codes.If();
-                     r.setCondition((Codes.Code)e1);
-                     r.setCodes((List<Codes.Code>)el1);
-                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
-                     r.setExtras(extras);
-                     RESULT = r;
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     Codes.If r = new Codes.If();
-                     r.setCondition((Codes.Code)e1);
-                     r.setCodes((List<Codes.Code>)el1);
-                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
-                     Codes.Else elseC = new Codes.Else();
-                     elseC.setCodes((List<Codes.Code>)el2);
-                     extras.add(elseC);
-                     r.setExtras(extras);
-                     RESULT = r;
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1
-                 {:
-                     Codes.If r = new Codes.If();
-                     r.setCondition((Codes.Code)e1);
-                     r.setCodes((List<Codes.Code>)el1);
-                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
-                     extras.addAll((List<Codes.Code>)eie1);
-                     r.setExtras(extras);
-                     RESULT = r;
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE elseif_exp:eie1 ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     Codes.If r = new Codes.If();
-                     r.setCondition((Codes.Code)e1);
-                     r.setCodes((List<Codes.Code>)el1);
-                     List<Codes.Code> extras = new ArrayList<Codes.Code>();
-                     extras.addAll((List<Codes.Code>)eie1);
-                     extras.addAll((List<Codes.Code>)el2);
-                     r.setExtras(extras);
-                     RESULT = r;
-                 :} |
-           IF error:e exp:e1 RPAREN LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-           IF LPAREN exp:e1 error:e LBRACE exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-           IF LPAREN exp:e1 RPAREN error:e exp_list:el1 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-           IF error:e exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-           IF LPAREN exp:e1 error:e LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-           IF LPAREN exp:e1 RPAREN error:e exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 error:e ELSE LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE error:e exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE ELSE LBRACE exp_list:el2 error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-           IF LPAREN exp:e1 RPAREN LBRACE exp_list:el1 RBRACE error:e LBRACE exp_list:el2 RBRACE
-                 {:
-                     System.out.println("Missing Else");
-                 :}
-;
-case_exp ::= case_exp:ce CASE exp:e1 COLON LBRACE exp_list:el RBRACE
-                 {:
-                     List<Codes.Case> cases = (List<Codes.Case>)ce;
-                     Codes.Case c = new Codes.Case();
-                     c.setValue((Codes.Code)e1);
-                     c.setCodes((List<Codes.Code>)el);
-                     cases.add(c);
-                     RESULT = cases;
-                 :} |
-             CASE exp:e1 COLON LBRACE exp_list:el RBRACE
-                 {:
-                     List<Codes.Case> cases = new ArrayList<Codes.Case>();
-                     Codes.Case c = new Codes.Case();
-                     c.setValue((Codes.Code)e1);
-                     c.setCodes((List<Codes.Code>)el);
-                     cases.add(c);
-                     RESULT = cases;
-                 :} |
-             case_exp:ce error:e exp:e1 COLON LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing CASE");
-                 :} |
-             case_exp:ce CASE exp:e1 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing COLON");
-                 :} |
-             case_exp:ce CASE exp:e1 COLON error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-             case_exp:ce CASE exp:e1 COLON LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :} |
-
-             error:e exp:e1 COLON LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing CASE");
-                 :} |
-             CASE exp:e1 error:e LBRACE exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing COLON");
-                 :} |
-             CASE exp:e1 COLON error:e exp_list:el RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-             CASE exp:e1 COLON LBRACE exp_list:el error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
-;
-switch_exp ::= SWITCH LPAREN exp:e1 RPAREN LBRACE case_exp:ce RBRACE
-                 {:
-                     Codes.Switch r = new Codes.Switch();
-                     r.setValue((Codes.Code)e1);
-                     r.setCases((List<Codes.Case>)ce);
-                     RESULT = r;
-                 :} |
-               SWITCH error:e exp:e1 RPAREN LBRACE case_exp:ce RBRACE
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-               SWITCH LPAREN exp:e1 error:e LBRACE case_exp:ce RBRACE
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-               SWITCH LPAREN exp:e1 RPAREN error:e case_exp:ce RBRACE
-                 {:
-                     System.out.println("Missing LBRACE");
-                 :} |
-               SWITCH LPAREN exp:e1 RPAREN LBRACE case_exp:ce error:e
-                 {:
-                     System.out.println("Missing RBRACE");
-                 :}
+case_list ::= case_list:cl IS exp:e COLON START exp_list:el END
+               {:
+                   List<Codes.Case> cases = (List<Codes.Case>)cl;
+                   Codes.Case caseExp = new Codes.Case();
+                   caseExp.setValue((Codes.Code)e);
+                   caseExp.setCodes((List<Codes.Code>)el);
+                   cases.add(caseExp);
+                   RESULT = cases;
+               :} |
+              IS exp:e COLON START exp_list:el END
+               {:
+                   Codes.Case caseExp = new Codes.Case();
+                   caseExp.setValue((Codes.Code)e);
+                   caseExp.setCodes((List<Codes.Code>)el);
+                   RESULT = caseExp;
+               :} |
+              case_list:cl error exp:e COLON START exp_list:el END
+               {:
+                   System.out.println("Missing IS");
+               :} |
+              case_list:cl IS error COLON START exp_list:el END
+               {:
+                   System.out.println("Missing Is value");
+               :} |
+              case_list:cl IS exp:e error START exp_list:el END
+               {:
+                   System.out.println("Missing COLON");
+               :} |
+              case_list:cl IS exp:e COLON error exp_list:el END
+               {:
+                   System.out.println("Missing START");
+               :} |
+              case_list:cl IS exp:e COLON START error END
+               {:
+                   System.out.println("Missing action");
+               :} |
+              case_list:cl IS exp:e COLON START exp_list:el error
+               {:
+                   System.out.println("Missing END");
+               :} |
+              IS error COLON START exp_list:el END
+               {:
+                   System.out.println("Missing Is value");
+               :} |
+              IS exp:e error START exp_list:el END
+               {:
+                   System.out.println("Missing COLON");
+               :} |
+              IS exp:e COLON error exp_list:el END
+               {:
+                   System.out.println("Missing START");
+               :} |
+              IS exp:e COLON START error END
+               {:
+                   System.out.println("Missing action");
+               :} |
+              IS exp:e COLON START exp_list:el error
+               {:
+                   System.out.println("Missing END");
+               :}
 ;
 // math ----------------------------------------------------------------------------------------------------------------
-exp ::= exp:e1 AND exp:e2
+param_list ::= param:p
+                 {:
+                     List<Codes.As> asList = new ArrayList<Codes.As>();
+                     asList.add((Codes.As)p);
+                     RESULT = asList;
+                 :} |
+               param:p COMMA param_list:pl
+                 {:
+                     List<Codes.As> asList = (List<Codes.As>)pl;
+                     asList.add((Codes.As)p);
+                     RESULT = asList;
+                 :} |
+               param COMMA error
+                 {:
+                     System.out.println("Missing param");
+                 :}
+;
+param ::= exp:e AS IDENTIFIER:i
+                 {:
+                     Codes.As asExp = new Codes.As();
+                     asExp.setCode1((Codes.Code)e);
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName(i);
+                     asExp.setId(id);
+                     RESULT = asExp;
+                 :} |
+          exp error IDENTIFIER
+                 {:
+                     System.out.println("Missing AS");
+                 :} |
+          exp AS error
+                 {:
+                     System.out.println("Missing operand");
+                 :}
+;
+exp ::= CONDITIONS LBRACKET exp_comma_list:ecl RBRACKET ARE SATISFIED
+                 {:
+                     List<Codes.Code> exps = (List<Codes.Code>)ecl;
+                     Codes.Code f;
+                     if (exps.size() == 1)
+                         f = exps.get(0);
+                     else {
+                         Codes.MathExpAnd andExp = new Codes.MathExpAnd();
+                         andExp.setValue1(exps.get(0));
+                         andExp.setValue2(exps.get(1));
+                         exps.remove(0);
+                         exps.remove(1);
+                         while (exps.size() > 0) {
+                             andExp.setValue1(andExp);
+                             andExp.setValue2(exps.get(0));
+                             exps.remove(0);
+                         }
+                         f = andExp;
+                     }
+                     RESULT = f;
+                 :} |
+        CONDITIONS error exp_comma_list:ecl RBRACKET ARE SATISFIED
+                 {:
+                     System.out.println("Missing LBRACKET");
+                 :} |
+        CONDITIONS LBRACKET error RBRACKET ARE SATISFIED
+                 {:
+                     System.out.println("Missing conditions list");
+                 :} |
+        CONDITIONS LBRACKET exp_comma_list:ecl RBRACKET error SATISFIED
+                 {:
+                     System.out.println("Missing ARE");
+                 :} |
+        CONDITIONS LBRACKET exp_comma_list:ecl RBRACKET ARE error
+                 {:
+                     System.out.println("Missing SATISFIED");
+                 :} |
+        NOT SATISFIED
+                 {:
+                     RESULT = new Codes.NotSatisfied();
+                 :} |
+        NOT error
+                 {:
+                     System.out.println("Missing operand");
+                 :} |
+        compare_concat_exp:e
+                 {:
+                     RESULT = (Codes.Code)e;
+                 :} |
+        comparing_exp:e
+                 {:
+                     RESULT = (Codes.Code)e;
+                 :} |
+        of_exp:e
+                 {:
+                     RESULT = (Codes.Code)e;
+                 :} |
+        exp:e ON exp:e2
+                 {:
+                     Codes.On on = new Codes.On();
+                     on.setCode1((Codes.Code)e);
+                     on.setCode2((Codes.Code)e2);
+                     RESULT = on;
+                 :} |
+        exp:e ON error
+                 {:
+                     System.out.println("Missing operand");
+                 :} |
+        operation_exp:e
+                 {:
+                     RESULT = (Codes.Code)e;
+                 :} |
+        LPAREN exp:e RPAREN
+                 {:
+                     Codes.Parenthesis p = new Codes.Parenthesis();
+                     p.setCode((Codes.Code)e);
+                     RESULT = p;
+                 :} |
+        LPAREN exp error:e
+                 {:
+                     System.out.println("Missing RPAREN");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i id_comma_list:icl DOING COLON START exp_list:el END
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     List<Codes.Identifier> params = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName(i);
+                     params.add(id);
+                     params.addAll((List<Codes.Identifier>)icl);
+                     func.setParams(params);
+                     RESULT = func;
+                 :} |
+        FUNCTION error PARAMS IDENTIFIER:i id_comma_list:ecl DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing WITH");
+                 :} |
+        FUNCTION WITH error IDENTIFIER:i id_comma_list:ecl DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing PARAMS");
+                 :} |
+        FUNCTION WITH PARAMS error id_comma_list:ecl DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing identifier");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i error DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing params list");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i id_comma_list:ecl error COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing DOING");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i id_comma_list:ecl DOING error START exp_list:el END
+                 {:
+                     System.out.println("Missing COLON");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i id_comma_list:ecl DOING COLON error exp_list:el END
+                 {:
+                     System.out.println("Missing START");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i id_comma_list:ecl DOING COLON START exp_list:el error
+                 {:
+                     System.out.println("Missing END");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i DOING COLON START exp_list:el END
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     List<Codes.Identifier> params = new ArrayList<Codes.Identifier>();
+                     Codes.Identifier id = new Codes.Identifier();
+                     id.setName(i);
+                     params.add(id);
+                     func.setParams(params);
+                     RESULT = func;
+                 :} |
+        FUNCTION error PARAMS IDENTIFIER:i DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing WITH");
+                 :} |
+        FUNCTION WITH error IDENTIFIER:i DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing PARAMS");
+                 :} |
+        FUNCTION WITH PARAMS error DOING COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing identifier");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i error COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing DOING");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i DOING error START exp_list:el END
+                 {:
+                     System.out.println("Missing COLON");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i DOING COLON error exp_list:el END
+                 {:
+                     System.out.println("Missing START");
+                 :} |
+        FUNCTION WITH PARAMS IDENTIFIER:i DOING COLON START exp_list:el error
+                 {:
+                     System.out.println("Missing END");
+                 :} |
+        FUNCTION DOING COLON START exp_list:el END
+                 {:
+                     Codes.Function func = new Codes.Function();
+                     func.setName("");
+                     func.setParams(new ArrayList<Codes.Identifier>());
+                     func.setCodes((List<Codes.Code>)el);
+                 :} |
+        FUNCTION error COLON START exp_list:el END
+                 {:
+                     System.out.println("Missing DOING");
+                 :} |
+        FUNCTION DOING error START exp_list:el END
+                 {:
+                     System.out.println("Missing COLON");
+                 :} |
+        FUNCTION DOING COLON error exp_list:el END
+                 {:
+                     System.out.println("Missing START");
+                 :} |
+        FUNCTION DOING COLON START exp_list:el error
+                 {:
+                     System.out.println("Missing END");
+                 :} |
+        NEW INSTANCE OF exp:e instance_props:ip
+              {:
+                  Codes.Instantiate instantiate = new Codes.Instantiate();
+                  instantiate.setClassReference((Codes.Code)e);
+                  instantiate.setEntries((Hashtable<String, Codes.Code>)ip);
+                  RESULT = instantiate;
+              :} |
+        NEW error OF exp:e instance_props
+              {:
+                  System.out.println("Mssing INSTANCE");
+              :} |
+        NEW INSTANCE error exp:e instance_props
+              {:
+                  System.out.println("Mssing OF");
+              :} |
+        DO exp:e BY ARGS param_list:pl
+                 {:
+                     Codes.Call call = new Codes.Call();
+                     call.setFuncReference((Codes.Code)e);
+                     Hashtable<String, Codes.Code> ps = new Hashtable<String, Codes.Code>();
+                     for (Codes.As asExp : (List<Codes.As>)pl)
+                         ps.put(asExp.getId().getName(), asExp.getCode1());
+                     call.setEntries(ps);
+                     RESULT = call;
+                     if (e instanceof Codes.Identifier) {
+                         HashSet<String> expected = null;
+                         for (int counter = 0; counter < funcs.size(); counter++) {
+                             expected = funcs.get(counter).get(((Codes.Identifier)e).getName());
+                             if (expected != null) break;
+                         }
+                         if (expected == null) {
+                             System.out.println("Existance Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : function not defined.");
+                             System.out.println("function named " + ((Codes.Identifier)e).getName() + " does not exist.");
+                         } else {
+                             List<String> actual = new ArrayList<String>(ps.keySet());
+                             HashSet<String> expectedCopy = new HashSet<String>(expected);
+                             int size = actual.size();
+                             for (int counter = 0; counter < size; counter++) {
+                                 if (expectedCopy.contains(actual.get(0))) {
+                                     expectedCopy.remove(actual.get(0));
+                                     actual.remove(0);
+                                 } else {
+                                     break;
+                                 }
+                             }
+
+                             if (actual.size() > 0 || expectedCopy.size() > 0) {
+                                 System.out.println("Argument Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : function arguments count does not match with defined input structure.");
+                                 System.out.println("About function " + ((Codes.Identifier)e).getName() + " arguments does not match in key name or key count.");
+                             }
+                         }
+                     }
+                 :} |
+        DO exp:e
+                 {:
+                     Codes.Call call = new Codes.Call();
+                     call.setFuncReference((Codes.Code)e);
+                     call.setEntries(new Hashtable<String, Codes.Code>());
+                     RESULT = call;
+                     if (e instanceof Codes.Identifier) {
+                         HashSet<String> expected = null;
+                         for (int counter = 0; counter < funcs.size(); counter++) {
+                             expected = funcs.get(counter).get(((Codes.Identifier)e).getName());
+                             if (expected != null) break;
+                         }
+                         if (expected == null) {
+                             System.out.println("Existance Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : function not defined.");
+                             System.out.println("function named " + ((Codes.Identifier)e).getName() + " does not exist.");
+                         } else {
+                             if (expected.size() > 0) {
+                                 System.out.println("Argument Error [ line : " + (currentLine - 1) + ", column : " + currentColumn + " ] : function arguments count does not match with defined input structure.");
+                             }
+                         }
+                     }
+                 :} |
+        DO error
+                 {:
+                     System.out.println("missing identifier");
+                 :} |
+        DO error BY ARGS param_list
+                 {:
+                     System.out.println("missing identifier");
+                 :} |
+        DO exp:e error ARGS param_list
+                 {:
+                     System.out.println("missing BY");
+                 :} |
+        DO exp:e BY error param_list
+                 {:
+                     System.out.println("missing ARGS");
+                 :} |
+        DO exp:e BY ARGS error
+                 {:
+                     System.out.println("missing arguments list");
+                 :} |
+        value_exp:ve
+                 {:
+                     RESULT = (Codes.Code)ve;
+                 :}
+;
+instance_props ::=
+           BY PROPS param_list:pl
+                 {:
+                     Hashtable<String, Codes.Code> ps = new Hashtable<String, Codes.Code>();
+                     for (Codes.As asExp : (List<Codes.As>)pl)
+                         ps.put(asExp.getId().getName(), asExp.getCode1());
+                     RESULT = ps;
+                 :} |
+                 {:
+                     RESULT = new Hashtable<String, Codes.Code>();
+                 :}
+;
+of_exp ::= exp:e OF exp:e2
+                 {:
+                     Codes.Of r = new Codes.Of();
+                     r.setCode1((Codes.Code)e);
+                     r.setCode2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+           exp OF error
+                 {:
+                     System.out.println("Missing operand");
+                 :}
+;
+compare_concat_exp ::=
+        exp:e1 AND exp:e2
                  {:
                      Codes.MathExpAnd r = new Codes.MathExpAnd();
                      r.setValue1((Codes.Code)e1);
@@ -916,162 +1424,51 @@ exp ::= exp:e1 AND exp:e2
         exp IS error:e
                  {:
                      System.out.println("Missing Operand");
-                 :} |
-        exp:e1 EQUAL exp:e2
+                 :}
+;
+value_exp ::=
+        array:a
                  {:
-                     Codes.MathExpEqual r = new Codes.MathExpEqual();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
+                     RESULT = (Codes.Code)a;
                  :} |
-        exp EQUAL error:e
+        IDENTIFIER:i
                  {:
-                     System.out.println("Missing Operand");
-                 :} |
-        exp:e1 GE exp:e2
-                 {:
-                     Codes.MathExpGE r = new Codes.MathExpGE();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
-                 :} |
-        exp GE error:e
-                 {:
-                     System.out.println("Missing Operand");
-                 :} |
-        exp:e1 GT exp:e2
-                 {:
-                     Codes.MathExpGT r = new Codes.MathExpGT();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
-                 :} |
-        exp GT error:e
-                 {:
-                     System.out.println("Missing Operand");
-                 :} |
-        exp:e1 LT exp:e2
-                 {:
-                     Codes.MathExpLT r = new Codes.MathExpLT();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
-                 :} |
-        exp LT error:e
-                 {:
-                     System.out.println("Missing Operand");
-                 :} |
-        exp:e1 LE exp:e2
-                 {:
-                     Codes.MathExpLE r = new Codes.MathExpLE();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
-                 :} |
-        exp LE error:e
-                 {:
-                     System.out.println("Missing Operand");
-                 :} |
-        exp:e1 NE exp:e2
-                 {:
-                     Codes.MathExpNE r = new Codes.MathExpNE();
-                     r.setValue1((Codes.Code)e1);
-                     r.setValue2((Codes.Code)e2);
-                     RESULT = r;
-                 :} |
-        exp NE error:e
-                 {:
-                     System.out.println("Missing Operand");
-                 :} |
-        IDENTIFIER:i ASSIGN exp:e1
-                 {:
-                     Codes.Assignment asg = new Codes.Assignment();
                      Codes.Identifier id = new Codes.Identifier();
                      id.setName((String)i);
-                     asg.setVar(id);
-                     asg.setValue((Codes.Code)e1);
-                     RESULT = asg;
+                     RESULT = id;
                  :} |
-        IDENTIFIER:i ASSIGN function_exp:fe
+        NUMBER:n
                  {:
-                     Codes.Assignment asg = new Codes.Assignment();
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     asg.setVar(id);
-                     asg.setValue((Codes.Code)fe);
-                     RESULT = asg;
+                     Codes.Value v = new Codes.Value();
+                     v.setValue((Double)n);
+                     RESULT = v;
                  :} |
-        IDENTIFIER ASSIGN error:e
+        STRING:s
                  {:
-                     System.out.println("Missing right side of assignment");
+                     Codes.Value v = new Codes.Value();
+                     v.setValue((String)s);
+                     RESULT = v;
                  :} |
-        EXEC IDENTIFIER:i LPAREN param_list:pl1 RPAREN
+        TRUE
                  {:
-                     Codes.Call call = new Codes.Call();
-                     call.setFunctionName((String)i);
-                     call.setEntries((Hashtable<String, Codes.Code>)pl1);
-                     RESULT = call;
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(true);
+                     RESULT = v;
                  :} |
-        EXEC error:e LPAREN param_list RPAREN
+        FALSE
                  {:
-                     System.out.println("Missing IDENTIFIER");
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(false);
+                     RESULT = v;
                  :} |
-        EXEC IDENTIFIER error:e param_list RPAREN
+        EMPTY
                  {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-        EXEC IDENTIFIER LPAREN param_list error:e
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER:i LPAREN param_list:pl1 RPAREN
-                 {:
-                     Codes.Chains r = new Codes.Chains();
-                     r.setCode1((Codes.Code)e1);
-                     Codes.Call call = new Codes.Call();
-                     call.setFunctionName((String)i);
-                     call.setEntries((Hashtable<String, Codes.Code>)pl1);
-                     r.setCode2(call);
-                     RESULT = r;
-                 :} |
-        EXEC exp:e1 error:e IDENTIFIER:i LPAREN param_list:pl1 RPAREN
-                 {:
-                     System.out.println("Missing CHAINSIGN");
-                 :} |
-        EXEC exp:e1 CHAINSIGN error:e LPAREN param_list:pl1 RPAREN
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER:i error:e param_list:pl1 RPAREN
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER:i LPAREN RPAREN
-                 {:
-                     Codes.Chains r = new Codes.Chains();
-                     r.setCode1((Codes.Code)e1);
-                     Codes.Call call = new Codes.Call();
-                     call.setFunctionName((String)i);
-                     call.setEntries(new Hashtable<String, Codes.Code>());
-                     r.setCode2(call);
-                     RESULT = r;
-                 :} |
-        EXEC exp:e1 error:e IDENTIFIER:i LPAREN RPAREN
-                 {:
-                     System.out.println("Missing CHAINSIGN");
-                 :} |
-        EXEC exp:e1 CHAINSIGN error:e LPAREN RPAREN
-                 {:
-                     System.out.println("Missing IDENTIFIER");
-                 :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER error:r RPAREN
-                 {:
-                     System.out.println("Missing LPAREN");
-                 :} |
-        EXEC exp:e1 CHAINSIGN IDENTIFIER LPAREN error:e
-                 {:
-                     System.out.println("Missing RPAREN");
-                 :} |
+                     Codes.Value v = new Codes.Value();
+                     v.setValue(null);
+                     RESULT = v;
+                 :}
+;
+operation_exp ::=
         exp:e1 SUM exp:e2
                  {:
                      Codes.MathExpSum r = new Codes.MathExpSum();
@@ -1147,87 +1544,124 @@ exp ::= exp:e1 AND exp:e2
         SUBTRACT error:e
                  {:
                      System.out.println("Missing data after UMINUS");
-                 :} |
-        exp:e1 CHAINSIGN exp:e2
+                 :}
+;
+comparing_exp ::=
+        exp:e1 EQUAL exp:e2
                  {:
-                     Codes.Chains r = new Codes.Chains();
-                     r.setCode1((Codes.Code)e1);
-                     r.setCode2((Codes.Code)e2);
+                     Codes.MathExpEqual r = new Codes.MathExpEqual();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
                      RESULT = r;
                  :} |
-        exp CHAINSIGN error:e
+        exp EQUAL error:e
                  {:
-                     System.out.println("Missing expression after CHAINSIGN");
+                     System.out.println("Missing Operand");
                  :} |
-        LPAREN exp:e RPAREN
+        exp:e1 GE exp:e2
                  {:
-                     Codes.Parenthesis p = new Codes.Parenthesis();
-                     p.setCode((Codes.Code)e);
-                     RESULT = p;
+                     Codes.MathExpGE r = new Codes.MathExpGE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
                  :} |
-        LPAREN exp error:e
+        exp GE error:e
                  {:
-                     System.out.println("Missing RPAREN");
+                     System.out.println("Missing Operand");
                  :} |
-        callback_exp:ce
+        exp:e1 GT exp:e2
                  {:
-                     RESULT = (Codes.Code)ce;
+                     Codes.MathExpGT r = new Codes.MathExpGT();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
                  :} |
-        identifier:i
+        exp GT error:e
                  {:
-                     RESULT = i;
+                     System.out.println("Missing Operand");
                  :} |
-        NUMBER:n
+        exp:e1 LT exp:e2
                  {:
-                     Codes.Value v = new Codes.Value();
-                     v.setValue((Double)n);
-                     RESULT = v;
+                     Codes.MathExpLT r = new Codes.MathExpLT();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
                  :} |
-        STRING:s
+        exp LT error:e
                  {:
-                     Codes.Value v = new Codes.Value();
-                     v.setValue((String)s);
-                     RESULT = v;
+                     System.out.println("Missing Operand");
                  :} |
-        EMPTY
+        exp:e1 LE exp:e2
                  {:
-                     Codes.Value v = new Codes.Value();
-                     v.setValue(null);
-                     RESULT = v;
+                     Codes.MathExpLE r = new Codes.MathExpLE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp LE error:e
+                 {:
+                     System.out.println("Missing Operand");
+                 :} |
+        exp:e1 NE exp:e2
+                 {:
+                     Codes.MathExpNE r = new Codes.MathExpNE();
+                     r.setValue1((Codes.Code)e1);
+                     r.setValue2((Codes.Code)e2);
+                     RESULT = r;
+                 :} |
+        exp NE error:e
+                 {:
+                     System.out.println("Missing Operand");
                  :}
 ;
-identifier ::= IDENTIFIER:i
-                 {:
-                     Codes.Identifier id = new Codes.Identifier();
-                     id.setName((String)i);
-                     RESULT = id;
-                 :}
+array ::= LBRACKET exp_comma_list:ecl RBRACKET
+             {:
+                 Codes.Array array = new Codes.Array();
+                 array.setItems(((List<Codes.Code>)ecl));
+                 RESULT = array;
+             :}
 ;
-param_list ::= param:p1 COMMA param_list:pl1
-                 {:
-                     Hashtable<String, Codes.Code> ht = (Hashtable<String, Codes.Code>)pl1;
-                     Pair<String, Codes.Code> castedP1 = (Pair<String, Codes.Code>)p1;
-                     ht.put(castedP1.first, castedP1.second);
-                     RESULT = ht;
-                 :} |
-               param:p1
-                 {:
-                     Hashtable<String, Codes.Code> ht = new Hashtable<String, Codes.Code>();
-                     Pair<String, Codes.Code> castedP1 = (Pair<String, Codes.Code>)p1;
-                     ht.put(castedP1.first, castedP1.second);
-                     RESULT = ht;
-                 :} |
-               //epsilon
-                 {:
-                     RESULT = new Hashtable<String, Codes.Code>();
-                 :}
+id_comma_list ::=
+             COMMA IDENTIFIER:i id_comma_list:icl
+             {:
+                 List<Codes.Identifier> ids = ((List<Codes.Identifier>) icl);
+                 Codes.Identifier id = new Codes.Identifier();
+                 id.setName((String)i);
+                 ids.add(id);
+                 RESULT = ids;
+             :} |
+             COMMA IDENTIFIER:i
+             {:
+                 List<Codes.Code> ids = new ArrayList<Codes.Code>();
+                 Codes.Identifier id = new Codes.Identifier();
+                 id.setName((String)i);
+                 ids.add(id);
+                 RESULT = ids;
+             :} |
+             error IDENTIFIER id_comma_list
+             {:
+
+             :} |
+             COMMA error id_comma_list
+             {:
+
+             :}
 ;
-param ::= IDENTIFIER:i COLON exp:e1
-                 {:
-                     RESULT = new Pair<String, Codes.Code>(i, (Codes.Code)e1);
-                 :} |
-          IDENTIFIER:i error:e exp:e1
-                 {:
-                     System.out.println("Missing COLON");
-                 :}
+exp_comma_list ::=
+             exp:e COMMA exp_comma_list:ecl
+             {:
+                 List<Codes.Code> exps = (List<Codes.Code>)ecl;
+                 exps.add((Codes.Code) e);
+                 RESULT = exps;
+             :} |
+             exp:e COMMA error
+             {:
+                 System.out.println("Missing expression after comma");
+             :} |
+             exp:e
+             {:
+                 List<Codes.Code> exps = new ArrayList<Codes.Code>();
+                 exps.add((Codes.Code)e);
+                 RESULT = exps;
+             :}
 ;

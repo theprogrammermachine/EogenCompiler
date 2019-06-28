@@ -62,10 +62,161 @@ public class Codes {
             @JsonSubTypes.Type(value = Switch.class, name = "Switch"),
             @JsonSubTypes.Type(value = Case.class, name = "Case"),
             @JsonSubTypes.Type(value = Is.class, name = "Is"),
-            @JsonSubTypes.Type(value = Try.class, name = "Try")
+            @JsonSubTypes.Type(value = Try.class, name = "Try"),
+            @JsonSubTypes.Type(value = Of.class, name = "Of"),
+            @JsonSubTypes.Type(value = On.class, name = "On"),
+            @JsonSubTypes.Type(value = As.class, name = "As"),
+            @JsonSubTypes.Type(value = CounterFor.class, name = "CounterFor"),
+            @JsonSubTypes.Type(value = Prop.class, name = "Prop"),
+            @JsonSubTypes.Type(value = NotSatisfied.class, name = "NotSatisfied"),
+            @JsonSubTypes.Type(value = BasedOnExtension.class, name = "BasedOnExtension"),
+            @JsonSubTypes.Type(value = BehavesLikeExtension.class, name = "BehavesLikeExtension")
     })
     public static class Code implements Serializable {
 
+    }
+
+    public enum DataType {
+        @JsonProperty("Number") Number,
+        @JsonProperty("String") String,
+        @JsonProperty("Bool") Bool
+    }
+
+    public enum DataLevel {
+        @JsonProperty("ClassLevel") ClassLevel,
+        @JsonProperty("InstanceLevel") InstanceLevel
+    }
+
+    public static class NotSatisfied extends Code {
+
+    }
+
+    public static class Prop extends Code {
+
+        private Identifier id;
+        private Code value;
+        private DataLevel level;
+
+        public Identifier getId() {
+            return id;
+        }
+
+        public void setId(Identifier id) {
+            this.id = id;
+        }
+
+        public Code getValue() {
+            return value;
+        }
+
+        public void setValue(Code value) {
+            this.value = value;
+        }
+
+        public DataLevel getLevel() {
+            return level;
+        }
+
+        public void setLevel(DataLevel level) {
+            this.level = level;
+        }
+    }
+
+    public static class CounterFor extends Code {
+
+        private Codes.Code limit;
+        private Codes.Code step;
+        private List<Code> codes;
+
+        public Code getLimit() {
+            return limit;
+        }
+
+        public void setLimit(Code limit) {
+            this.limit = limit;
+        }
+
+        public Code getStep() {
+            return step;
+        }
+
+        public void setStep(Code step) {
+            this.step = step;
+        }
+
+        public List<Code> getCodes() {
+            return codes;
+        }
+
+        public void setCodes(List<Code> codes) {
+            this.codes = codes;
+        }
+    }
+
+    public static class As extends Code {
+
+        private Code code1;
+        private Identifier id;
+
+        public Code getCode1() {
+            return code1;
+        }
+
+        public void setCode1(Code code1) {
+            this.code1 = code1;
+        }
+
+        public Identifier getId() {
+            return id;
+        }
+
+        public void setId(Identifier id) {
+            this.id = id;
+        }
+    }
+
+    public static class On extends Code {
+
+        private Code code1;
+        private Code code2;
+
+        public Code getCode1() {
+            return code1;
+        }
+
+        public void setCode1(Code code1) {
+            this.code1 = code1;
+        }
+
+        public Code getCode2() {
+            return code2;
+        }
+
+        public void setCode2(Code code2) {
+            this.code2 = code2;
+        }
+    }
+
+    public static class Of extends Code {
+
+        private Code code1;
+        private Code code2;
+
+        public Code getCode1() {
+            return code1;
+        }
+
+        public void setCode1(Code code1) {
+            this.code1 = code1;
+        }
+
+        public Code getCode2() {
+            return code2;
+        }
+
+        public void setCode2(Code code2) {
+            this.code2 = code2;
+        }
     }
 
     public static class Try extends Code {
@@ -302,15 +453,10 @@ public class Codes {
         }
     }
 
-    public enum FunctionLevel {
-        @JsonProperty("ClassLevel") ClassLevel,
-        @JsonProperty("InstanceLevel") InstanceLevel
-    }
-
     public static class Function extends Code {
 
         private String name;
-        private FunctionLevel level;
+        private DataLevel level;
         private List<Identifier> params;
         private List<Code> codes;
 
@@ -322,11 +468,11 @@ public class Codes {
             this.name = name;
         }
 
-        public FunctionLevel getLevel() {
+        public DataLevel getLevel() {
             return level;
         }
 
-        public void setLevel(FunctionLevel level) {
+        public void setLevel(DataLevel level) {
             this.level = level;
         }
 
@@ -362,15 +508,15 @@ public class Codes {
 
     public static class Call extends Code {
 
-        private String functionName;
+        private Code funcReference;
         private Hashtable<String, Code> entries;
 
-        public String getFunctionName() {
-            return functionName;
+        public Code getFuncReference() {
+            return funcReference;
         }
 
-        public void setFunctionName(String functionName) {
-            this.functionName = functionName;
+        public void setFuncReference(Code funcReference) {
+            this.funcReference = funcReference;
         }
 
         public Hashtable<String, Code> getEntries() {
@@ -922,11 +1068,36 @@ public class Codes {
         }
     }
 
+    public static class BasedOnExtension extends Code {
+
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class BehavesLikeExtension extends Code {
+
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
     public static class Class extends Code {
 
         private String name;
-        private String basedOn;
-        private String behaveLike;
+        private List<Code> extensions;
         private List<Code> codes;
 
         public String getName() {
@@ -937,20 +1108,12 @@ public class Codes {
             this.name = name;
         }
 
-        public String getBasedOn() {
-            return basedOn;
+        public List<Code> getExtensions() {
+            return extensions;
         }
 
-        public void setBasedOn(String basedOn) {
-            this.basedOn = basedOn;
-        }
-
-        public String getBehaveLike() {
-            return behaveLike;
-        }
-
-        public void setBehaveLike(String behaveLike) {
-            this.behaveLike = behaveLike;
+        public void setExtensions(List<Code> extensions) {
+            this.extensions = extensions;
         }
 
         public List<Code> getCodes() {

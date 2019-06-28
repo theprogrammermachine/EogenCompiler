@@ -1,0 +1,15 @@
+define function named print with params text:
+  EMPTY
+
+define function of instance named run with params a, b:
+  if conditions [a > b] are satisfied then:
+    loop for (a) times by step 1:
+      do print by args "Hello world" as text
+  else if not satisfied then:
+    do print by args "Bye" as text
+
+remember 10 as num1
+remember 5 as num2
+
+do run by args num1 as a, num2 as b
+

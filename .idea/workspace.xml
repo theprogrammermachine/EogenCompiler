@@ -2,13 +2,77 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67f99c2e-e025-477c-900e-e09a3386bb49" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/EogenCompilerOld.cup" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/EogenCompilerOld.flex" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/models/TabSymbol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/phase2_sample_code_new.eogen" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EogenLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenLexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/EogenParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EogenParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Codes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Codes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/phase2_sample_code_old.eogen" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/sym.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/test.eogen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/EogenLexer$Tuple.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenLexer$Tuple.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/EogenLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenLexer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/EogenParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/EogenParser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Array.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Array.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ArrayItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$ArrayItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ArrayPushItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$ArrayPushItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Assignment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Assignment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Behaviour.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Behaviour.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Call.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Call.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Case.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Case.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Chains.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Chains.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Class.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Class.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ClassReference.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$ClassReference.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Code.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Code.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Decrement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Decrement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Definition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Definition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Else.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Else.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ElseIf.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$ElseIf.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Field.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Field.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$For.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$For.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Foreach.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Foreach.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Function.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Function.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$FunctionLevel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Identifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Identifier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$If.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$If.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Increment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Increment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Instance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Instance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Instantiate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Instantiate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Is.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Is.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpAnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpDivide.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpDivide.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpEqual.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpEqual.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMod.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMod.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMultiply.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMultiply.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpNE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpNE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpOr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpOr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpPower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpPower.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSubstract.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSubstract.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpUminus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$MathExpUminus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Parenthesis.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Parenthesis.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Reference.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Reference.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Return.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Return.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Switch.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Switch.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Try.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Try.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Value.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Value.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$Variable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$While.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes$While.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/models/Codes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/sym.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sym.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -19,17 +83,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -97,15 +151,15 @@
         <option value="$PROJECT_DIR$/src/Main.java" />
         <option value="$PROJECT_DIR$/src/models/Codes.java" />
         <option value="$PROJECT_DIR$/src/main/java/models/Pair.java" />
-        <option value="$PROJECT_DIR$/src/main/java/models/Codes.java" />
-        <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" />
         <option value="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" />
         <option value="$PROJECT_DIR$/src/main/java/test.eogen" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/EogenParser.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" />
         <option value="$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/models/Codes.java" />
+        <option value="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" />
       </list>
     </option>
   </component>
@@ -127,7 +181,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -153,24 +206,38 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ECompiler" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ECompiler" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560091847036" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561705313776" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JFlex" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/java-cup-11b.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../EogenCompiler-HumanVersion" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="models" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\My Documents\Projects\Java\ECompiler\src\main\java" />
       <recent name="D:\My Documents\Projects\Java\ECompiler\src\models" />
       <recent name="D:\My Documents\Projects\Java\ECompiler\src" />
       <recent name="D:\My Documents\Projects\Java\ECompiler\tools" />
@@ -219,7 +286,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19865772" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20939597" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -276,21 +343,6 @@
         <state relative-caret-position="-306" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenLexer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="1199" column="36" selection-start-line="1199" selection-start-column="36" selection-end-line="1199" selection-end-column="36" />
-          <folding>
-            <element signature="docComment;class#EogenLexer#0" />
-            <element signature="e#327#372#0" />
-            <element signature="e#414#457#0" />
-            <element signature="e#511#532#0" />
-            <element signature="e#577#829#0" />
-            <element signature="e#894#952#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample3.eogen" />
     <entry file="file://$PROJECT_DIR$/src/main/java/future_prospect.eogen">
       <provider selected="true" editor-type-id="text-editor">
@@ -314,44 +366,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/models/Codes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="141">
-          <caret line="924" column="24" selection-start-line="924" selection-start-column="24" selection-end-line="924" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4206#4207#0" expanded="true" />
-            <element signature="e#4244#4245#0" expanded="true" />
-            <element signature="e#4466#4467#0" expanded="true" />
-            <element signature="e#4508#4509#0" expanded="true" />
-            <element signature="e#7398#7399#0" expanded="true" />
-            <element signature="e#7440#7441#0" expanded="true" />
-            <element signature="e#8565#8566#0" expanded="true" />
-            <element signature="e#8605#8606#0" expanded="true" />
-            <element signature="e#21466#21467#0" expanded="true" />
-            <element signature="e#21501#21502#0" expanded="true" />
-            <element signature="e#21545#21546#0" expanded="true" />
-            <element signature="e#21585#21586#0" expanded="true" />
-            <element signature="e#21604#21605#0" expanded="true" />
-            <element signature="e#21640#21641#0" expanded="true" />
-            <element signature="e#21690#21691#0" expanded="true" />
-            <element signature="e#21732#21733#0" expanded="true" />
-            <element signature="e#22101#22102#0" expanded="true" />
-            <element signature="e#22139#22140#0" expanded="true" />
-            <element signature="e#22187#22188#0" expanded="true" />
-            <element signature="e#22233#22234#0" expanded="true" />
-            <element signature="e#22272#22273#0" expanded="true" />
-            <element signature="e#22313#22314#0" expanded="true" />
-            <element signature="e#22367#22368#0" expanded="true" />
-            <element signature="e#22419#22420#0" expanded="true" />
-            <element signature="e#22459#22460#0" expanded="true" />
-            <element signature="e#22495#22496#0" expanded="true" />
-            <element signature="e#22545#22546#0" expanded="true" />
-            <element signature="e#22587#22588#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/ProgramFilesWithNoSpace/jflex-1.7.0/lib/jflex-full-1.7.0.jar!/java_cup/runtime/Symbol.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -359,7 +373,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.flex">
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompilerOld.flex">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="157">
           <caret line="42" column="41" selection-start-line="42" selection-start-column="41" selection-end-line="42" selection-end-column="41" />
@@ -397,27 +411,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="9" column="120" selection-start-line="9" selection-start-column="120" selection-end-line="9" selection-end-column="120" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="6671" column="12" selection-start-line="6671" selection-start-column="12" selection-end-line="6671" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.cup">
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompilerOld.cup">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1458">
           <caret line="1048" column="8" selection-start-line="1048" selection-start-column="8" selection-end-line="1048" selection-end-column="8" />
@@ -720,10 +714,441 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code.eogen">
+    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code_old.eogen">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+        <state>
+          <caret column="5" lean-forward="true" selection-start-column="5" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/phase2_sample_code_new.eogen">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/Codes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="924" lean-forward="true" selection-start-line="924" selection-end-line="924" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="3872" column="40" selection-start-line="3872" selection-start-column="40" selection-end-line="3872" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#249663#249698#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/models/TabSymbol.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="148">
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.flex">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="15" selection-start-line="2" selection-start-column="15" selection-end-line="2" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenCompiler.cup">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#118#119#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#112#113#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#109#110#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#116#117#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#127#128#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#124#125#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#123#124#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#121#122#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#113#114#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#128#129#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#120#121#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#122#123#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#132#133#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#132#133#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#110#111#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#135#136#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#125#126#0" expanded="true" />
+            <element signature="e#46#47#0" expanded="true" />
+            <element signature="e#132#133#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/EogenLexer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="714" column="9" lean-forward="true" selection-start-line="714" selection-start-column="9" selection-end-line="714" selection-end-column="9" />
+          <folding>
+            <element signature="docComment;class#EogenLexer#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
