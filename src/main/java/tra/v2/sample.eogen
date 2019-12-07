@@ -1,0 +1,6 @@
+define function named hello with params a , b
+  define function named world with params c , d
+    remember "hello world" as b
+if a == "hello keyhan !" then
+  do hello(a : do world(c: 2, d: 3), b : 5)
+
