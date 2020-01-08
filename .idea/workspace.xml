@@ -2,108 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67f99c2e-e025-477c-900e-e09a3386bb49" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Action.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Parser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Tuple.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/phase2_sample_code_new.eogen" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/sym.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/temp/Tra.cup" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/Tra.flex" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/sym.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/java_cup_11b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/java_cup_11b.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jflex_full_1_7_0.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/keyhan.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/output.tra" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/MyIterator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/NodePointer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Tuple2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraLexer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/output.tra" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/sample.eogen" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ECompiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ECompiler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ECompiler/META-INF/ECompiler.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompiler.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.flex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompilerOld.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenCompilerOld.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.flex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenLexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EogenParser.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Students_Info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/Students_Info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/future_prospect.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/future_prospect.eogen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/helpers/JsonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/helpers/JsonHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/java-cup-11b.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/java-cup-11b.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/jflex-full-1.7.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/jflex-full-1.7.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Codes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/Codes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/Pair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/Pair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/models/TabSymbol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/TabSymbol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/phase2_sample_code_new.eogen" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/phase2_sample_code_old.eogen" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/phase2_sample_code_old.eogen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sym.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/sym.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/sym.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenLexer$Tuple.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenLexer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenParser$CUP$EogenParser$actions.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/EogenParser.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Codes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Codes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Tuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Tuple.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/sym.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/temp/Tra.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/temp/Tra.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/Tra.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/Tra.flex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/ECompiler.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/helpers/JsonHelper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Array.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ArrayItem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ArrayPushItem.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$As.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Assignment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$BasedOnExtension.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$BehavesLikeExtension.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Behaviour.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Call.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Case.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Chains.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Class.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ClassReference.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Code.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$CounterFor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$DataLevel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$DataType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Decrement.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Definition.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Else.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$ElseIf.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Field.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$For.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Foreach.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Function.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Identifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$If.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Increment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Instance.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Instantiate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Is.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpAnd.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpDivide.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpEqual.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpGT.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpLT.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMod.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpMultiply.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpNE.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpOr.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpPower.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSubstract.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpSum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$MathExpUminus.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$NotSatisfied.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Of.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$On.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Parenthesis.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Prop.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Reference.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Return.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Switch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Try.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Value.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$Variable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes$While.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Codes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/Pair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/models/TabSymbol.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sym.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,42 +37,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>CALLBACK</find>
-      <find>FUNCTIONCALL</find>
-      <find>FUNCTIONKEY</find>
-      <find>singlechara</find>
-      <find>sample</find>
-      <find>scan</find>
-      <find>' '</find>
-      <find>ENDOFLINE</find>
-      <find>return new java_cup.runtime.Symbol(</find>
-      <find>exportToken</find>
-      <find>System.out.println(</find>
-      <find>ARRPW</find>
-      <find>return</find>
-      <find>FunctionLevel</find>
-      <find>assignment</find>
-      <find>14</find>
-      <find>erroe</find>
-      <find>FunctionLEvel</find>
-      <find>epsilon</find>
-      <find>as</find>
-      <find>identifier</find>
-      <find>empty</find>
-      <find>System.out.prin</find>
-      <find>do</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>ENDOFFILE</replace>
-      <replace>return exportToken</replace>
-      <replace>ARROW</replace>
-      <replace>Codes.FunctionLevel</replace>
-      <replace>error</replace>
-      <replace>FunctionLevel</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -165,37 +48,27 @@
     </option>
   </component>
   <component name="ProjectId" id="1UZcTQeI6K5c1tlgTKVFOEhwmAN" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574424610158" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JFlex" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/tra/jflex-full-1.7.0.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/tra/v3" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\My Documents\Projects\Java\ECompiler\src\main\java" />
-      <recent name="D:\My Documents\Projects\Java\ECompiler\src\models" />
-      <recent name="D:\My Documents\Projects\Java\ECompiler\src" />
-      <recent name="D:\My Documents\Projects\Java\ECompiler\tools" />
-      <recent name="D:\My Documents\Projects\Java\ECompiler" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="tra.v3" />
-      <recent name="" />
-      <recent name="models" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/tra/v1" />
       <recent name="$PROJECT_DIR$/src/main/java/tra/v2" />
@@ -203,20 +76,30 @@
       <recent name="$PROJECT_DIR$/src/main/java/tra/v3" />
       <recent name="D:\My Documents\Projects\Java\ECompiler\src\main\java\tra" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tra.v3" />
+      <recent name="" />
+      <recent name="models" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/tra/v3" />
+      <recent name="D:\My Documents\Projects\Java\ECompiler\src\main\java" />
+      <recent name="D:\My Documents\Projects\Java\ECompiler\src\models" />
+      <recent name="D:\My Documents\Projects\Java\ECompiler\src" />
+      <recent name="D:\My Documents\Projects\Java\ECompiler\tools" />
+    </key>
   </component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ECompiler" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Main" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -241,20 +124,105 @@
       <option name="presentableId" value="Default" />
       <updated>1555607320003</updated>
     </task>
+    <task id="LOCAL-00001" summary="fixing bugs">
+      <created>1575760950552</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1575760950552</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="fixing bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing bugs" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="933" y="215" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1575760802716">
+    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576743346542">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="933" y="215" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.32.1600.868@0.32.1600.868" timestamp="1575760802716" />
-    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl" timestamp="1575567657559">
+    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser/0.32.1600.868@0.32.1600.868" timestamp="1576743346542" />
+    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser" timestamp="1578285015171">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl/0.32.1600.868@0.32.1600.868" timestamp="1575567657558" />
+    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser/0.32.1600.868@0.32.1600.868" timestamp="1578285015171" />
+    <state x="716" y="32" width="874" height="866" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1577608552157">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="716" y="32" width="874" height="866" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.32.1600.868@0.32.1600.868" timestamp="1577608552157" />
+    <state x="933" y="215" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1577891413607">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="933" y="215" width="524" height="500" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.32.1600.868@0.32.1600.868" timestamp="1577891413607" />
+    <state x="0" y="62" width="1590" height="805" key="CommitChangelistDialog2" timestamp="1575760949231">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="0" y="62" width="1590" height="805" key="CommitChangelistDialog2/0.32.1600.868@0.32.1600.868" timestamp="1575760949231" />
+    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl" timestamp="1575771862403">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl/0.32.1600.868@0.32.1600.868" timestamp="1575771862403" />
+    <state width="1552" height="316" key="GridCell.Tab.0.bottom" timestamp="1578469062204">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="316" key="GridCell.Tab.0.bottom/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
+    <state width="1552" height="316" key="GridCell.Tab.0.center" timestamp="1578469062204">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="316" key="GridCell.Tab.0.center/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
+    <state width="1552" height="316" key="GridCell.Tab.0.left" timestamp="1578469062204">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="316" key="GridCell.Tab.0.left/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
+    <state width="1552" height="316" key="GridCell.Tab.0.right" timestamp="1578469062204">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="316" key="GridCell.Tab.0.right/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
+    <state width="1552" height="269" key="GridCell.Tab.1.bottom" timestamp="1577975919602">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="269" key="GridCell.Tab.1.bottom/0.32.1600.868@0.32.1600.868" timestamp="1577975919602" />
+    <state width="1552" height="269" key="GridCell.Tab.1.center" timestamp="1577975919602">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="269" key="GridCell.Tab.1.center/0.32.1600.868@0.32.1600.868" timestamp="1577975919602" />
+    <state width="1552" height="269" key="GridCell.Tab.1.left" timestamp="1577975919601">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="269" key="GridCell.Tab.1.left/0.32.1600.868@0.32.1600.868" timestamp="1577975919601" />
+    <state width="1552" height="269" key="GridCell.Tab.1.right" timestamp="1577975919602">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state width="1552" height="269" key="GridCell.Tab.1.right/0.32.1600.868@0.32.1600.868" timestamp="1577975919602" />
     <state x="283" y="43" width="1024" height="843" key="SettingsEditor" timestamp="1575567663897">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
     <state x="283" y="43" width="1024" height="843" key="SettingsEditor/0.32.1600.868@0.32.1600.868" timestamp="1575567663897" />
+    <state x="790" y="202" width="800" height="526" key="Vcs.Push.Dialog.v2" timestamp="1575760952426">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="790" y="202" width="800" height="526" key="Vcs.Push.Dialog.v2/0.32.1600.868@0.32.1600.868" timestamp="1575760952426" />
+    <state x="453" y="84" width="683" height="762" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1578285065024">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="453" y="84" width="683" height="762" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.32.1600.868@0.32.1600.868" timestamp="1578285065024" />
+    <state x="542" y="386" width="505" height="158" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1577550570186">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="542" y="386" width="505" height="158" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.32.1600.868@0.32.1600.868" timestamp="1577550570186" />
+    <state x="449" y="186" width="700" height="530" key="recent.locations.popup" timestamp="1576994361275">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="449" y="186" width="700" height="530" key="recent.locations.popup/0.32.1600.868@0.32.1600.868" timestamp="1576994361275" />
+    <state x="464" y="210" key="run.anything.popup" timestamp="1577807359289">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="464" y="210" key="run.anything.popup/0.32.1600.868@0.32.1600.868" timestamp="1577807359289" />
+    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup" timestamp="1578233230572">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup/0.32.1600.868@0.32.1600.868" timestamp="1578233230572" />
   </component>
 </project>

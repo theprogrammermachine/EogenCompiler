@@ -105,6 +105,8 @@ public class sym {
   public static final int LBRACKET = 88;
   public static final int WITH = 58;
   public static final int NE = 51;
+  public static final int CREATE = 97;
+  public static final int DOT = 98;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -202,7 +204,9 @@ public class sym {
   "DOING",
   "IDENTIFIER",
   "NUMBER",
-  "STRING"
+  "STRING",
+  "CREATE",
+  "DOT"
   };
 }
 

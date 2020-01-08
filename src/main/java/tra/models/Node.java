@@ -3,15 +3,15 @@ package tra.models;
 import java.util.ArrayList;
 import java.util.List;
 
-class Node {
-    List<Pair<List<Object>, Action>> subNodes = new ArrayList<>();
-    String name;
+public class Node {
+    public List<Pair<List<Object>, Action>> subNodes = new ArrayList<>();
+    public String name;
 
-    Node(String name) {
+    public Node(String name) {
         this.name = name;
     }
 
-    Node next(List<Object> subNodes, Action action) {
+    public Node next(List<Object> subNodes, Action action) {
         this.subNodes.add(new Pair<>(subNodes, action));
         return this;
     }

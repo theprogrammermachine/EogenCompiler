@@ -1,4 +1,4 @@
-package tra;
+package tra.v3;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -133,6 +133,7 @@ RBrace = "}"
 Semicolon = ";"
 Colon = ":"
 Comma = ","
+DOT = "."
 Gt = ">"
 Lt = "<"
 Ge = ">="
@@ -144,6 +145,7 @@ WORD = [a-zA-Z0-9]+
 %%
 
 <YYINITIAL> {
+{DOT}                          {if (!foundString) return exportToken(sym.DOT, yytext(), yyline, yycolumn); else string.append(yytext());}
 {Lbracket}                     {if (!foundString) return exportToken(sym.LBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());}
 {Rbracket}                     {if (!foundString) return exportToken(sym.RBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());}
 {Lbracket}                     {if (!foundString) return exportToken(sym.LBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());}
@@ -177,6 +179,7 @@ WORD = [a-zA-Z0-9]+
 }
 {LineTerminator}({WhiteSpace})*
 {
+    if (!foundString) {
     String text = yytext();
 
     if (text.contains(" ")) {
@@ -231,22 +234,24 @@ WORD = [a-zA-Z0-9]+
             }
         }
     }
+    }
+    else {
+        string.append(yytext());
+    }
 }
 {Arrow}                        {if (!foundString) return exportToken(sym.ARROW, yytext(), yyline, yycolumn); else string.append(yytext());}
 \"                             {
     if (!foundString) {
         foundString = true;
-        string.append(yytext());
     } else {
         foundString = false;
-        string.append(yytext());
         String result = string.toString();
         string.setLength(0);
         string = new StringBuilder();
         return exportToken(sym.STRING, result, yyline, yycolumn);
     }
 }
-
+create                         {if (!foundString) return exportToken(sym.CREATE, yytext(), yyline, yycolumn); else string.append(yytext());}
 args                           {if (!foundString) return exportToken(sym.ARGS, yytext(), yyline, yycolumn); else string.append(yytext());}
 item                           {if (!foundString) return exportToken(sym.ITEM, yytext(), yyline, yycolumn); else string.append(yytext());}
 define                         {if (!foundString) return exportToken(sym.DEFINE, yytext(), yyline, yycolumn); else string.append(yytext());}
@@ -306,7 +311,29 @@ which                          {if (!foundString) return exportToken(sym.WHICH, 
 means                          {if (!foundString) return exportToken(sym.MEANS, yytext(), yyline, yycolumn); else string.append(yytext());}
 command                        {if (!foundString) return exportToken(sym.COMMAND, yytext(), yyline, yycolumn); else string.append(yytext());}
 {NUMBER}                       {
-    if (!foundString) return exportToken(sym.NUMBER, Double.parseDouble(yytext()), yyline, yycolumn);
+    if (!foundString) {
+        try {
+                            return exportToken(sym.NUMBER, Short.parseShort(yytext()), yyline, yycolumn);
+        } catch(Exception ex1) {
+            try {
+                        return exportToken(sym.NUMBER, Integer.parseInt(yytext()), yyline, yycolumn);
+            } catch(Exception ex2) {
+                try {
+                    return exportToken(sym.NUMBER, Long.parseLong(yytext()), yyline, yycolumn);
+                } catch(Exception ex3) {
+                    try {
+                return exportToken(sym.NUMBER, Float.parseFloat(yytext()), yyline, yycolumn);
+                    } catch(Exception ex4) {
+                        try {
+            return exportToken(sym.NUMBER, Double.parseDouble(yytext()), yyline, yycolumn);
+                        } catch(Exception ex5) {
+                            return exportToken(sym.NUMBER, Boolean.parseBoolean(yytext()), yyline, yycolumn);
+                        }
+                    }
+                }
+            }
+        }
+    }
     else string.append(yytext());
 }
 {Identifier}                   {

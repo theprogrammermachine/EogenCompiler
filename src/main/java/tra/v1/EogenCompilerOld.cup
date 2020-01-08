@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-parser code {:
+traParser code {:
     EogenLexer lexer;
     EogenParser(EogenLexer lexer) { super(lexer); this.lexer = lexer; }
 

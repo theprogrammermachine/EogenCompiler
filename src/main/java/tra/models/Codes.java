@@ -42,12 +42,10 @@ public class Codes {
             @JsonSubTypes.Type(value = Instantiate.class, name = "Instantiate"),
             @JsonSubTypes.Type(value = Instance.class, name = "Instance"),
             @JsonSubTypes.Type(value = Array.class, name = "Array"),
-            @JsonSubTypes.Type(value = ClassReference.class, name = "ClassReference"),
             @JsonSubTypes.Type(value = ArrayItem.class, name = "ArrayItem"),
             @JsonSubTypes.Type(value = ArrayPushItem.class, name = "ArrayPushItem"),
             @JsonSubTypes.Type(value = Chains.class, name = "Chains"),
             @JsonSubTypes.Type(value = Reference.class, name = "Reference"),
-            @JsonSubTypes.Type(value = Parenthesis.class, name = "Parenthesis"),
             @JsonSubTypes.Type(value = MathExpEqual.class, name = "MathExpEqual"),
             @JsonSubTypes.Type(value = MathExpNE.class, name = "MathExpNE"),
             @JsonSubTypes.Type(value = MathExpGT.class, name = "MathExpGT"),
@@ -508,14 +506,14 @@ public class Codes {
 
     public static class Call extends Code {
 
-        private Code funcReference;
+        private Reference funcReference;
         private Hashtable<String, Code> entries;
 
-        public Code getFuncReference() {
+        public Reference getFuncReference() {
             return funcReference;
         }
 
-        public void setFuncReference(Code funcReference) {
+        public void setFuncReference(Reference funcReference) {
             this.funcReference = funcReference;
         }
 
@@ -530,14 +528,14 @@ public class Codes {
 
     public static class Assignment extends Code {
 
-        private Code var;
+        private Reference var;
         private Code value;
 
-        public Code getVar() {
+        public Reference getVar() {
             return var;
         }
 
-        public void setVar(Code var) {
+        public void setVar(Reference var) {
             this.var = var;
         }
 
@@ -969,14 +967,14 @@ public class Codes {
 
     public static class Instantiate extends Code {
 
-        private Code classReference;
+        private Reference classReference;
         private Hashtable<String, Code> entries;
 
-        public Code getClassReference() {
+        public Reference getClassReference() {
             return classReference;
         }
 
-        public void setClassReference(Code classReference) {
+        public void setClassReference(Reference classReference) {
             this.classReference = classReference;
         }
 
@@ -1097,8 +1095,10 @@ public class Codes {
     public static class Class extends Code {
 
         private String name;
-        private List<Code> extensions;
-        private List<Code> codes;
+        private List<Identifier> inheritance;
+        private List<Identifier> behavior;
+        private List<Prop> properties;
+        private List<Function> functions;
 
         public String getName() {
             return name;
@@ -1108,20 +1108,36 @@ public class Codes {
             this.name = name;
         }
 
-        public List<Code> getExtensions() {
-            return extensions;
+        public List<Identifier> getInheritance() {
+            return inheritance;
         }
 
-        public void setExtensions(List<Code> extensions) {
-            this.extensions = extensions;
+        public void setInheritance(List<Identifier> inheritance) {
+            this.inheritance = inheritance;
         }
 
-        public List<Code> getCodes() {
-            return codes;
+        public List<Identifier> getBehavior() {
+            return behavior;
         }
 
-        public void setCodes(List<Code> codes) {
-            this.codes = codes;
+        public void setBehavior(List<Identifier> behavior) {
+            this.behavior = behavior;
+        }
+
+        public List<Prop> getProperties() {
+            return properties;
+        }
+
+        public void setProperties(List<Prop> properties) {
+            this.properties = properties;
+        }
+
+        public List<Function> getFunctions() {
+            return functions;
+        }
+
+        public void setFunctions(List<Function> functions) {
+            this.functions = functions;
         }
     }
 
@@ -1139,19 +1155,6 @@ public class Codes {
 
         public void setItems(List<Code> items) {
             this.items = items;
-        }
-    }
-
-    public static class ClassReference extends Code {
-
-        private String className;
-
-        public String getClassName() {
-            return className;
-        }
-
-        public void setClassName(String className) {
-            this.className = className;
         }
     }
 
@@ -1223,27 +1226,23 @@ public class Codes {
 
     public static class Reference extends Code {
 
-        private String name;
+        private Identifier currentChain;
+        private Reference restOfChains;
 
-        public String getName() {
-            return name;
+        public Identifier getCurrentChain() {
+            return currentChain;
         }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    public static class Parenthesis extends Code {
-
-        private Code code;
-
-        public Code getCode() {
-            return code;
+        public void setCurrentChain(Identifier currentChain) {
+            this.currentChain = currentChain;
         }
 
-        public void setCode(Code code) {
-            this.code = code;
+        public Reference getRestOfChains() {
+            return restOfChains;
+        }
+
+        public void setRestOfChains(Reference restOfChains) {
+            this.restOfChains = restOfChains;
         }
     }
 }
