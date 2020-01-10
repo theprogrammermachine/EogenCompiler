@@ -9,7 +9,6 @@ import tra.helpers.JsonHelper;
 import tra.models.*;
 import tra.models.Action;
 
-import java.awt.*;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -114,21 +113,32 @@ public class TraParser {
                 } else if (code instanceof Codes.Call) {
                     stream.write(new byte[]{0x55});
                     stream.write(new byte[]{0x01});
-                    Codes.Reference temp = ((Codes.Call) code).getFuncReference();
+                    Codes.Code temp = ((Codes.Call) code).getFuncReference();
                     stream.write(new byte[]{0x7f});
                     int counter = 0;
                     while (temp != null) {
-                        temp = temp.getRestOfChains();
+                        if (temp instanceof Codes.Reference) {
+                            temp = ((Codes.Reference) temp).getRestOfChains();
+                        } else if (temp instanceof Codes.Index) {
+                            temp = ((Codes.Index) temp).getIndex();
+                        }
                         counter++;
                     }
                     stream.write(convertIntegerToBytes(counter));
                     temp = ((Codes.Call) code).getFuncReference();
                     while (temp != null) {
-                        byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                        stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                        stream.write(idNameBytes);
-                        stream.write('\0');
-                        temp = temp.getRestOfChains();
+                        if (temp instanceof Codes.Reference) {
+                            byte[] idNameBytes = ((Codes.Reference) temp).getCurrentChain().getName().getBytes();
+                            stream.write(convertIntegerToBytes(idNameBytes.length + 1));
+                            stream.write(idNameBytes);
+                            stream.write('\0');
+                            temp = ((Codes.Reference) temp).getRestOfChains();
+                        } else if (temp instanceof Codes.Index) {
+                            stream.write(new byte[]{0x6d});
+
+                            temp = ((Codes.Index) temp).getVar();
+
+                        }
                     }
                     stream.write(new byte[]{0x02});
                     stream.write(convertIntegerToBytes(((Codes.Call) code).getEntries().size()));
@@ -145,43 +155,13 @@ public class TraParser {
                 } else if (code instanceof Codes.Assignment) {
                     stream.write(new byte[]{0x56});
                     stream.write(new byte[]{0x01});
-                    Codes.Reference temp = ((Codes.Assignment) code).getVar();
-                    stream.write(new byte[]{0x7f});
-                    int counter = 0;
-                    while (temp != null) {
-                        temp = temp.getRestOfChains();
-                        counter++;
-                    }
-                    stream.write(convertIntegerToBytes(counter));
-                    temp = ((Codes.Assignment) code).getVar();
-                    while (temp != null) {
-                        byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                        stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                        stream.write(idNameBytes);
-                        stream.write('\0');
-                        temp = temp.getRestOfChains();
-                    }
+                    stream.write(convertExpressionToBytes(((Codes.Assignment) code).getVar()));
                     stream.write(new byte[]{0x02});
                     stream.write(convertExpressionToBytes(((Codes.Assignment) code).getValue()));
                 } else if (code instanceof Codes.Instantiate) {
                     stream.write(new byte[]{0x57});
                     stream.write(new byte[]{0x01});
-                    Codes.Reference temp = ((Codes.Instantiate) code).getClassReference();
-                    stream.write(new byte[]{0x7f});
-                    int counter = 0;
-                    while (temp != null) {
-                        temp = temp.getRestOfChains();
-                        counter++;
-                    }
-                    stream.write(convertIntegerToBytes(counter));
-                    temp = ((Codes.Instantiate) code).getClassReference();
-                    while (temp != null) {
-                        byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                        stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                        stream.write(idNameBytes);
-                        stream.write('\0');
-                        temp = temp.getRestOfChains();
-                    }
+                    stream.write(convertExpressionToBytes(((Codes.Instantiate) code).getClassReference()));
                     stream.write(new byte[]{0x02});
                     stream.write(convertIntegerToBytes(((Codes.Instantiate) code).getEntries().size()));
                     for (Map.Entry<String, Codes.Code> entry : ((Codes.Instantiate) code).getEntries().entrySet()) {
@@ -256,6 +236,21 @@ public class TraParser {
                         stream.write(cs);
                         stream.write(new byte[]{0x6e});
                     }
+                    stream.write(new byte[]{0x05});
+                    Codes.Constructor constructor = ((Codes.Class) code).getConstructor();
+                    stream.write(convertIntegerToBytes(constructor.getParams().size()));
+                    for (Codes.Identifier id : constructor.getParams()) {
+                        byte[] idNameBytes = id.getName().getBytes();
+                        stream.write(convertIntegerToBytes(idNameBytes.length + 1));
+                        stream.write(idNameBytes);
+                        stream.write('\0');
+                    }
+                    stream.write(new byte[]{0x06});
+                    stream.write(new byte[]{0x6f});
+                    byte[] cs = convertCodeToBytes(constructor.getBody());
+                    stream.write(convertIntegerToBytes(cs.length));
+                    stream.write(cs);
+                    stream.write(new byte[]{0x6e});
                 } else if (code instanceof Codes.Return) {
                     stream.write(new byte[]{0x59});
                     stream.write(new byte[]{0x01});
@@ -372,22 +367,7 @@ public class TraParser {
             } else if (exp instanceof Codes.Call) {
                 stream.write(new byte[]{0x55});
                 stream.write(new byte[]{0x01});
-                Codes.Reference temp = ((Codes.Call) exp).getFuncReference();
-                stream.write(new byte[]{0x7f});
-                int counter = 0;
-                while (temp != null) {
-                    temp = temp.getRestOfChains();
-                    counter++;
-                }
-                stream.write(convertIntegerToBytes(counter));
-                temp = ((Codes.Call) exp).getFuncReference();
-                while (temp != null) {
-                    byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                    stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                    stream.write(idNameBytes);
-                    stream.write('\0');
-                    temp = temp.getRestOfChains();
-                }
+                stream.write(convertExpressionToBytes(((Codes.Call) exp).getFuncReference()));
                 stream.write(new byte[]{0x02});
                 stream.write(convertIntegerToBytes(((Codes.Call) exp).getEntries().size()));
                 for (Map.Entry<String, Codes.Code> entry : ((Codes.Call) exp).getEntries().entrySet()) {
@@ -403,22 +383,7 @@ public class TraParser {
             } else if (exp instanceof Codes.Instantiate) {
                 stream.write(new byte[]{0x57});
                 stream.write(new byte[]{0x01});
-                Codes.Reference temp = ((Codes.Instantiate) exp).getClassReference();
-                stream.write(new byte[]{0x7f});
-                int counter = 0;
-                while (temp != null) {
-                    temp = temp.getRestOfChains();
-                    counter++;
-                }
-                stream.write(convertIntegerToBytes(counter));
-                temp = ((Codes.Instantiate) exp).getClassReference();
-                while (temp != null) {
-                    byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                    stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                    stream.write(idNameBytes);
-                    stream.write('\0');
-                    temp = temp.getRestOfChains();
-                }
+                stream.write(convertExpressionToBytes(((Codes.Instantiate) exp).getClassReference()));
                 stream.write(new byte[]{0x02});
                 stream.write(convertIntegerToBytes(((Codes.Instantiate) exp).getEntries().size()));
                 for (Map.Entry<String, Codes.Code> entry : ((Codes.Instantiate) exp).getEntries().entrySet()) {
@@ -436,29 +401,32 @@ public class TraParser {
                 byte[] idName = ((Codes.Identifier) exp).getName().getBytes();
                 byte[] idNameLengthArr = convertIntegerToBytes(idName.length + 1);
                 stream.write(idNameLengthArr);
-                System.out.println(Arrays.toString(idNameLengthArr));
                 stream.write(idName);
                 stream.write('\0');
                 return stream.toByteArray();
             } else if (exp instanceof Codes.Reference) {
-                Codes.Reference temp = (Codes.Reference) exp;
                 stream.write(new byte[]{0x7f});
-                int counter = 0;
-                while (temp != null) {
-                    temp = temp.getRestOfChains();
-                    counter++;
-                }
-                stream.write(convertIntegerToBytes(counter));
-                temp = (Codes.Reference) exp;
-                while (temp != null) {
-                    byte[] idNameBytes = temp.getCurrentChain().getName().getBytes();
-                    stream.write(convertIntegerToBytes(idNameBytes.length + 1));
-                    stream.write(idNameBytes);
-                    stream.write('\0');
-                    temp = temp.getRestOfChains();
+                stream.write(convertExpressionToBytes(((Codes.Reference) exp).getCurrentChain()));
+                if (((Codes.Reference) exp).getRestOfChains() != null) {
+                    byte[] cs = convertExpressionToBytes(((Codes.Reference) exp).getRestOfChains());
+                    stream.write(convertIntegerToBytes(cs.length));
+                    stream.write(cs);
                 }
                 return stream.toByteArray();
-            } else if (exp instanceof Codes.Value) {
+            } else if (exp instanceof Codes.Index) {
+                stream.write(new byte[]{0x6d});
+                byte[] cs = convertExpressionToBytes(((Codes.Index) exp).getVar());
+                stream.write(convertIntegerToBytes(cs.length));
+                stream.write(cs);
+                cs = convertExpressionToBytes(((Codes.Index) exp).getIndex());
+                stream.write(convertIntegerToBytes(cs.length));
+                stream.write(cs);
+                cs = convertExpressionToBytes(((Codes.Index) exp).getRestOfChains());
+                stream.write(convertIntegerToBytes(cs.length));
+                stream.write(cs);
+                return stream.toByteArray();
+            }
+            else if (exp instanceof Codes.Value) {
                 if (((Codes.Value) exp).getValue() instanceof String) {
                     stream.write(new byte[]{0x62});
                     byte[] value = ((String) ((Codes.Value) exp).getValue()).getBytes();
@@ -552,6 +520,24 @@ public class TraParser {
                     }
                 });
         Node expNode = new Node("expNode");
+        expNode.next(Collections.singletonList(sym.terminalNames[sym.TRUE]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Value value = new Codes.Value();
+                        value.setValue(true);
+                        return value;
+                    }
+                });
+        expNode.next(Collections.singletonList(sym.terminalNames[sym.FALSE]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Value value = new Codes.Value();
+                        value.setValue(false);
+                        return value;
+                    }
+                });
         expNode.next(Collections.singletonList(sym.terminalNames[sym.NUMBER]),
                 new Action() {
                     @Override
@@ -566,15 +552,43 @@ public class TraParser {
                         return prevResults.get(0).second;
                     }
                 });
+        Node inputsNode = new Node("inputsNode");
+        expNode.next(Arrays.asList(sym.terminalNames[sym.LBRACKET], inputsNode, sym.terminalNames[sym.RBRACKET]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.AnonymousObject ao = new Codes.AnonymousObject();
+                        ao.setContent((Hashtable<String, Codes.Code>) prevResults.get(0).second);
+                        return ao;
+                    }
+                });
         Node refExtraNode = new Node("refExtraNode");
         expNode.next(Arrays.asList(sym.terminalNames[sym.IDENTIFIER], refExtraNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.Reference ref = new Codes.Reference();
-                        ref.setCurrentChain((Codes.Identifier) prevResults.get(0).second);
-                        ref.setRestOfChains((Codes.Reference)prevResults.get(1).second);
-                        return ref;
+                        if (prevResults.get(1).second == null || prevResults.get(1).second instanceof Codes.Reference) {
+                            Codes.Reference ref = new Codes.Reference();
+                            ref.setCurrentChain((Codes.Identifier) prevResults.get(0).second);
+                            ref.setRestOfChains((Codes.Code) prevResults.get(1).second);
+                            return ref;
+                        } else {
+                            Codes.Index index = ((Pair<Codes.Index, Codes.Reference>)prevResults.get(1).second).first;
+                            index.setVar((Codes.Identifier) prevResults.get(0).second);
+                            index.setRestOfChains(((Pair<Codes.Index, Codes.Reference>)prevResults.get(1).second).second);
+                            return index;
+                        }
+                    }
+                });
+        Node expChainNode = new Node("expChainNode");
+        refExtraNode.next(Arrays.asList(sym.terminalNames[sym.LBRACE], expChainNode, sym.terminalNames[sym.RBRACE], refExtraNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Index index = new Codes.Index();
+                        index.setIndex((Codes.Code)prevResults.get(0).second);
+                        index.setRestOfChains((Codes.Code)prevResults.get(1).second);
+                        return index;
                     }
                 });
         expNode.next(Arrays.asList(sym.terminalNames[sym.LPAREN], expNode, sym.terminalNames[sym.RPAREN]),
@@ -584,8 +598,73 @@ public class TraParser {
                         return prevResults.get(0).second;
                     }
                 });
+        expNode.next(Arrays.asList(sym.terminalNames[sym.LBRACE], expChainNode, sym.terminalNames[sym.RBRACE]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Array array = new Codes.Array();
+                        array.setItems((List<Codes.Code>)prevResults.get(0).second);
+                        return array;
+                    }
+                });
+        Node expChainExtraNode = new Node("expChainExtraNode");
+        Node periodNode = new Node("periodNode");
+        expChainNode.next(Arrays.asList(expNode, periodNode, expChainExtraNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        List<Codes.Code> ids = (List<Codes.Code>) prevResults.get(2).second;
+                        if (prevResults.get(1).second != null) {
+                            Codes.Period period = new Codes.Period();
+                            period.setStart((Codes.Code) prevResults.get(0).second);
+                            period.setEnd((Codes.Code)prevResults.get(1).second);
+                            ids.add(period);
+                        } else {
+                            Codes.Code exp = (Codes.Code) prevResults.get(0).second;
+                            ids.add(exp);
+                        }
+                        return ids;
+                    }
+                });
+        periodNode.next(Arrays.asList(sym.terminalNames[sym.COLON], expNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return prevResults.get(0).second;
+                    }
+                });
+        periodNode.next(Collections.singletonList(epsilon),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return null;
+                    }
+                });
+        expChainNode.next(Arrays.asList(epsilon),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return new ArrayList<>();
+                    }
+                });
+        expChainExtraNode.next(Arrays.asList(sym.terminalNames[sym.COMMA], expNode, expChainExtraNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        List<Codes.Code> ids = (List<Codes.Code>) prevResults.get(1).second;
+                        Codes.Code exp = (Codes.Code) prevResults.get(0).second;
+                        ids.add(exp);
+                        return ids;
+                    }
+                });
+        expChainExtraNode.next(Arrays.asList(epsilon),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return new ArrayList<>();
+                    }
+                });
         Node refNode = new Node("refNode");
-        Node inputsNode = new Node("inputsNode");
         expNode.next(Arrays.asList(sym.terminalNames[sym.INSTANCE], sym.terminalNames[sym.OF],
                 refNode, sym.terminalNames[sym.LPAREN], inputsNode, sym.terminalNames[sym.RPAREN]),
                 new Action() {
@@ -610,7 +689,95 @@ public class TraParser {
                         return call;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUM], sym.terminalNames[sym.NUMBER]),
+        Node secondParamNode = new Node("secondParamNode");
+        secondParamNode.next(Collections.singletonList(sym.terminalNames[sym.TRUE]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Value value = new Codes.Value();
+                        value.setValue(true);
+                        return value;
+                    }
+                });
+        secondParamNode.next(Collections.singletonList(sym.terminalNames[sym.FALSE]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Value value = new Codes.Value();
+                        value.setValue(false);
+                        return value;
+                    }
+                });
+        secondParamNode.next(Collections.singletonList(sym.terminalNames[sym.NUMBER]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return prevResults.get(0).second;
+                    }
+                });
+        secondParamNode.next(Collections.singletonList(sym.terminalNames[sym.STRING]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return prevResults.get(0).second;
+                    }
+                });
+        secondParamNode.next(Arrays.asList(sym.terminalNames[sym.IDENTIFIER], refExtraNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        if (prevResults.get(1).second == null || prevResults.get(1).second instanceof Codes.Reference) {
+                            Codes.Reference ref = new Codes.Reference();
+                            ref.setCurrentChain((Codes.Identifier) prevResults.get(0).second);
+                            ref.setRestOfChains((Codes.Code) prevResults.get(1).second);
+                            return ref;
+                        } else {
+                            Codes.Index index = ((Pair<Codes.Index, Codes.Reference>)prevResults.get(1).second).first;
+                            index.setVar((Codes.Identifier) prevResults.get(0).second);
+                            index.setRestOfChains(((Pair<Codes.Index, Codes.Reference>)prevResults.get(1).second).second);
+                            return index;
+                        }
+                    }
+                });
+        secondParamNode.next(Arrays.asList(sym.terminalNames[sym.LPAREN], expNode, sym.terminalNames[sym.RPAREN]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        return prevResults.get(0).second;
+                    }
+                });
+        secondParamNode.next(Arrays.asList(expNode, sym.terminalNames[sym.IS], sym.terminalNames[sym.NOT],
+                sym.terminalNames[sym.SATISFIED]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpNot sum = new Codes.MathExpNot();
+                        sum.setValue((Codes.Code)prevResults.get(0).second);
+                        return sum;
+                    }
+                });
+        secondParamNode.next(Arrays.asList(sym.terminalNames[sym.DO], refNode,
+                sym.terminalNames[sym.LPAREN], inputsNode, sym.terminalNames[sym.RPAREN]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.Call call = new Codes.Call();
+                        call.setEntries((Hashtable<String, Codes.Code>) prevResults.get(1).second);
+                        call.setFuncReference((Codes.Reference)prevResults.get(0).second);
+                        return call;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.IS], sym.terminalNames[sym.NOT],
+                sym.terminalNames[sym.SATISFIED]),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpNot sum = new Codes.MathExpNot();
+                        sum.setValue((Codes.Code)prevResults.get(0).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUM], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
@@ -620,38 +787,77 @@ public class TraParser {
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUM], sym.terminalNames[sym.STRING]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUBTRACT], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpSum sum = new Codes.MathExpSum();
+                        Codes.MathExpSubstract sum = new Codes.MathExpSubstract();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUM], sym.terminalNames[sym.IDENTIFIER]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.MULTIPLY], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpSum sum = new Codes.MathExpSum();
+                        Codes.MathExpMultiply sum = new Codes.MathExpMultiply();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.SUM], sym.terminalNames[sym.LPAREN],
-                expNode, sym.terminalNames[sym.RPAREN]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.DIVISION], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpSum sum = new Codes.MathExpSum();
+                        Codes.MathExpDivide sum = new Codes.MathExpDivide();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.EQUAL], sym.terminalNames[sym.NUMBER]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.AND], secondParamNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpAnd sum = new Codes.MathExpAnd();
+                        sum.setValue1((Codes.Code)prevResults.get(0).second);
+                        sum.setValue2((Codes.Code)prevResults.get(1).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.OR], secondParamNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpOr sum = new Codes.MathExpOr();
+                        sum.setValue1((Codes.Code)prevResults.get(0).second);
+                        sum.setValue2((Codes.Code)prevResults.get(1).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.POWER], secondParamNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpPower sum = new Codes.MathExpPower();
+                        sum.setValue1((Codes.Code)prevResults.get(0).second);
+                        sum.setValue2((Codes.Code)prevResults.get(1).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.MOD], secondParamNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpMod sum = new Codes.MathExpMod();
+                        sum.setValue1((Codes.Code)prevResults.get(0).second);
+                        sum.setValue2((Codes.Code)prevResults.get(1).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.EQUAL], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
@@ -661,38 +867,7 @@ public class TraParser {
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.EQUAL], sym.terminalNames[sym.STRING]),
-                new Action() {
-                    @Override
-                    public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpEqual sum = new Codes.MathExpEqual();
-                        sum.setValue1((Codes.Code)prevResults.get(0).second);
-                        sum.setValue2((Codes.Code)prevResults.get(1).second);
-                        return sum;
-                    }
-                });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.EQUAL], sym.terminalNames[sym.IDENTIFIER]),
-                new Action() {
-                    @Override
-                    public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpEqual sum = new Codes.MathExpEqual();
-                        sum.setValue1((Codes.Code)prevResults.get(0).second);
-                        sum.setValue2((Codes.Code)prevResults.get(1).second);
-                        return sum;
-                    }
-                });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.EQUAL], sym.terminalNames[sym.LPAREN],
-                expNode, sym.terminalNames[sym.RPAREN]),
-                new Action() {
-                    @Override
-                    public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpEqual sum = new Codes.MathExpEqual();
-                        sum.setValue1((Codes.Code)prevResults.get(0).second);
-                        sum.setValue2((Codes.Code)prevResults.get(1).second);
-                        return sum;
-                    }
-                });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LT], sym.terminalNames[sym.NUMBER]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LT], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
@@ -702,32 +877,41 @@ public class TraParser {
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LT], sym.terminalNames[sym.STRING]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LE], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpLT sum = new Codes.MathExpLT();
+                        Codes.MathExpLE sum = new Codes.MathExpLE();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LT], sym.terminalNames[sym.IDENTIFIER]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.GE], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpLT sum = new Codes.MathExpLT();
+                        Codes.MathExpGE sum = new Codes.MathExpGE();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
                     }
                 });
-        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.LT], sym.terminalNames[sym.LPAREN],
-                expNode, sym.terminalNames[sym.RPAREN]),
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.GT], secondParamNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Codes.MathExpLT sum = new Codes.MathExpLT();
+                        Codes.MathExpGT sum = new Codes.MathExpGT();
+                        sum.setValue1((Codes.Code)prevResults.get(0).second);
+                        sum.setValue2((Codes.Code)prevResults.get(1).second);
+                        return sum;
+                    }
+                });
+        expNode.next(Arrays.asList(expNode, sym.terminalNames[sym.NE], secondParamNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Codes.MathExpNE sum = new Codes.MathExpNE();
                         sum.setValue1((Codes.Code)prevResults.get(0).second);
                         sum.setValue2((Codes.Code)prevResults.get(1).second);
                         return sum;
@@ -1086,15 +1270,17 @@ public class TraParser {
                         Codes.Identifier classId = (Codes.Identifier) prevResults.get(0).second;
                         List<Codes.Identifier> inheritanceIds = (List<Codes.Identifier>) prevResults.get(1).second;
                         List<Codes.Identifier> behaviorIds = (List<Codes.Identifier>) prevResults.get(2).second;
-                        Pair<List<Codes.Prop>, List<Codes.Function>> body
-                                = (Pair<List<Codes.Prop>, List<Codes.Function>>) prevResults.get(3).second;
+                        Triple<List<Codes.Prop>, List<Codes.Function>, Codes.Constructor> body
+                                = (Triple<List<Codes.Prop>, List<Codes.Function>, Codes.Constructor>)
+                                prevResults.get(3).second;
                         List<Codes.Code> restOfTheCode = (List<Codes.Code>) prevResults.get(4).second;
                         Codes.Class classObj = new Codes.Class();
                         classObj.setName(classId.getName());
                         classObj.setInheritance(inheritanceIds);
                         classObj.setBehavior(behaviorIds);
-                        classObj.setProperties(body.first);
-                        classObj.setFunctions(body.second);
+                        classObj.setProperties(body.a);
+                        classObj.setFunctions(body.b);
+                        classObj.setConstructor(body.c);
                         restOfTheCode.add(0, classObj);
                         return restOfTheCode;
                     }
@@ -1108,24 +1294,26 @@ public class TraParser {
                     }
                 });
         Node classContentExtraNode = new Node("classContentExtraNode");
-        classContentNode.next(Arrays.asList(sym.terminalNames[sym.DEFINE], sym.terminalNames[sym.PROP], sym.terminalNames[sym.IDENTIFIER],
-                sym.terminalNames[sym.WITH], sym.terminalNames[sym.VALUE], sym.terminalNames[sym.COLON], expNode, classContentExtraNode),
+        classContentNode.next(Arrays.asList(sym.terminalNames[sym.ON], sym.terminalNames[sym.CREATED], funcParams,
+                sym.terminalNames[sym.START], rootNode, sym.terminalNames[sym.END], classContentExtraNode),
                 new Action() {
                     @Override
                     public Object act(List<Pair<Symbol, Object>> prevResults) {
-                        Pair<Symbol, Object> propName = prevResults.get(0);
-                        Pair<Symbol, Object> propValue = prevResults.get(1);
-                        Codes.Prop prop = new Codes.Prop();
-                        prop.setId((Codes.Identifier)propName.second);
-                        prop.setValue((Codes.Code)propValue.second);
-                        prop.setLevel(Codes.DataLevel.InstanceLevel);
+                        List<Codes.Code> body = (List<Codes.Code>) prevResults.get(1).second;
+                        List<Codes.Identifier> ids = (List<Codes.Identifier>) prevResults.get(0).second;
                         Pair<List<Codes.Prop>, List<Codes.Function>> content
                                 = (Pair<List<Codes.Prop>, List<Codes.Function>>) prevResults.get(2).second;
-                        content.first.add(0, prop);
-                        return content;
+                        Codes.Constructor constructor = new Codes.Constructor();
+                        constructor.setParams(ids);
+                        constructor.setBody(body);
+                        return new Triple<>(
+                                content.first,
+                                content.second,
+                                constructor
+                        );
                     }
                 });
-        classContentExtraNode.next(Arrays.asList(sym.terminalNames[sym.DEFINE], sym.terminalNames[sym.PROP], sym.terminalNames[sym.IDENTIFIER],
+        classContentNode.next(Arrays.asList(sym.terminalNames[sym.DEFINE], sym.terminalNames[sym.PROP], sym.terminalNames[sym.IDENTIFIER],
                 sym.terminalNames[sym.WITH], sym.terminalNames[sym.VALUE], sym.terminalNames[sym.COLON], expNode, classContentExtraNode),
                 new Action() {
                     @Override
@@ -1153,6 +1341,23 @@ public class TraParser {
                                 = (Pair<List<Codes.Prop>, List<Codes.Function>>) prevResults.get(2).second;
                         newLine.setLevel(((Codes.DataLevel)funcLevel.second));
                         content.second.add(0, newLine);
+                        return content;
+                    }
+                });
+        classContentExtraNode.next(Arrays.asList(sym.terminalNames[sym.DEFINE], sym.terminalNames[sym.PROP], sym.terminalNames[sym.IDENTIFIER],
+                sym.terminalNames[sym.WITH], sym.terminalNames[sym.VALUE], sym.terminalNames[sym.COLON], expNode, classContentExtraNode),
+                new Action() {
+                    @Override
+                    public Object act(List<Pair<Symbol, Object>> prevResults) {
+                        Pair<Symbol, Object> propName = prevResults.get(0);
+                        Pair<Symbol, Object> propValue = prevResults.get(1);
+                        Codes.Prop prop = new Codes.Prop();
+                        prop.setId((Codes.Identifier)propName.second);
+                        prop.setValue((Codes.Code)propValue.second);
+                        prop.setLevel(Codes.DataLevel.InstanceLevel);
+                        Pair<List<Codes.Prop>, List<Codes.Function>> content
+                                = (Pair<List<Codes.Prop>, List<Codes.Function>>) prevResults.get(2).second;
+                        content.first.add(0, prop);
                         return content;
                     }
                 });
@@ -1332,7 +1537,7 @@ public class TraParser {
                 0, 0, null, null);
         int counter = 0;
         boolean done = false;
-        while (counter < 100) {
+        while (counter < 1000) {
             System.out.println("inputs dictionary size : " + currentPointer.inputs.size() + " - " + currentPointer.nodeName() + " - " + currentPointer.rulePointer + " - " + currentPointer.ruleTokenPointer + " - " + currentPointer.tokenPointer);
             printStack(currentPointer);
             System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(currentPointer.inputs));
@@ -1343,7 +1548,6 @@ public class TraParser {
                     currentPointer.forwardToken();
                     if (currentPointer.ruleTokenPointer < currentPointer.currentRuleSize() &&
                             currentPointer.currentRuleToken() instanceof Node) {
-                        System.out.println("hello.......................................................................");
                         System.out.println(((Node) currentPointer.currentRuleToken()).name + "moving on epsilon...");
                         for (int i = 0; i < ((Node) currentPointer.currentRuleToken()).subNodes.size(); i++) {
                             if (((Node) currentPointer.currentRuleToken()).subNodes.get(i).first.get(0) instanceof Node &&
@@ -1467,9 +1671,44 @@ public class TraParser {
                             NodePointer temp = pointer;
                             HashSet<String> seen = new HashSet<>();
                             Object res = null;
+                            boolean found = false;
+                            int tokenPointer = pointer.tokenPointer;
                             while (true) {
-                                System.out.println("hello " + pointer.nodeName() + " " + pointer.rulePointer);
-                                System.out.println("hi " + new GsonBuilder().setPrettyPrinting().create().toJson(pointer.inputs));
+                                printStack(pointer);
+                                System.out.println("executing finding match after epsilon resolving... , " + sym.terminalNames[tokens[tokenPointer].sym]);
+                                int ruleIndex = 0;
+                                for (Pair<List<Object>, Action> subNodes : pointer.node.subNodes) {
+                                    if (subNodes.first.get(0) instanceof Node &&
+                                            ((Node) subNodes.first.get(0)).name.equals(pointer.nodeName()) &&
+                                            subNodes.first.get(1) instanceof String &&
+                                            subNodes.first.get(1).equals(sym.terminalNames[tokens[tokenPointer].sym])) {
+                                        System.out.println("found match for expansion.");
+                                        found = true;
+                                        pointer.forwardToken();
+                                        NodePointer pointerP = new NodePointer(pointer.id,
+                                                pointer.node, tokenPointer,
+                                                ruleIndex, 1, pointer.tokenPointer +
+                                                (tokens[pointer.tokenPointer + 1].sym == sym.EOF ? 0 : 1),
+                                                pointer, pointer);
+                                        if (res != null) {
+                                            pointer.inputs.add(new Pair<>(null, res));
+                                            res = null;
+                                        }
+                                        pointerP.inputs.add(new Pair<>(null, pointer.currentAction().act(pointer.inputs)));
+                                        pointer.foundMatch = true;
+                                        pointer = pointerP;
+                                        currentPointer = pointer;
+                                        if (tokens[pointer.tokenPointer].sym == sym.EOF) {
+                                            System.out.println("finished compile.");
+                                            done = true;
+                                            continue;
+                                        }
+                                        break;
+                                    }
+                                    ruleIndex++;
+                                }
+                                printStack(pointer);
+                                if (found) break;
                                 if (seen.contains(pointer.id)) {
                                     System.out.println("skipping...");
                                     temp = pointer;
@@ -1499,29 +1738,29 @@ public class TraParser {
                                     break;
                                 }
                             }
-                            printStack(pointer);
-                            NodePointer next;
-                            if (pointer.currentRuleToken() instanceof Node) {
-                                next = new NodePointer(pointer.id, pointer.node,
-                                        currentPointer.tokenPointer, pointer.rulePointer,
-                                        pointer.ruleTokenPointer + 1,
-                                        pointer.startPoint, pointer,
-                                        currentPointer);
+                            if (!found) {
+                                NodePointer next;
+                                if (pointer.currentRuleToken() instanceof Node) {
+                                    next = new NodePointer(pointer.id, pointer.node,
+                                            currentPointer.tokenPointer, pointer.rulePointer,
+                                            pointer.ruleTokenPointer + 1,
+                                            pointer.startPoint, pointer,
+                                            currentPointer);
+                                } else {
+                                    next = new NodePointer(pointer.id, pointer.node,
+                                            currentPointer.tokenPointer, pointer.rulePointer,
+                                            pointer.ruleTokenPointer, pointer.startPoint, pointer, currentPointer);
+                                }
+                                next.inputs = new ArrayList<>(pointer.inputs);
+                                currentPointer = next;
                             }
-                            else {
-                                next = new NodePointer(pointer.id, pointer.node,
-                                        currentPointer.tokenPointer, pointer.rulePointer,
-                                        pointer.ruleTokenPointer, pointer.startPoint, pointer, currentPointer);
-                            }
-                            next.inputs = new ArrayList<>(pointer.inputs);
-                            currentPointer = next;
                         }
                     }
                 }
             }
             else if (ruleToken instanceof String) {
                 Symbol token = tokens[currentPointer.tokenPointer];
-                System.out.println(token);
+                System.out.println(sym.terminalNames[token.sym] + " " + " line : " + token.left + " , word : " + token.right);
                 System.out.println("comparing " + sym.terminalNames[token.sym] + " with " + ruleToken);
                 if (token.sym == sym.EOF) {
                     System.out.println("finished compiling.");
@@ -1567,7 +1806,6 @@ public class TraParser {
                                         currentPointer, currentPointer);
                                 tempP.inputs.add(new Pair<>(null, currentPointer.currentAction().act(currentPointer.inputs)));
                                 currentPointer.foundMatch = true;
-                                System.out.println("keyhan");
                                 currentPointer = tempP;
                                 if (tokens[currentPointer.tokenPointer].sym == sym.EOF) {
                                     System.out.println("finished compile.");
@@ -1606,9 +1844,44 @@ public class TraParser {
                             HashSet<String> seen = new HashSet<>();
                             NodePointer temp = pointer;
                             Object res = null;
+                            found = false;
+                            int tokenPointer = pointer.tokenPointer + 1;
                             while (true) {
                                 System.out.println("hello " + pointer.nodeName() + " " + pointer.rulePointer);
                                 System.out.println("hi " + new GsonBuilder().setPrettyPrinting().create().toJson(pointer.inputs));
+                                System.out.println("executing finding match after epsilon resolving... , " + pointer.nodeName() + " " + sym.terminalNames[tokens[tokenPointer].sym]);
+                                ruleIndex = 0;
+                                for (Pair<List<Object>, Action> subNodes : pointer.node.subNodes) {
+                                    if (subNodes.first.get(0) instanceof Node &&
+                                            ((Node) subNodes.first.get(0)).name.equals(pointer.nodeName()) &&
+                                            subNodes.first.get(1) instanceof String &&
+                                            subNodes.first.get(1).equals(sym.terminalNames[tokens[tokenPointer].sym])) {
+                                        System.out.println("found match for expansion.");
+                                        found = true;
+                                        pointer.forwardToken();
+                                        NodePointer pointerP = new NodePointer(pointer.id,
+                                                pointer.node, tokenPointer,
+                                                ruleIndex, 1, pointer.tokenPointer +
+                                                (tokens[pointer.tokenPointer + 1].sym == sym.EOF ? 0 : 1),
+                                                pointer, pointer);
+                                        if (res != null) {
+                                            pointer.inputs.add(new Pair<>(null, res));
+                                            res = null;
+                                        }
+                                        pointerP.inputs.add(new Pair<>(null, pointer.currentAction().act(pointer.inputs)));
+                                        pointer.foundMatch = true;
+                                        pointer = pointerP;
+                                        currentPointer = pointer;
+                                        if (tokens[pointer.tokenPointer].sym == sym.EOF) {
+                                            System.out.println("finished compile.");
+                                            done = true;
+                                            continue;
+                                        }
+                                        break;
+                                    }
+                                    ruleIndex++;
+                                }
+                                if (found) break;
                                 if (seen.contains(pointer.id) || pointer.foundMatch) {
                                     System.out.println("skipping...");
                                     seen.add(pointer.id);
@@ -1641,17 +1914,19 @@ public class TraParser {
                                     break;
                                 }
                             }
-                            NodePointer tempP = new NodePointer(pointer.id,
-                                    pointer.node, currentPointer.tokenPointer + 1,
-                                    pointer.rulePointer, pointer.ruleTokenPointer +
-                                    (tokens[currentPointer.tokenPointer + 1].sym == sym.EOF ? 0 : 1),
-                                    pointer.startPoint, pointer, pointer);
-                            tempP.inputs = new ArrayList<>(pointer.inputs);
-                            currentPointer = tempP;
-                            if (tokens[currentPointer.tokenPointer].sym == sym.EOF) {
-                                System.out.println("finished compile.");
-                                done = true;
-                                continue;
+                            if (!found) {
+                                NodePointer tempP = new NodePointer(pointer.id,
+                                        pointer.node, currentPointer.tokenPointer + 1,
+                                        pointer.rulePointer, pointer.ruleTokenPointer +
+                                        (tokens[currentPointer.tokenPointer + 1].sym == sym.EOF ? 0 : 1),
+                                        pointer.startPoint, pointer, pointer);
+                                tempP.inputs = new ArrayList<>(pointer.inputs);
+                                currentPointer = tempP;
+                                if (tokens[currentPointer.tokenPointer].sym == sym.EOF) {
+                                    System.out.println("finished compile.");
+                                    done = true;
+                                    continue;
+                                }
                             }
                         }
                     } else {

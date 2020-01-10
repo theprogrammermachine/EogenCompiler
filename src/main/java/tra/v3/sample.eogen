@@ -1,6 +1,0 @@
-
-define function named test
-  return "Hello"
-
-do print(text: do test() + " World !")
-

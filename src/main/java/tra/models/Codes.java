@@ -42,8 +42,6 @@ public class Codes {
             @JsonSubTypes.Type(value = Instantiate.class, name = "Instantiate"),
             @JsonSubTypes.Type(value = Instance.class, name = "Instance"),
             @JsonSubTypes.Type(value = Array.class, name = "Array"),
-            @JsonSubTypes.Type(value = ArrayItem.class, name = "ArrayItem"),
-            @JsonSubTypes.Type(value = ArrayPushItem.class, name = "ArrayPushItem"),
             @JsonSubTypes.Type(value = Chains.class, name = "Chains"),
             @JsonSubTypes.Type(value = Reference.class, name = "Reference"),
             @JsonSubTypes.Type(value = MathExpEqual.class, name = "MathExpEqual"),
@@ -148,6 +146,32 @@ public class Codes {
 
         public void setCodes(List<Code> codes) {
             this.codes = codes;
+        }
+    }
+
+    public static class AnonymousObject extends Code {
+
+        private Hashtable<String, Code> content;
+
+        public Hashtable<String, Code> getContent() {
+            return content;
+        }
+
+        public void setContent(Hashtable<String, Code> content) {
+            this.content = content;
+        }
+    }
+
+    public static class MathExpNot extends Code {
+
+        private Code value;
+
+        public Code getValue() {
+            return value;
+        }
+
+        public void setValue(Code value) {
+            this.value = value;
         }
     }
 
@@ -506,14 +530,14 @@ public class Codes {
 
     public static class Call extends Code {
 
-        private Reference funcReference;
+        private Code funcReference;
         private Hashtable<String, Code> entries;
 
-        public Reference getFuncReference() {
+        public Code getFuncReference() {
             return funcReference;
         }
 
-        public void setFuncReference(Reference funcReference) {
+        public void setFuncReference(Code funcReference) {
             this.funcReference = funcReference;
         }
 
@@ -528,14 +552,14 @@ public class Codes {
 
     public static class Assignment extends Code {
 
-        private Reference var;
+        private Code var;
         private Code value;
 
-        public Reference getVar() {
+        public Code getVar() {
             return var;
         }
 
-        public void setVar(Reference var) {
+        public void setVar(Code var) {
             this.var = var;
         }
 
@@ -967,14 +991,14 @@ public class Codes {
 
     public static class Instantiate extends Code {
 
-        private Reference classReference;
+        private Code classReference;
         private Hashtable<String, Code> entries;
 
-        public Reference getClassReference() {
+        public Code getClassReference() {
             return classReference;
         }
 
-        public void setClassReference(Reference classReference) {
+        public void setClassReference(Code classReference) {
             this.classReference = classReference;
         }
 
@@ -1092,9 +1116,31 @@ public class Codes {
         }
     }
 
+    public static class Constructor extends Code {
+        private List<Identifier> params;
+        private List<Code> body;
+
+        public List<Identifier> getParams() {
+            return params;
+        }
+
+        public void setParams(List<Identifier> params) {
+            this.params = params;
+        }
+
+        public List<Code> getBody() {
+            return body;
+        }
+
+        public void setBody(List<Code> body) {
+            this.body = body;
+        }
+    }
+
     public static class Class extends Code {
 
         private String name;
+        private Constructor constructor;
         private List<Identifier> inheritance;
         private List<Identifier> behavior;
         private List<Prop> properties;
@@ -1106,6 +1152,14 @@ public class Codes {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public Constructor getConstructor() {
+            return constructor;
+        }
+
+        public void setConstructor(Constructor constructor) {
+            this.constructor = constructor;
         }
 
         public List<Identifier> getInheritance() {
@@ -1158,39 +1212,40 @@ public class Codes {
         }
     }
 
-    public static class ArrayPushItem extends Code {
+    public static class Period extends Code {
 
-        private String arrName;
-        private Code value;
+        private Code start;
+        private Code end;
 
-        public String getArrName() {
-            return arrName;
+        public Code getStart() {
+            return start;
         }
 
-        public void setArrName(String arrName) {
-            this.arrName = arrName;
+        public void setStart(Code start) {
+            this.start = start;
         }
 
-        public Code getValue() {
-            return value;
+        public Code getEnd() {
+            return end;
         }
 
-        public void setValue(Code value) {
-            this.value = value;
+        public void setEnd(Code end) {
+            this.end = end;
         }
     }
 
-    public static class ArrayItem extends Code {
+    public static class Index extends Code {
 
-        private Code array;
+        private Code var;
         private Code index;
+        private Code restOfChains;
 
-        public Code getArray() {
-            return array;
+        public Code getVar() {
+            return var;
         }
 
-        public void setArray(Code array) {
-            this.array = array;
+        public void setVar(Code var) {
+            this.var = var;
         }
 
         public Code getIndex() {
@@ -1199,6 +1254,14 @@ public class Codes {
 
         public void setIndex(Code index) {
             this.index = index;
+        }
+
+        public Code getRestOfChains() {
+            return restOfChains;
+        }
+
+        public void setRestOfChains(Code restOfChains) {
+            this.restOfChains = restOfChains;
         }
     }
 
@@ -1227,7 +1290,7 @@ public class Codes {
     public static class Reference extends Code {
 
         private Identifier currentChain;
-        private Reference restOfChains;
+        private Code restOfChains;
 
         public Identifier getCurrentChain() {
             return currentChain;
@@ -1237,11 +1300,11 @@ public class Codes {
             this.currentChain = currentChain;
         }
 
-        public Reference getRestOfChains() {
+        public Code getRestOfChains() {
             return restOfChains;
         }
 
-        public void setRestOfChains(Reference restOfChains) {
+        public void setRestOfChains(Code restOfChains) {
             this.restOfChains = restOfChains;
         }
     }

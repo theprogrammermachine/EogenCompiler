@@ -2,27 +2,156 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="67f99c2e-e025-477c-900e-e09a3386bb49" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/keyhan.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output.tra" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/MyIterator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/NodePointer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Tuple2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraLexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/output.tra" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/sample.eogen" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/models/Triple.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/sample.tracode" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/tra/v3/temp.tracode" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/keyhan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/keyhan.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_10_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ECompiler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ECompiler.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Codes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Codes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/Tuple.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/Tuple.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tra/models/sym.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/models/sym.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/temp/Tra.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/temp/Tra.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v1/EogenCompilerOld.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v2/EogenCompiler.cup" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/Tra.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/Tra.flex" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/ECompiler.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/TraLexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraLexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/TraParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/TraParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/output.tra" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tra/v3/output.tra" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tra/v3/sample.eogen" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Array.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Array.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$ArrayItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$ArrayPushItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$As.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$As.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Assignment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Assignment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$BasedOnExtension.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$BasedOnExtension.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$BehavesLikeExtension.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$BehavesLikeExtension.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Behaviour.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Behaviour.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Call.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Call.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Case.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Case.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Chains.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Chains.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Class.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Class.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Code.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Code.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$CounterFor.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$CounterFor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$DataLevel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$DataLevel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$DataType.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$DataType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Decrement.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Decrement.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Definition.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Definition.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Else.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Else.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$ElseIf.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$ElseIf.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Field.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Field.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$For.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$For.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Foreach.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Foreach.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Function.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Function.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Identifier.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Identifier.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$If.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$If.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Increment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Increment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Instance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Instance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Instantiate.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Instantiate.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Is.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Is.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpAnd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpAnd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpDivide.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpDivide.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpEqual.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpEqual.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpGE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpGE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpGT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpGT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpLE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpLE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpLT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpLT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpMod.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpMod.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpMultiply.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpMultiply.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpNE.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpNE.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpOr.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpOr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpPower.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpPower.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpSubstract.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpSubstract.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpSum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpSum.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpUminus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$MathExpUminus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$NotSatisfied.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$NotSatisfied.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Of.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Of.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$On.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$On.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Prop.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Prop.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Reference.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Reference.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Return.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Return.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Switch.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Switch.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Try.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Try.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Value.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Value.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$Variable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$Variable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes$While.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes$While.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/Codes.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/Codes.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/models/sym.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/models/sym.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraLexer$Tuple.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraLexer$Tuple.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraLexer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraLexer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$22.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$22.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$23.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$23.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$24.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$24.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$25.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$25.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$26.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$26.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$27.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$27.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$28.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$28.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$29.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$29.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$30.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$30.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$31.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$31.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$32.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$32.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$33.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$33.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$34.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$34.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$35.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$35.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$36.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$36.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$37.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$37.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$38.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$38.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$39.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$39.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$40.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$40.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$41.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$41.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$42.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$42.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$43.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$43.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$44.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$44.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$45.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$45.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$46.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$46.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$47.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$47.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$48.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$48.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$49.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$49.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$50.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$50.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$51.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$51.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$52.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$52.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$53.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$53.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$54.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$54.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$55.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$55.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$56.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$56.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$57.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$57.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$58.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$58.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$59.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$59.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$60.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$60.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$61.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$61.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$62.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$62.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$63.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$63.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$64.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$64.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$65.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$65.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$66.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$66.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$67.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$67.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$68.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$68.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$69.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$69.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$70.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$70.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$71.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$71.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/tra/v3/TraParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/tra/v3/TraParser.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +191,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574424610158" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JFlex" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/tra/v3" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Softwares-Data/reactide" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -140,14 +269,18 @@
     <option name="LAST_COMMIT_MESSAGE" value="fixing bugs" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576743346542">
+    <state x="395" y="127" width="800" height="675" key="#Plugins" timestamp="1578599090566">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser/0.32.1600.868@0.32.1600.868" timestamp="1576743346542" />
-    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser" timestamp="1578285015171">
+    <state x="395" y="127" width="800" height="675" key="#Plugins/0.32.1600.868@0.32.1600.868" timestamp="1578599090566" />
+    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1578594992030">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser/0.32.1600.868@0.32.1600.868" timestamp="1578285015171" />
+    <state x="839" y="270" width="701" height="388" key="#com.intellij.fileTypes.FileTypeChooser/0.32.1600.868@0.32.1600.868" timestamp="1578594992030" />
+    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser" timestamp="1578559684090">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="608" y="185" width="374" height="560" key="#com.intellij.ide.util.MemberChooser/0.32.1600.868@0.32.1600.868" timestamp="1578559684090" />
     <state x="716" y="32" width="874" height="866" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1577608552157">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
@@ -160,26 +293,26 @@
       <screen x="0" y="32" width="1600" height="868" />
     </state>
     <state x="0" y="62" width="1590" height="805" key="CommitChangelistDialog2/0.32.1600.868@0.32.1600.868" timestamp="1575760949231" />
-    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl" timestamp="1575771862403">
+    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl" timestamp="1578548538035">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl/0.32.1600.868@0.32.1600.868" timestamp="1575771862403" />
-    <state width="1552" height="316" key="GridCell.Tab.0.bottom" timestamp="1578469062204">
+    <state x="381" y="208" width="818" height="511" key="FileChooserDialogImpl/0.32.1600.868@0.32.1600.868" timestamp="1578548538035" />
+    <state width="1552" height="315" key="GridCell.Tab.0.bottom" timestamp="1578596576422">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state width="1552" height="316" key="GridCell.Tab.0.bottom/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
-    <state width="1552" height="316" key="GridCell.Tab.0.center" timestamp="1578469062204">
+    <state width="1552" height="315" key="GridCell.Tab.0.bottom/0.32.1600.868@0.32.1600.868" timestamp="1578596576422" />
+    <state width="1552" height="315" key="GridCell.Tab.0.center" timestamp="1578596576422">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state width="1552" height="316" key="GridCell.Tab.0.center/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
-    <state width="1552" height="316" key="GridCell.Tab.0.left" timestamp="1578469062204">
+    <state width="1552" height="315" key="GridCell.Tab.0.center/0.32.1600.868@0.32.1600.868" timestamp="1578596576422" />
+    <state width="1552" height="315" key="GridCell.Tab.0.left" timestamp="1578596576422">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state width="1552" height="316" key="GridCell.Tab.0.left/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
-    <state width="1552" height="316" key="GridCell.Tab.0.right" timestamp="1578469062204">
+    <state width="1552" height="315" key="GridCell.Tab.0.left/0.32.1600.868@0.32.1600.868" timestamp="1578596576422" />
+    <state width="1552" height="315" key="GridCell.Tab.0.right" timestamp="1578596576422">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state width="1552" height="316" key="GridCell.Tab.0.right/0.32.1600.868@0.32.1600.868" timestamp="1578469062204" />
+    <state width="1552" height="315" key="GridCell.Tab.0.right/0.32.1600.868@0.32.1600.868" timestamp="1578596576422" />
     <state width="1552" height="269" key="GridCell.Tab.1.bottom" timestamp="1577975919602">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
@@ -196,10 +329,10 @@
       <screen x="0" y="32" width="1600" height="868" />
     </state>
     <state width="1552" height="269" key="GridCell.Tab.1.right/0.32.1600.868@0.32.1600.868" timestamp="1577975919602" />
-    <state x="283" y="43" width="1024" height="843" key="SettingsEditor" timestamp="1575567663897">
+    <state x="283" y="43" width="1024" height="843" key="SettingsEditor" timestamp="1578591157567">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="283" y="43" width="1024" height="843" key="SettingsEditor/0.32.1600.868@0.32.1600.868" timestamp="1575567663897" />
+    <state x="283" y="43" width="1024" height="843" key="SettingsEditor/0.32.1600.868@0.32.1600.868" timestamp="1578591157567" />
     <state x="790" y="202" width="800" height="526" key="Vcs.Push.Dialog.v2" timestamp="1575760952426">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
@@ -212,6 +345,10 @@
       <screen x="0" y="32" width="1600" height="868" />
     </state>
     <state x="542" y="386" width="505" height="158" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.32.1600.868@0.32.1600.868" timestamp="1577550570186" />
+    <state x="33" y="169" width="1523" height="592" key="new project wizard" timestamp="1578599006048">
+      <screen x="0" y="32" width="1600" height="868" />
+    </state>
+    <state x="33" y="169" width="1523" height="592" key="new project wizard/0.32.1600.868@0.32.1600.868" timestamp="1578599006048" />
     <state x="449" y="186" width="700" height="530" key="recent.locations.popup" timestamp="1576994361275">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
@@ -220,9 +357,9 @@
       <screen x="0" y="32" width="1600" height="868" />
     </state>
     <state x="464" y="210" key="run.anything.popup/0.32.1600.868@0.32.1600.868" timestamp="1577807359289" />
-    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup" timestamp="1578233230572">
+    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup" timestamp="1578599047268">
       <screen x="0" y="32" width="1600" height="868" />
     </state>
-    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup/0.32.1600.868@0.32.1600.868" timestamp="1578233230572" />
+    <state x="463" y="218" width="672" height="678" key="search.everywhere.popup/0.32.1600.868@0.32.1600.868" timestamp="1578599047268" />
   </component>
 </project>

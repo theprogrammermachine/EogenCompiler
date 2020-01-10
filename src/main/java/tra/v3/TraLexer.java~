@@ -224,25 +224,25 @@ public class TraLexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\2\2\1\3\1\4\2\5\1\6\1\7"+
-    "\1\1\1\6\1\10\1\11\1\12\1\13\1\14\1\15"+
-    "\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
-    "\1\26\1\1\1\27\23\6\1\30\1\0\2\31\1\5"+
-    "\1\31\1\6\1\32\1\33\1\34\1\35\1\36\13\6"+
-    "\1\37\6\6\1\40\1\41\1\42\3\6\1\43\12\6"+
-    "\1\44\1\45\1\46\6\6\1\47\2\6\2\30\1\0"+
-    "\2\5\1\0\1\5\1\0\17\6\1\50\2\6\1\51"+
-    "\7\6\1\52\3\6\1\53\1\6\1\54\1\6\1\55"+
-    "\14\6\2\5\13\6\1\56\1\6\1\57\1\6\1\60"+
-    "\1\61\1\6\1\62\1\6\1\63\1\64\7\6\1\65"+
-    "\1\6\1\66\3\6\1\67\1\70\2\6\1\71\1\6"+
-    "\1\5\1\72\2\6\1\73\3\6\1\74\2\6\1\75"+
-    "\1\76\1\6\1\77\2\6\1\100\1\6\1\101\1\102"+
-    "\1\6\1\103\1\104\1\105\2\6\1\106\1\6\1\107"+
-    "\1\110\1\5\1\111\1\6\1\112\2\6\1\113\1\6"+
-    "\1\114\2\6\1\115\1\6\1\116\1\117\2\6\1\5"+
-    "\1\6\1\120\5\6\1\121\1\6\1\5\2\6\1\122"+
-    "\1\6\1\123\1\124\1\6\1\5\1\125\1\6\1\126"+
-    "\1\127\1\5\1\130";
+    "\1\10\1\6\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26"+
+    "\1\27\1\1\1\30\23\6\1\31\1\0\2\32\1\5"+
+    "\1\32\1\6\1\33\1\34\1\35\1\36\1\37\13\6"+
+    "\1\40\6\6\1\41\1\42\1\43\3\6\1\44\12\6"+
+    "\1\45\1\46\1\47\6\6\1\50\2\6\2\31\1\0"+
+    "\2\5\1\0\1\5\1\0\17\6\1\51\2\6\1\52"+
+    "\7\6\1\53\3\6\1\54\1\6\1\55\1\6\1\56"+
+    "\14\6\2\5\13\6\1\57\1\6\1\60\1\6\1\61"+
+    "\1\62\1\6\1\63\1\6\1\64\1\65\7\6\1\66"+
+    "\1\6\1\67\3\6\1\70\1\71\2\6\1\72\1\6"+
+    "\1\5\1\73\2\6\1\74\3\6\1\75\2\6\1\76"+
+    "\1\77\1\6\1\100\2\6\1\101\1\6\1\102\1\103"+
+    "\1\6\1\104\1\105\1\106\2\6\1\107\1\6\1\110"+
+    "\1\111\1\5\1\112\1\6\1\113\2\6\1\114\1\6"+
+    "\1\115\2\6\1\116\1\6\1\117\1\120\2\6\1\5"+
+    "\1\6\1\121\5\6\1\122\1\6\1\5\2\6\1\123"+
+    "\1\6\1\124\1\125\1\6\1\5\1\126\1\6\1\127"+
+    "\1\130\1\5\1\131";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[278];
@@ -1227,7 +1227,7 @@ public class TraLexer implements java_cup.runtime.Scanner {
           case 1: 
             { if (foundString) string.append(yytext());
             }
-          case 89: break;
+          case 90: break;
           case 2: 
             { if (!foundString) {
     String text = yytext();
@@ -1289,15 +1289,15 @@ public class TraLexer implements java_cup.runtime.Scanner {
         string.append(yytext());
     }
             }
-          case 90: break;
+          case 91: break;
           case 3: 
             { if (!foundString) return exportToken(sym.DIVISION, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 91: break;
+          case 92: break;
           case 4: 
             { if (!foundString) return exportToken(sym.MULTIPLY, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 92: break;
+          case 93: break;
           case 5: 
             { if (!foundString) {
         try {
@@ -1324,77 +1324,81 @@ public class TraLexer implements java_cup.runtime.Scanner {
     }
     else string.append(yytext());
             }
-          case 93: break;
+          case 94: break;
           case 6: 
             { if (!foundString) return exportToken(sym.IDENTIFIER, yytext(), yyline, yycolumn);
     else string.append(yytext());
             }
-          case 94: break;
+          case 95: break;
           case 7: 
             { System.out.print(yytext());
             }
-          case 95: break;
-          case 8: 
-            { if (!foundString) return exportToken(sym.SUBTRACT, yytext(), yyline, yycolumn); else string.append(yytext());
-            }
           case 96: break;
-          case 9: 
-            { if (!foundString) return exportToken(sym.LBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 8: 
+            { if (!foundString) return exportToken(sym.DOT, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 97: break;
-          case 10: 
-            { if (!foundString) return exportToken(sym.RBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 9: 
+            { if (!foundString) return exportToken(sym.SUBTRACT, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 98: break;
-          case 11: 
-            { if (!foundString) return exportToken(sym.ASSIGN, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 10: 
+            { if (!foundString) return exportToken(sym.LBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 99: break;
-          case 12: 
-            { if (!foundString) return exportToken(sym.SUM, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 11: 
+            { if (!foundString) return exportToken(sym.RBRACKET, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 100: break;
-          case 13: 
-            { if (!foundString) return exportToken(sym.POWER, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 12: 
+            { if (!foundString) return exportToken(sym.ASSIGN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 101: break;
-          case 14: 
-            { if (!foundString) return exportToken(sym.LPAREN, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 13: 
+            { if (!foundString) return exportToken(sym.SUM, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 102: break;
-          case 15: 
-            { if (!foundString) return exportToken(sym.RPAREN, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 14: 
+            { if (!foundString) return exportToken(sym.POWER, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 103: break;
-          case 16: 
-            { if (!foundString) return exportToken(sym.LBRACE, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 15: 
+            { if (!foundString) return exportToken(sym.LPAREN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 104: break;
-          case 17: 
-            { if (!foundString) return exportToken(sym.RBRACE, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 16: 
+            { if (!foundString) return exportToken(sym.RPAREN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 105: break;
-          case 18: 
-            { if (!foundString) return exportToken(sym.SEMI, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 17: 
+            { if (!foundString) return exportToken(sym.LBRACE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 106: break;
-          case 19: 
-            { if (!foundString) return exportToken(sym.COLON, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 18: 
+            { if (!foundString) return exportToken(sym.RBRACE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 107: break;
-          case 20: 
-            { if (!foundString) return exportToken(sym.COMMA, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 19: 
+            { if (!foundString) return exportToken(sym.SEMI, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 108: break;
-          case 21: 
-            { if (!foundString) return exportToken(sym.GT, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 20: 
+            { if (!foundString) return exportToken(sym.COLON, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 109: break;
-          case 22: 
-            { if (!foundString) return exportToken(sym.LT, yytext(), yyline, yycolumn); else string.append(yytext());
+          case 21: 
+            { if (!foundString) return exportToken(sym.COMMA, yytext(), yyline, yycolumn); else string.append(yytext());
             }
           case 110: break;
+          case 22: 
+            { if (!foundString) return exportToken(sym.GT, yytext(), yyline, yycolumn); else string.append(yytext());
+            }
+          case 111: break;
           case 23: 
+            { if (!foundString) return exportToken(sym.LT, yytext(), yyline, yycolumn); else string.append(yytext());
+            }
+          case 112: break;
+          case 24: 
             { if (!foundString) {
         foundString = true;
     } else {
@@ -1405,267 +1409,267 @@ public class TraLexer implements java_cup.runtime.Scanner {
         return exportToken(sym.STRING, result, yyline, yycolumn);
     }
             }
-          case 111: break;
-          case 24: 
+          case 113: break;
+          case 25: 
             { /* ignore */
             }
-          case 112: break;
-          case 25: 
+          case 114: break;
+          case 26: 
             { if (!foundString) return exportToken(sym.WORD, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 113: break;
-          case 26: 
+          case 115: break;
+          case 27: 
             { if (!foundString) return exportToken(sym.ARROW, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 114: break;
-          case 27: 
+          case 116: break;
+          case 28: 
             { if (!foundString) return exportToken(sym.EQUAL, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 115: break;
-          case 28: 
+          case 117: break;
+          case 29: 
             { if (!foundString) return exportToken(sym.GE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 116: break;
-          case 29: 
+          case 118: break;
+          case 30: 
             { if (!foundString) return exportToken(sym.LE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 117: break;
-          case 30: 
+          case 119: break;
+          case 31: 
             { if (!foundString) return exportToken(sym.NE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 118: break;
-          case 31: 
+          case 120: break;
+          case 32: 
             { if (!foundString) return exportToken(sym.AS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 119: break;
-          case 32: 
+          case 121: break;
+          case 33: 
             { if (!foundString) return exportToken(sym.IS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 120: break;
-          case 33: 
+          case 122: break;
+          case 34: 
             { if (!foundString) return exportToken(sym.IF, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 121: break;
-          case 34: 
+          case 123: break;
+          case 35: 
             { if (!foundString) return exportToken(sym.IN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 122: break;
-          case 35: 
+          case 124: break;
+          case 36: 
             { if (!foundString) return exportToken(sym.DO, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 123: break;
-          case 36: 
+          case 125: break;
+          case 37: 
             { if (!foundString) return exportToken(sym.OR, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 124: break;
-          case 37: 
+          case 126: break;
+          case 38: 
             { if (!foundString) return exportToken(sym.OF, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 125: break;
-          case 38: 
+          case 127: break;
+          case 39: 
             { if (!foundString) return exportToken(sym.ON, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 126: break;
-          case 39: 
+          case 128: break;
+          case 40: 
             { if (!foundString) return exportToken(sym.BY, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 127: break;
-          case 40: 
+          case 129: break;
+          case 41: 
             { if (!foundString) return exportToken(sym.ARE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 128: break;
-          case 41: 
+          case 130: break;
+          case 42: 
             { if (!foundString) return exportToken(sym.TRY, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 129: break;
-          case 42: 
+          case 131: break;
+          case 43: 
             { if (!foundString) return exportToken(sym.MOD, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 130: break;
-          case 43: 
+          case 132: break;
+          case 44: 
             { if (!foundString) return exportToken(sym.FOR, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 131: break;
-          case 44: 
+          case 133: break;
+          case 45: 
             { if (!foundString) return exportToken(sym.NEW, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 132: break;
-          case 45: 
+          case 134: break;
+          case 46: 
             { if (!foundString) return exportToken(sym.NOT, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 133: break;
-          case 46: 
+          case 135: break;
+          case 47: 
             { if (!foundString) return exportToken(sym.EACH, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 134: break;
-          case 47: 
+          case 136: break;
+          case 48: 
             { if (!foundString) return exportToken(sym.ELSE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 135: break;
-          case 48: 
+          case 137: break;
+          case 49: 
             { if (!foundString) return exportToken(sym.ARGS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 136: break;
-          case 49: 
+          case 138: break;
+          case 50: 
             { if (!foundString) return exportToken(sym.TRUE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 137: break;
-          case 50: 
+          case 139: break;
+          case 51: 
             { if (!foundString) return exportToken(sym.THEN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 138: break;
-          case 51: 
+          case 140: break;
+          case 52: 
             { if (!foundString) return exportToken(sym.STEP, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 139: break;
-          case 52: 
+          case 141: break;
+          case 53: 
             { if (!foundString) return exportToken(sym.ITEM, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 140: break;
-          case 53: 
+          case 142: break;
+          case 54: 
             { if (!foundString) return exportToken(sym.WITH, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 141: break;
-          case 54: 
+          case 143: break;
+          case 55: 
             { if (!foundString) return exportToken(sym.PROP, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 142: break;
-          case 55: 
+          case 144: break;
+          case 56: 
             { if (!foundString) return exportToken(sym.LIKE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 143: break;
-          case 56: 
+          case 145: break;
+          case 57: 
             { if (!foundString) return exportToken(sym.LOOP, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 144: break;
-          case 57: 
+          case 146: break;
+          case 58: 
             { if (!foundString) return exportToken(sym.AND, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 145: break;
-          case 58: 
+          case 147: break;
+          case 59: 
             { if (!foundString) return exportToken(sym.EMPTY, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 146: break;
-          case 59: 
+          case 148: break;
+          case 60: 
             { if (!foundString) return exportToken(sym.CATCH, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 147: break;
-          case 60: 
+          case 149: break;
+          case 61: 
             { if (!foundString) return exportToken(sym.CLASS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 148: break;
-          case 61: 
+          case 150: break;
+          case 62: 
             { if (!foundString) return exportToken(sym.ERROR, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 149: break;
-          case 62: 
+          case 151: break;
+          case 63: 
             { if (!foundString) return exportToken(sym.ENCAPSULATE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 150: break;
-          case 63: 
+          case 152: break;
+          case 64: 
             { if (!foundString) return exportToken(sym.TIMES, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 151: break;
-          case 64: 
+          case 153: break;
+          case 65: 
             { if (!foundString) return exportToken(sym.MEANS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 152: break;
-          case 65: 
+          case 154: break;
+          case 66: 
             { if (!foundString) return exportToken(sym.DOING, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 153: break;
-          case 66: 
+          case 155: break;
+          case 67: 
             { if (!foundString) return exportToken(sym.FALSE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 154: break;
-          case 67: 
+          case 156: break;
+          case 68: 
             { if (!foundString) return exportToken(sym.NAMED, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 155: break;
-          case 68: 
+          case 157: break;
+          case 69: 
             { if (!foundString) return exportToken(sym.WHICH, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 156: break;
-          case 69: 
+          case 158: break;
+          case 70: 
             { if (!foundString) return exportToken(sym.PROPS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 157: break;
-          case 70: 
+          case 159: break;
+          case 71: 
             { if (!foundString) return exportToken(sym.UNTIL, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 158: break;
-          case 71: 
+          case 160: break;
+          case 72: 
             { if (!foundString) return exportToken(sym.BASED, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 159: break;
-          case 72: 
+          case 161: break;
+          case 73: 
             { if (!foundString) return exportToken(sym.VALUE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 160: break;
-          case 73: 
+          case 162: break;
+          case 74: 
             { if (!foundString) return exportToken(sym.CREATE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 161: break;
-          case 74: 
+          case 163: break;
+          case 75: 
             { if (!foundString) return exportToken(sym.CAUGHT, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 162: break;
-          case 75: 
+          case 164: break;
+          case 76: 
             { if (!foundString) return exportToken(sym.RETURN, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 163: break;
-          case 76: 
+          case 165: break;
+          case 77: 
             { if (!foundString) return exportToken(sym.ACTION, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 164: break;
-          case 77: 
+          case 166: break;
+          case 78: 
             { if (!foundString) return exportToken(sym.DEFINE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 165: break;
-          case 78: 
+          case 167: break;
+          case 79: 
             { if (!foundString) return exportToken(sym.PARAMS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 166: break;
-          case 79: 
+          case 168: break;
+          case 80: 
             { if (!foundString) return exportToken(sym.OBJECT, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 167: break;
-          case 80: 
+          case 169: break;
+          case 81: 
             { if (!foundString) return exportToken(sym.COMMAND, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 168: break;
-          case 81: 
+          case 170: break;
+          case 82: 
             { if (!foundString) return exportToken(sym.BEHAVES, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 169: break;
-          case 82: 
+          case 171: break;
+          case 83: 
             { if (!foundString) return exportToken(sym.REMEMBER, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 170: break;
-          case 83: 
+          case 172: break;
+          case 84: 
             { if (!foundString) return exportToken(sym.INSTANCE, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 171: break;
-          case 84: 
+          case 173: break;
+          case 85: 
             { if (!foundString) return exportToken(sym.FUNCTION, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 172: break;
-          case 85: 
+          case 174: break;
+          case 86: 
             { if (!foundString) return exportToken(sym.CAREFULLY, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 173: break;
-          case 86: 
+          case 175: break;
+          case 87: 
             { if (!foundString) return exportToken(sym.SATISFIED, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 174: break;
-          case 87: 
+          case 176: break;
+          case 88: 
             { if (!foundString) return exportToken(sym.BEHAVIOUR, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 175: break;
-          case 88: 
+          case 177: break;
+          case 89: 
             { if (!foundString) return exportToken(sym.CONDITIONS, yytext(), yyline, yycolumn); else string.append(yytext());
             }
-          case 176: break;
+          case 178: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

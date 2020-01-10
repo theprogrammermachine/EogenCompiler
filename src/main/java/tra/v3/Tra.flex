@@ -251,6 +251,7 @@ WORD = [a-zA-Z0-9]+
         return exportToken(sym.STRING, result, yyline, yycolumn);
     }
 }
+created                        {if (!foundString) return exportToken(sym.CREATED, yytext(), yyline, yycolumn); else string.append(yytext());}
 create                         {if (!foundString) return exportToken(sym.CREATE, yytext(), yyline, yycolumn); else string.append(yytext());}
 args                           {if (!foundString) return exportToken(sym.ARGS, yytext(), yyline, yycolumn); else string.append(yytext());}
 item                           {if (!foundString) return exportToken(sym.ITEM, yytext(), yyline, yycolumn); else string.append(yytext());}

@@ -19,18 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            File file = new File("/home/keyhan/Desktop/Hans Zimmer - The Dark Knight Rises (2012) [www.vmusic.ir]/ECompiler/src/main/java/tra/v3/sample.eogen");
-            String line, lastLine = null;
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            while ((line = reader.readLine()) != null) {
-                lastLine = line;
-            }
-            if (lastLine == null || lastLine.length() > 0) {
-                FileWriter fw = new FileWriter(file, true);
-                fw.append('\n');
-                fw.flush();
-                fw.close();
-            }
+            File file = new File("/home/keyhan/Desktop/Hans Zimmer - The Dark Knight Rises (2012) [www.vmusic.ir]/ECompiler/src/main/java/tra/v3/sample.tracode");
             FileReader fr = new FileReader(file);
             TraLexer lexer = new TraLexer(fr);
             TraParser traParser = new TraParser(lexer);

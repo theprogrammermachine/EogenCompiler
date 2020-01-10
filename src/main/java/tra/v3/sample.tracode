@@ -1,0 +1,62 @@
+
+define class Block
+  on created with params index, proof_no, prev_hash, data, timestamp
+    remember index as this.index
+    remember proof_no as this.proof_no
+    remember prev_hash as this.prev_hash
+    remember data as this.data
+    remember timestamp or do time.time() as this.timestamp
+  define function named calculate_hash
+    remember this.index + "-" + this.proof_no + "-" + this.prev_hash + "-" + this.data + "-" + this.timestamp as block_of_string
+    return do sha256(content: block_of_string)
+
+define class BlockChain
+  on created
+    remember [] as this.chain
+    remember [] as this.current_data
+    remember instance of Set () as this.nodes
+    do this.construct_genesis()
+  define function named construct_genesis
+    do this.construct_block(proof_no: 0, prev_hash: 0)
+  define function named construct_block with params proof_no, prev_hash
+    remember instance of Block (index: this.chain.length, proof_no: proof_no, prev_hash: prev_hash, data: this.current_data) as block
+    remember [] as this.current_data
+    do this.chain.append(listItem: block)
+    return block
+  define function named check_validity with params block, prev_block
+    if prev_block.index + 1 != block.index then
+      return false
+    else if prev_block.calculate_hash != block.prev_hash then
+      return false
+    else if do BlockChain.verifying_proof(block.proof_no, prev_block.proof_no) is not satisfied then
+      return false
+    else if block.timestamp <= prev_block.timestamp then
+      return false
+    return true
+  define function named new_data with params sender, recipient, quantity
+    this.current_data.append({ sender: sender, recipient: recipient, quantity: quantity})
+    return true
+  define function named proof_of_work with params last_proof
+    remember 0 as proof_no
+    loop until do BlockChain.verifying_proof(proof_no: proof_no, last_proof: last_proof) is not satisfied
+      remember proof_no + 1 as proof_no
+    return proof_no
+  define function named verifying_proof with params last_proof, proof
+    remember last_proof + "-" + proof as guess
+    remember do sha256(content: guess) as guess_hash
+    return guess_hash[:4] == "0000"
+  define function named latest_block
+    return this.chain.last
+  define function named block_mining width params details_miner
+    do this.new_data(sender: "0", receiver: details_miner, quantity: 1)
+    remember this.latest_block as last_block
+    remember last_block.proof_no as last_proof_no
+    remember do this.proof_of_work(last_proof: last_proof_no) as proof_no
+    remember last_block.calculate_hash as last_hash
+    remember do this.construct_block(proof_no: proof_no, prev_hash: last_hash) as block
+    return do vars(block: block)
+  define function named create_node with params address
+    this.nodes.append(listItem: address)
+    return true
+  define function named obtain_block_object with params block_data
+    return create instance of Block(index: block_data["index"], proof_no: block_data["proof_no"], prev_hash: block_data["prev_hash"], data: block_data["data"], timestamp: block_data["timestamp"])

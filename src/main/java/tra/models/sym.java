@@ -107,6 +107,7 @@ public class sym {
   public static final int NE = 51;
   public static final int CREATE = 97;
   public static final int DOT = 98;
+  public static final int CREATED = 99;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -206,7 +207,8 @@ public class sym {
   "NUMBER",
   "STRING",
   "CREATE",
-  "DOT"
+  "DOT",
+  "CREATED"
   };
 }
 
